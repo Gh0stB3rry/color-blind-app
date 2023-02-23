@@ -84,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return MaterialApp(
         title: "Location",
         home: Scaffold(
-            body: /*Center(
+            body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -95,16 +95,19 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () {
                   _displayCurrentLocation();
                 },
-              ),*/
-                GoogleMap(
-          onMapCreated: _onMapCreated,
-          initialCameraPosition: CameraPosition(
-            target: _center,
-            zoom: 11.0,
+              ),
+              SizedBox(
+                  width: 500, // or use fixed size like 200
+                  height: 500,
+                  child: GoogleMap(
+                    onMapCreated: _onMapCreated,
+                    initialCameraPosition: CameraPosition(
+                      target: _center,
+                      zoom: 11.0,
+                    ),
+                  )),
+            ],
           ),
-        )
-            //],
-            //),
-            /*)*/));
+        )));
   }
 }
