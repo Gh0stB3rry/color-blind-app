@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 void main() {
   runApp(const MyApp());
@@ -61,6 +62,12 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  late GoogleMapController mapController;
+  final LatLng _center = const LatLng(45.521563, -122.677433);
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+  }
+
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -75,21 +82,29 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: "Hello Location",
+        title: "Location",
         home: Scaffold(
-            body: Center(
+            body: /*Center(
           child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text("${_location.latitude}, ${_location.longitude}"),
-                ElevatedButton(
-                  child: Text("Find Current Location",
-                      style: TextStyle(color: Colors.white)),
-                  onPressed: () {
-                    _displayCurrentLocation();
-                  },
-                )
-              ]),
-        )));
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text("${_location.latitude}, ${_location.longitude}"),
+              ElevatedButton(
+                child: Text("Find Current Location",
+                    style: TextStyle(color: Colors.white)),
+                onPressed: () {
+                  _displayCurrentLocation();
+                },
+              ),*/
+                GoogleMap(
+          onMapCreated: _onMapCreated,
+          initialCameraPosition: CameraPosition(
+            target: _center,
+            zoom: 11.0,
+          ),
+        )
+            //],
+            //),
+            /*)*/));
   }
 }
