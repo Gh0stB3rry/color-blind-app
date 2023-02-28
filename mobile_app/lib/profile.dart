@@ -90,7 +90,7 @@ class Profile extends StatelessWidget {
                       color: Colors.deepOrange.shade300,
                       child: ListTile(
                         title: Text(
-                          '5000',
+                          '52837',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -114,7 +114,7 @@ class Profile extends StatelessWidget {
                       color: Colors.red,
                       child: ListTile(
                         title: Text(
-                          '5000',
+                          '2',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,

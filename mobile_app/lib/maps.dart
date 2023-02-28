@@ -80,18 +80,6 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              RawMaterialButton(
-  onPressed: () {},
-  elevation: 2.0,
-  fillColor: Colors.grey,
-  
-  child: Icon(
-    Icons.face,
-    size: 35.0,
-  ),
-  padding: EdgeInsets.all(15.0),
-  shape: CircleBorder(),
-),
               Text("${_location.latitude}, ${_location.longitude}"),
               ElevatedButton(
                 child: Text("Find Current Location",
