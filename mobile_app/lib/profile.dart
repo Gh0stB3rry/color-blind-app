@@ -7,12 +7,12 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Profile Challenge 01',
+      title: 'Profile',
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.red,
           title: Center(
-            child: const Text('Profile Challenge 01'),
+            child: const Text('Profile'),
           ),
         ),
         body: ListView(
@@ -21,7 +21,7 @@ class Profile extends StatelessWidget {
               height: 250,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Colors.red, Colors.deepOrange.shade300],
+                  colors: [Colors.indigo.shade300, Colors.indigo.shade300],
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
                   stops: [0.5, 0.9],
@@ -35,7 +35,7 @@ class Profile extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
                       CircleAvatar(
-                        backgroundColor: Colors.red.shade300,
+                        backgroundColor: Colors.lightGreen.shade300,
                         minRadius: 35.0,
                         child: Icon(
                           Icons.call,
@@ -48,11 +48,11 @@ class Profile extends StatelessWidget {
                         child: CircleAvatar(
                           radius: 50.0,
                           backgroundImage:
-                              NetworkImage('https://avatars0.githubusercontent.com/u/28812093?s=460&u=06471c90e03cfd8ce2855d217d157c93060da490&v=4'),
+                              NetworkImage('https://media.licdn.com/dms/image/C4E03AQHV-3X6k9bGAA/profile-displayphoto-shrink_400_400/0/1652210364998?e=1681948800&v=beta&t=Js0jSYlDsFBn5NkfRAmCJEN3ZHs1gqzDCc0Nfj4_42E'),
                         ),
                       ),
                       CircleAvatar(
-                        backgroundColor: Colors.red.shade300,
+                        backgroundColor: Colors.lightGreen.shade300,
                         minRadius: 35.0,
                         child: Icon(
                           Icons.message,
@@ -65,7 +65,7 @@ class Profile extends StatelessWidget {
                     height: 10,
                   ),
                   Text(
-                    'Leonardo Palmeiro',
+                    'Kayla Kraft',
                     style: TextStyle(
                       fontSize: 35,
                       fontWeight: FontWeight.bold,
@@ -73,7 +73,7 @@ class Profile extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Flutter Developer',
+                    'Mental Health Enthusist',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 25,
