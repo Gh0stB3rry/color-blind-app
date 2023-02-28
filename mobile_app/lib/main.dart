@@ -1,123 +1,145 @@
-import 'dart:math';
-
-import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+/*import 'package:flutter/material.dart';
+import 'package:mobile_app/main.dart';
+import 'package:mobile_app/second.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const SecondRoute());
 }
+
+class SecondRoute extends StatelessWidget {
+  const SecondRoute({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Second Route'),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const MyApp()),
+            );
+          },
+          child: const Text('Go back!'),
+        ),
+      ),
+    );
+  }
+}*/
+
+import 'package:flutter/material.dart';
+
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
+  static const String _title = 'Sample App';
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Mobile App',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+      title: _title,
+      home: Scaffold(
+        appBar: AppBar(title: const Text(_title)),
+        body: const MyStatefulWidget(),
       ),
-      home: const MyHomePage(title: 'Home Page'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
+class MyStatefulWidget extends StatefulWidget {
+  const MyStatefulWidget({Key? key}) : super(key: key);
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  Position _location = Position(latitude: 39.8283, longitude: 98.5795);
-
-  late GoogleMapController mapController;
-  final LatLng _center = const LatLng(39.8283, 98.5795);
-
-  Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
-
-  void _displayCurrentLocation() async {
-    final location = await Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    _add(location.latitude, location.longitude);
-
-    setState(() {
-      _location = location;
-    });
-  }
-
-  void _add(lat, lng) {
-    var markerIdVal = "test";
-    final MarkerId markerId = MarkerId(markerIdVal);
-
-    final Marker marker = Marker(
-      markerId: markerId,
-      position: LatLng(lat, lng),
-      infoWindow: InfoWindow(title: markerIdVal, snippet: '*'),
-    );
-
-    setState(() {
-      markers[markerId] = marker;
-    });
-  }
-
-  void _onMapCreated(GoogleMapController controller) {
-    mapController = controller;
-  }
+class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: "Location",
-        home: Scaffold(
-            body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text("${_location.latitude}, ${_location.longitude}"),
-              ElevatedButton(
-                child: Text("Find Current Location",
-                    style: TextStyle(color: Colors.white)),
-                onPressed: () {
-                  _displayCurrentLocation();
-                },
+    return Padding(
+        padding: const EdgeInsets.all(10),
+        child: ListView(
+          children: <Widget>[
+            Container(
+                alignment: Alignment.center,
+                padding: const EdgeInsets.all(10),
+                child: const Text(
+                  'TutorialKart',
+                  style: TextStyle(
+                      color: Colors.blue,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 30),
+                )),
+            Container(
+                alignment: Alignment.center,
+                padding: const EdgeInsets.all(10),
+                child: const Text(
+                  'Sign in',
+                  style: TextStyle(fontSize: 20),
+                )),
+            Container(
+              padding: const EdgeInsets.all(10),
+              child: TextField(
+                controller: nameController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'User Name',
+                ),
               ),
-              SizedBox(
-                  width: 500, // or use fixed size like 200
-                  height: 500,
-                  child: GoogleMap(
-                    onMapCreated: _onMapCreated,
-                    initialCameraPosition: CameraPosition(
-                      target: _center,
-                      zoom: 11.0,
-                    ),
-                    markers: Set<Marker>.of(markers.values),
-                  )),
-            ],
-          ),
-        )));
+            ),
+            Container(
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+              child: TextField(
+                obscureText: true,
+                controller: passwordController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Password',
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                //forgot password screen
+              },
+              child: const Text(
+                'Forgot Password',
+              ),
+            ),
+            Container(
+                height: 50,
+                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                child: ElevatedButton(
+                  child: const Text('Login'),
+                  onPressed: () {
+                    print(nameController.text);
+                    print(passwordController.text);
+                  },
+                )),
+            Row(
+              children: <Widget>[
+                const Text('Does not have account?'),
+                TextButton(
+                  child: const Text(
+                    'Sign in',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  onPressed: () {
+                    //signup screen
+                  },
+                )
+              ],
+              mainAxisAlignment: MainAxisAlignment.center,
+            ),
+          ],
+        ));
   }
 }
