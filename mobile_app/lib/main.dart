@@ -30,19 +30,20 @@ class SecondRoute extends StatelessWidget {
 import 'package:flutter/material.dart';
 import 'package:mobile_app/maps.dart';
 import 'package:flutter/src/material/colors.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-  static const String _title = 'Kayla';
+  static const String _title = 'Mental Health App';
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch(
-          primarySwatch: Colors.deepPurple,
+          primarySwatch: Colors.indigo,
         ),
       ),
       title: _title,
@@ -75,13 +76,15 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             Container(
                 alignment: Alignment.center,
                 padding: const EdgeInsets.all(10),
-                child: const Text(
-                  'Mental Health App',
-                  style: TextStyle(
-                      color: Color.fromARGB(255, 30, 52, 70),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 30),
-                )),
+                child: DefaultTextStyle(
+                    style: TextStyle(fontSize: 30),
+                    child: AnimatedTextKit(
+                      animatedTexts: [
+                        TypewriterAnimatedText('Welcome'),
+                        TypewriterAnimatedText('Kayla'),
+                        TypewriterAnimatedText('How are you doing today?'),
+                      ],
+                    ))),
             Container(
                 alignment: Alignment.center,
                 padding: const EdgeInsets.all(10),
