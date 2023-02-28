@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mobile_app/comments.dart';
 import 'package:mobile_app/main.dart';
 import 'package:mobile_app/maps.dart';
 
@@ -32,16 +33,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Position _location = Position(latitude: 39.8283, longitude: 98.5795);
+  Position _location = Position(latitude: 0, longitude: 0);
 
   late GoogleMapController mapController;
-  final LatLng _center = const LatLng(39.8283, 98.5795);
+  final LatLng _center = const LatLng(40.6049, -75.3775);
 
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
   void _displayCurrentLocation() async {
-    final location = await Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    /*final location = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);*/
+    final location = Position(latitude: 40.6049, longitude: -75.3775);
     _add(location.latitude, location.longitude);
 
     setState(() {
@@ -89,10 +91,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const MyApp()),
+                    MaterialPageRoute(builder: (context) => const Comments()),
                   );
                 },
-                child: const Text('Login'),
+                child: const Text('Comments'),
               ),
               SizedBox(
                   width: 500,
