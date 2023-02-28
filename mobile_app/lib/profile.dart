@@ -158,7 +158,7 @@ class Profile extends StatelessWidget {
                   Divider(),
                   ListTile(
                     title: Text(
-                      'GitHub',
+                      'Phone Number',
                       style: TextStyle(
                         color: Colors.deepOrange,
                         fontSize: 20,
@@ -166,7 +166,7 @@ class Profile extends StatelessWidget {
                       ),
                     ),
                     subtitle: Text(
-                      'https://github.com/leopalmeiro',
+                      '(917)-484-0064',
                       style: TextStyle(
                         fontSize: 18,
                       ),
@@ -175,7 +175,7 @@ class Profile extends StatelessWidget {
                   Divider(),
                   ListTile(
                     title: Text(
-                      'Linkedin',
+                      'Favorite Food',
                       style: TextStyle(
                         color: Colors.deepOrange,
                         fontSize: 20,
@@ -183,12 +183,29 @@ class Profile extends StatelessWidget {
                       ),
                     ),
                     subtitle: Text(
-                      'www.linkedin.com/in/leonardo-palmeiro-834a1755',
+                      'West Coast Oysters',
                       style: TextStyle(
                         fontSize: 18,
                       ),
                     ),
                   ),
+                  Divider(), //cut here for more colums
+                  ListTile(
+                    title: Text(
+                      'Dream Vacation',
+                      style: TextStyle(
+                        color: Colors.deepOrange,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: Text(
+                      'Swiss Alps',
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                  )
                 ],
               ),
             )
