@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile_app/comments.dart';
+import 'package:mobile_app/maps.dart';
+import 'package:mobile_app/profile.dart';
 
 void main() {
   runApp(const Home());
@@ -52,9 +55,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   /// List of Tab Bar Item
   List<String> items = [
-    "Home",
-    "Explore",
-    "Settings",
+    "Maps",
+    "Comments",
     "Profile",
   ];
 
@@ -96,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
               height: 60,
               child: ListView.builder(
                   physics: const BouncingScrollPhysics(),
-                  itemCount: items.length,
+                  itemCount: 3,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (ctx, index) {
                     return Column(
@@ -113,25 +115,33 @@ class _MyHomePageState extends State<MyHomePage> {
                             width: 80,
                             height: 45,
                             decoration: BoxDecoration(
-                              color: current == index
-                                  ? Colors.white70
-                                  : Colors.white54,
-                              borderRadius: current == index
-                                  ? BorderRadius.circular(15)
-                                  : BorderRadius.circular(10),
-                              border: current == index
-                                  ? Border.all(
-                                      color: Colors.deepPurpleAccent, width: 2)
-                                  : null,
+                              color: Colors.white54,
+                              borderRadius: BorderRadius.circular(10),
                             ),
                             child: Center(
-                              child: Text(
-                                items[index],
-                                style: GoogleFonts.laila(
-                                    fontWeight: FontWeight.w500,
-                                    color: current == index
-                                        ? Colors.black
-                                        : Colors.grey),
+                              child: TextButton(
+                                child: Text(items[index]),
+                                onPressed: () {
+                                  if (index == 0) {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const Maps()));
+                                  } else if (index == 1) {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const Comments()));
+                                  } else {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const Profile()));
+                                  }
+                                },
                               ),
                             ),
                           ),
@@ -141,9 +151,6 @@ class _MyHomePageState extends State<MyHomePage> {
                             child: Container(
                               width: 5,
                               height: 5,
-                              decoration: const BoxDecoration(
-                                  color: Colors.deepPurpleAccent,
-                                  shape: BoxShape.circle),
                             ))
                       ],
                     );
@@ -167,7 +174,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     height: 10,
                   ),
                   Text(
-                    items[current],
+                    'Home :D',
                     style: GoogleFonts.laila(
                         fontWeight: FontWeight.w500,
                         fontSize: 30,
