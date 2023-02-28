@@ -6,6 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobile_app/comments.dart';
 import 'package:mobile_app/main.dart';
 import 'package:mobile_app/maps.dart';
+import 'package:mobile_app/profile.dart';
 
 class Maps extends StatelessWidget {
   const Maps({super.key});
@@ -95,6 +96,15 @@ class _MyHomePageState extends State<MyHomePage> {
                   );
                 },
                 child: const Text('Comments'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Profile()),
+                  );
+                },
+                child: const Text('Profile'),
               ),
               SizedBox(
                   width: 500,
