@@ -32,6 +32,7 @@ class SecondRoute extends StatelessWidget {
 
 import 'package:flutter/material.dart';
 import 'package:mobile_app/maps.dart';
+import 'package:flutter/src/material/colors.dart';
 
 void main() => runApp(const MyApp());
 
@@ -43,6 +44,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        primarySwatch: Colors.red,
+      ),
       title: _title,
       home: Scaffold(
         appBar: AppBar(title: const Text(_title)),
@@ -73,9 +77,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 alignment: Alignment.center,
                 padding: const EdgeInsets.all(10),
                 child: const Text(
-                  'TutorialKart',
+                  'Mental Health App',
                   style: TextStyle(
-                      color: Colors.blue,
+                      color: Color.fromARGB(255, 30, 52, 70),
                       fontWeight: FontWeight.w500,
                       fontSize: 30),
                 )),
