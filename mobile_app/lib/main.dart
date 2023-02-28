@@ -28,6 +28,7 @@ class SecondRoute extends StatelessWidget {
 }*/
 
 import 'package:flutter/material.dart';
+import 'package:mobile_app/home.dart';
 import 'package:mobile_app/maps.dart';
 import 'package:flutter/src/material/colors.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
@@ -129,7 +130,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const Maps()),
+                      MaterialPageRoute(builder: (context) => const Home()),
                     );
                   },
                 )),
