@@ -16,7 +16,7 @@ class Maps extends StatelessWidget {
     return MaterialApp(
       title: 'Mobile App',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
       ),
       home: const MyHomePage(title: 'Home Page'),
     );

@@ -1,14 +1,11 @@
 /*import 'package:flutter/material.dart';
 import 'package:mobile_app/main.dart';
 import 'package:mobile_app/second.dart';
-
 void main() {
   runApp(const SecondRoute());
 }
-
 class SecondRoute extends StatelessWidget {
   const SecondRoute({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,19 +35,21 @@ void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
-  static const String _title = 'Sample App';
+  static const String _title = 'Kayla';
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        primarySwatch: Colors.red,
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: Colors.deepPurple,
+        ),
       ),
       title: _title,
       home: Scaffold(
         appBar: AppBar(title: const Text(_title)),
         body: const MyStatefulWidget(),
+        backgroundColor: Colors.lightGreen,
       ),
     );
   }
