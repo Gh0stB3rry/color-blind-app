@@ -97,15 +97,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
                 child: const Text('Comments'),
               ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Profile()),
-                  );
-                },
-                child: const Text('Profile'),
-              ),
+              RawMaterialButton(
+  onPressed: () {},
+  elevation: 2.0,
+  fillColor: Colors.grey,
+  child: Icon(
+    Icons.face,
+    size: 35.0,
+  ),
+  padding: EdgeInsets.all(15.0),
+  shape: CircleBorder(),
+),
               SizedBox(
                   width: 500,
                   height: 500,

@@ -10,7 +10,7 @@ class Profile extends StatelessWidget {
       title: 'Profile',
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.red,
+          backgroundColor: Colors.lightGreen.shade200,
           title: Center(
             child: const Text('Profile'),
           ),
@@ -149,7 +149,7 @@ class Profile extends StatelessWidget {
                       ),
                     ),
                     subtitle: Text(
-                      'palmeiro.leonardo@gmail.com',
+                      'kak524@lehigh.edu',
                       style: TextStyle(
                         fontSize: 18,
                       ),
