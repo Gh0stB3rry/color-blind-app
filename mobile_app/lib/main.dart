@@ -77,7 +77,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 alignment: Alignment.center,
                 padding: const EdgeInsets.all(10),
                 child: DefaultTextStyle(
-                    style: TextStyle(fontSize: 30),
+                    style: TextStyle(fontSize: 30, color: Colors.black),
                     child: AnimatedTextKit(
                       animatedTexts: [
                         TypewriterAnimatedText('Welcome'),
