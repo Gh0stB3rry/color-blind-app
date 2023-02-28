@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(title: const Text(_title)),
         body: const MyStatefulWidget(),
-        backgroundColor: Colors.lightGreen,
+        backgroundColor: Colors.lightGreen[100],
       ),
     );
   }
