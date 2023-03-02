@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobile_app/comments.dart';
+import 'package:mobile_app/home.dart';
 import 'package:mobile_app/main.dart';
 import 'package:mobile_app/maps.dart';
 import 'package:mobile_app/profile.dart';
+
+const List<String> collegeList = <String>['None', 'Lehigh'];
 
 class Maps extends StatelessWidget {
   const Maps({super.key});
@@ -35,6 +38,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Position _location = Position(latitude: 0, longitude: 0);
+  String dropdownValue = collegeList.first;
 
   late GoogleMapController mapController;
   final LatLng _center = const LatLng(40.6049, -75.3775);
@@ -45,26 +49,37 @@ class _MyHomePageState extends State<MyHomePage> {
     /*final location = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);*/
     final location = Position(latitude: 40.6049, longitude: -75.3775);
-    _add(location.latitude, location.longitude);
+    _add(location.latitude, location.longitude, 'Your Location', true);
 
     setState(() {
       _location = location;
     });
   }
 
-  void _add(lat, lng) {
-    var markerIdVal = "test";
+  void _add(lat, lng, id, yourLoc) {
+    var markerIdVal = id;
     final MarkerId markerId = MarkerId(markerIdVal);
 
     final Marker marker = Marker(
       markerId: markerId,
       position: LatLng(lat, lng),
       infoWindow: InfoWindow(title: markerIdVal, snippet: '*'),
+      icon: BitmapDescriptor.defaultMarkerWithHue(
+          (yourLoc) ? BitmapDescriptor.hueGreen : BitmapDescriptor.hueRed),
     );
 
     setState(() {
       markers[markerId] = marker;
     });
+  }
+
+  void _addCollegeMarkers(college) {
+    if (college == "Lehigh") {
+      _add(40.60958556811076, -75.37811001464506, "Lehigh Bookstore", false);
+      _add(40.60895596054946, -75.37787503466733,
+          "Fairchild-Martindale Library", false);
+      _add(40.60661885328797, -75.3773548234956, "Linderman Library", false);
+    }
   }
 
   void _onMapCreated(GoogleMapController controller) {
@@ -76,41 +91,68 @@ class _MyHomePageState extends State<MyHomePage> {
     return MaterialApp(
         title: "Location",
         home: Scaffold(
+            backgroundColor: Colors.lightGreen[100],
             body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text("${_location.latitude}, ${_location.longitude}"),
-              ElevatedButton(
-                child: Text("Find Current Location",
-                    style: TextStyle(color: Colors.white)),
-                onPressed: () {
-                  _displayCurrentLocation();
-                },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text("${_location.latitude}, ${_location.longitude}"),
+                  ElevatedButton(
+                    child: Text("Find Current Location",
+                        style: TextStyle(color: Colors.white)),
+                    onPressed: () {
+                      _displayCurrentLocation();
+                    },
+                  ),
+                  Text("Change current college:"),
+                  DropdownButton(
+                    value: dropdownValue,
+                    items: collegeList
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (String? value) {
+                      setState(() {
+                        dropdownValue = value!;
+                      });
+                      _addCollegeMarkers(value!);
+                    },
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Comments()),
+                      );
+                    },
+                    child: const Text('Comments'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const Home()),
+                      );
+                    },
+                    child: const Text('Home'),
+                  ),
+                  SizedBox(
+                      width: 500,
+                      height: 500,
+                      child: GoogleMap(
+                        onMapCreated: _onMapCreated,
+                        initialCameraPosition: CameraPosition(
+                          target: _center,
+                          zoom: 11.0,
+                        ),
+                        markers: Set<Marker>.of(markers.values),
+                      )),
+                ],
               ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Comments()),
-                  );
-                },
-                child: const Text('Comments'),
-              ),
-              
-              SizedBox(
-                  width: 500,
-                  height: 500,
-                  child: GoogleMap(
-                    onMapCreated: _onMapCreated,
-                    initialCameraPosition: CameraPosition(
-                      target: _center,
-                      zoom: 11.0,
-                    ),
-                    markers: Set<Marker>.of(markers.values),
-                  )),
-            ],
-          ),
-        )));
+            )));
   }
 }
