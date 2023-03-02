@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Profile extends StatelessWidget {
-   const Profile({super.key});
+  const Profile({super.key});
 
   // This widget is the root of your application.
   @override
@@ -47,8 +47,8 @@ class Profile extends StatelessWidget {
                         minRadius: 60.0,
                         child: CircleAvatar(
                           radius: 50.0,
-                          backgroundImage:
-                              NetworkImage('https://media.licdn.com/dms/image/C4E03AQHV-3X6k9bGAA/profile-displayphoto-shrink_400_400/0/1652210364998?e=1681948800&v=beta&t=Js0jSYlDsFBn5NkfRAmCJEN3ZHs1gqzDCc0Nfj4_42E'),
+                          backgroundImage: NetworkImage(
+                              'https://media.licdn.com/dms/image/C4E03AQHV-3X6k9bGAA/profile-displayphoto-shrink_400_400/0/1652210364998?e=1681948800&v=beta&t=Js0jSYlDsFBn5NkfRAmCJEN3ZHs1gqzDCc0Nfj4_42E'),
                         ),
                       ),
                       CircleAvatar(
@@ -158,7 +158,7 @@ class Profile extends StatelessWidget {
                   Divider(),
                   ListTile(
                     title: Text(
-                      'GitHub',
+                      'Phone Number',
                       style: TextStyle(
                         color: Colors.deepOrange,
                         fontSize: 20,
@@ -166,7 +166,7 @@ class Profile extends StatelessWidget {
                       ),
                     ),
                     subtitle: Text(
-                      'https://github.com/leopalmeiro',
+                      '(917)-484-0064',
                       style: TextStyle(
                         fontSize: 18,
                       ),
@@ -175,7 +175,7 @@ class Profile extends StatelessWidget {
                   Divider(),
                   ListTile(
                     title: Text(
-                      'Linkedin',
+                      'Favorite Food',
                       style: TextStyle(
                         color: Colors.deepOrange,
                         fontSize: 20,
@@ -183,12 +183,29 @@ class Profile extends StatelessWidget {
                       ),
                     ),
                     subtitle: Text(
-                      'www.linkedin.com/in/leonardo-palmeiro-834a1755',
+                      'West Coast Oysters',
                       style: TextStyle(
                         fontSize: 18,
                       ),
                     ),
                   ),
+                  Divider(), //cut here for more colums
+                  ListTile(
+                    title: Text(
+                      'Dream Vacation',
+                      style: TextStyle(
+                        color: Colors.deepOrange,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: Text(
+                      'Swiss Alps',
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                  )
                 ],
               ),
             )
