@@ -81,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(
           //homepage for
           "Home Page",
-          style: GoogleFonts.laila(
+          style: GoogleFonts.lato(
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -175,7 +175,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   Text(
                     'Home',
-                    style: GoogleFonts.laila(
+                    style: GoogleFonts.lato(
                         fontWeight: FontWeight.w500,
                         fontSize: 30,
                         color: Colors.indigo.shade300),
