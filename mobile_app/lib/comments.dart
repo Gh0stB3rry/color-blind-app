@@ -7,6 +7,12 @@ import 'package:mobile_app/home.dart';
 import 'package:mobile_app/main.dart';
 import 'package:mobile_app/maps.dart';
 
+const List<String> locationList = <String>[
+  'Linderman Library',
+  'Fairchild-Martindale Library',
+  'Lehigh Bookstore'
+];
+
 class Comments extends StatelessWidget {
   const Comments({super.key});
 
@@ -34,7 +40,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   TextEditingController cmntController = TextEditingController();
-  TextEditingController locController = TextEditingController();
+  String dropdownValue = locationList.first;
   String _list = "Comments: ";
   @override
   Widget build(BuildContext context) {
@@ -64,12 +70,20 @@ class _MyHomePageState extends State<MyHomePage> {
                     },
                     child: const Text('Home'),
                   ),
-                  TextField(
-                    controller: locController,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Location',
-                    ),
+                  DropdownButton(
+                    value: dropdownValue,
+                    items: locationList
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (String? value) {
+                      setState(() {
+                        dropdownValue = value!;
+                      });
+                    },
                   ),
                   TextField(
                     controller: cmntController,
@@ -83,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       //send comment to db
                       String list = _list +
                           "\n" +
-                          locController.text +
+                          dropdownValue +
                           ":  " +
                           cmntController.text;
                       setState(() {
