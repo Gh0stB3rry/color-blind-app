@@ -49,68 +49,100 @@ class _MyHomePageState extends State<MyHomePage> {
         home: Scaffold(
             backgroundColor: Colors.lightGreen[100],
             body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const Maps()),
-                      );
-                    },
-                    child: const Text('Back'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const Home()),
-                      );
-                    },
-                    child: const Text('Home'),
-                  ),
-                  DropdownButton(
-                    value: dropdownValue,
-                    items: locationList
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: (String? value) {
-                      setState(() {
-                        dropdownValue = value!;
-                      });
-                    },
-                  ),
-                  TextField(
-                    controller: cmntController,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Comment',
+              child: Padding(
+                padding: const EdgeInsets.only(top: 30.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.lightGreen.shade300,
+                            minimumSize: Size(64, 64),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50.0),
+                                side: BorderSide(
+                                    color: Colors.lightGreen.shade300)),
+                          ),
+                          child: Icon(
+                            Icons.home,
+                            size: 30.0,
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Home()),
+                            );
+                          },
+                        ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.lightGreen.shade300,
+                            minimumSize: Size(64, 64),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50.0),
+                                side: BorderSide(
+                                    color: Colors.lightGreen.shade300)),
+                          ),
+                          child: Icon(
+                            Icons.map,
+                            size: 30.0,
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Maps()),
+                            );
+                          },
+                        ),
+                      ],
                     ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      //send comment to db
-                      String list = _list +
-                          "\n" +
-                          dropdownValue +
-                          ":  " +
-                          cmntController.text;
-                      setState(() {
-                        _list = list;
-                      });
-                    },
-                    child: const Text('Add comment'),
-                  ),
-                  Text(
-                    _list,
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ],
+                    DropdownButton(
+                      value: dropdownValue,
+                      items: locationList
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      onChanged: (String? value) {
+                        setState(() {
+                          dropdownValue = value!;
+                        });
+                      },
+                    ),
+                    TextField(
+                      controller: cmntController,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Comment',
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        //send comment to db
+                        String list = _list +
+                            "\n" +
+                            dropdownValue +
+                            ":  " +
+                            cmntController.text;
+                        setState(() {
+                          _list = list;
+                        });
+                      },
+                      child: const Text('Add comment'),
+                    ),
+                    Text(
+                      _list,
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ],
+                ),
               ),
             )));
   }

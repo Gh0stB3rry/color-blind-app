@@ -115,65 +115,95 @@ class _MyHomePageState extends State<MyHomePage> {
         home: Scaffold(
             backgroundColor: Colors.lightGreen[100],
             body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text("${_location.latitude}, ${_location.longitude}"),
-                  ElevatedButton(
-                    child: Text("Find Current Location",
-                        style: TextStyle(color: Colors.white)),
-                    onPressed: () {
-                      _displayCurrentLocation();
-                    },
-                  ),
-                  Text("Change current college:"),
-                  DropdownButton(
-                    value: dropdownValue,
-                    items: collegeList
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: (String? value) {
-                      setState(() {
-                        dropdownValue = value!;
-                      });
-                      _addCollegeMarkers(value!);
-                    },
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Comments()),
-                      );
-                    },
-                    child: const Text('Comments'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const Home()),
-                      );
-                    },
-                    child: const Text('Home'),
-                  ),
-                  SizedBox(
-                      width: 500,
-                      height: 500,
-                      child: GoogleMap(
-                        onMapCreated: _onMapCreated,
-                        initialCameraPosition: CameraPosition(
-                          target: _center,
-                          zoom: 11.0,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 30.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.lightGreen.shade300,
+                            minimumSize: Size(64, 64),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50.0),
+                                side: BorderSide(
+                                    color: Colors.lightGreen.shade300)),
+                          ),
+                          child: Icon(
+                            Icons.home,
+                            size: 30.0,
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Home()),
+                            );
+                          },
                         ),
-                        markers: Set<Marker>.of(markers.values),
-                      )),
-                ],
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.lightGreen.shade300,
+                            minimumSize: Size(64, 64),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50.0),
+                                side: BorderSide(
+                                    color: Colors.lightGreen.shade300)),
+                          ),
+                          child: Icon(
+                            Icons.location_on,
+                            size: 30.0,
+                          ),
+                          onPressed: () {
+                            _displayCurrentLocation();
+                          },
+                        ),
+                      ],
+                    ),
+                    Text("${_location.latitude}, ${_location.longitude}"),
+                    Text("Change current college:"),
+                    DropdownButton(
+                      value: dropdownValue,
+                      items: collegeList
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      onChanged: (String? value) {
+                        setState(() {
+                          dropdownValue = value!;
+                        });
+                        _addCollegeMarkers(value!);
+                      },
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Comments()),
+                        );
+                      },
+                      child: const Text('Comments'),
+                    ),
+                    SizedBox(
+                        width: 500,
+                        height: 500,
+                        child: GoogleMap(
+                          onMapCreated: _onMapCreated,
+                          initialCameraPosition: CameraPosition(
+                            target: _center,
+                            zoom: 11.0,
+                          ),
+                          markers: Set<Marker>.of(markers.values),
+                        )),
+                  ],
+                ),
               ),
             )));
   }
