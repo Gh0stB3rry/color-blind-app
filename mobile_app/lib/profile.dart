@@ -95,7 +95,7 @@ class Profile extends StatelessWidget {
                   Text(
                     'Kayla Kraft',
                     style: TextStyle(
-                      fontSize: 35,
+                      fontSize: 25,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
@@ -127,31 +127,7 @@ class Profile extends StatelessWidget {
                           ),
                         ),
                         subtitle: Text(
-                          'Followers',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white70,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      color: Colors.red,
-                      child: ListTile(
-                        title: Text(
-                          '2',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 30,
-                            color: Colors.white,
-                          ),
-                        ),
-                        subtitle: Text(
-                          'Following',
+                          'Friends',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 20,

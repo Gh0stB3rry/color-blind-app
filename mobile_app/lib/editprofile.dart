@@ -10,6 +10,39 @@ class EditProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Edit Profile',
+      home: const MyEditProfile(title: 'Edit Profile'),
+    );
+  }
+}
+
+class MyEditProfile extends StatefulWidget {
+  const MyEditProfile({super.key, required this.title});
+
+  final String title;
+
+  @override
+  State<MyEditProfile> createState() => _MyEditProfileState();
+}
+
+class _MyEditProfileState extends State<MyEditProfile> {
+  TextEditingController nameController =
+      TextEditingController(text: 'Kayla Kraft');
+  TextEditingController profController =
+      TextEditingController(text: 'Mental Health Enthusiast');
+  TextEditingController foodController =
+      TextEditingController(text: 'West Coast Oysters');
+  TextEditingController vacController =
+      TextEditingController(text: 'Swiss Alps');
+  TextEditingController phoneController =
+      TextEditingController(text: '(917)-484-0064');
+  TextEditingController emailController =
+      TextEditingController(text: 'kak524@lehigh.edu');
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Edit Profile',
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.lightGreen.shade200,
@@ -71,19 +104,20 @@ class EditProfile extends StatelessWidget {
                   SizedBox(
                     height: 10,
                   ),
-                  Text(
-                    'Kayla Kraft',
+                  TextField(
+                    controller: nameController,
                     style: TextStyle(
-                      fontSize: 35,
+                      fontSize: 25,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
                   ),
-                  Text(
-                    'Mental Health Enthusist',
+                  TextField(
+                    controller: profController,
                     style: TextStyle(
-                      color: Colors.white,
                       fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
                   ),
                 ],
@@ -106,31 +140,7 @@ class EditProfile extends StatelessWidget {
                           ),
                         ),
                         subtitle: Text(
-                          'Followers',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white70,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      color: Colors.red,
-                      child: ListTile(
-                        title: Text(
-                          '2',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 30,
-                            color: Colors.white,
-                          ),
-                        ),
-                        subtitle: Text(
-                          'Following',
+                          'Friends',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 20,
@@ -155,10 +165,10 @@ class EditProfile extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    subtitle: Text(
-                      'kak524@lehigh.edu',
+                    subtitle: TextField(
+                      controller: emailController,
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 15,
                       ),
                     ),
                   ),
@@ -172,10 +182,10 @@ class EditProfile extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    subtitle: Text(
-                      '(917)-484-0064',
+                    subtitle: TextField(
+                      controller: phoneController,
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 15,
                       ),
                     ),
                   ),
@@ -189,10 +199,10 @@ class EditProfile extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    subtitle: Text(
-                      'West Coast Oysters',
+                    subtitle: TextField(
+                      controller: foodController,
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 15,
                       ),
                     ),
                   ),
@@ -206,10 +216,10 @@ class EditProfile extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    subtitle: Text(
-                      'Swiss Alps',
+                    subtitle: TextField(
+                      controller: vacController,
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 15,
                       ),
                     ),
                   )
