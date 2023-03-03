@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_app/editprofile.dart';
 import 'package:mobile_app/home.dart';
+import 'package:mobile_app/profile.dart';
 
-class Profile extends StatelessWidget {
-  const Profile({super.key});
+class EditProfile extends StatelessWidget {
+  const EditProfile({super.key});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Profile',
+      title: 'Edit Profile',
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.lightGreen.shade200,
           title: Center(
-            child: const Text('Profile'),
+            child: const Text('Edit Profile'),
           ),
         ),
         body: ListView(
@@ -36,27 +36,6 @@ class Profile extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.lightGreen.shade300,
-                          minimumSize: Size(64, 64),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50.0),
-                              side: BorderSide(
-                                  color: Colors.lightGreen.shade300)),
-                        ),
-                        child: Icon(
-                          Icons.home,
-                          size: 30.0,
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Home()),
-                          );
-                        },
-                      ),
                       CircleAvatar(
                         backgroundColor: Colors.white70,
                         minRadius: 60.0,
@@ -76,14 +55,14 @@ class Profile extends StatelessWidget {
                                   color: Colors.lightGreen.shade300)),
                         ),
                         child: Icon(
-                          Icons.edit,
+                          Icons.check,
                           size: 30.0,
                         ),
                         onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const EditProfile()),
+                                builder: (context) => const Profile()),
                           );
                         },
                       ),

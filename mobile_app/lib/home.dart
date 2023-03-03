@@ -168,17 +168,17 @@ class _MyHomePageState extends State<MyHomePage> {
                   Icon(
                     icons[current],
                     size: 200,
-                    color: Colors.deepPurple,
+                    color: Colors.blue,
                   ),
                   const SizedBox(
                     height: 10,
                   ),
                   Text(
-                    'Home :D',
+                    'Home',
                     style: GoogleFonts.laila(
                         fontWeight: FontWeight.w500,
                         fontSize: 30,
-                        color: Colors.deepPurple),
+                        color: Colors.blue),
                   ),
                 ],
               ),
