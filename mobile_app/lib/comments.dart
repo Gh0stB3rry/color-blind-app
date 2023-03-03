@@ -22,7 +22,7 @@ class Comments extends StatelessWidget {
     return MaterialApp(
       title: 'Mobile App',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.indigo,
       ),
       home: const MyHomePage(title: 'Home Page'),
     );
@@ -124,6 +124,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ),
                     ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.indigo.shade300),
                       onPressed: () {
                         //send comment to db
                         String list = _list +

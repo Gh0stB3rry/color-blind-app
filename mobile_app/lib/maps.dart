@@ -182,6 +182,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       },
                     ),
                     ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.indigo.shade300),
                       onPressed: () {
                         Navigator.push(
                           context,

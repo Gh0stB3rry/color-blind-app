@@ -27,7 +27,7 @@ class Home extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.indigo,
       ),
       home: const MyHomePage(title: 'Home Page'),
     );
@@ -77,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
       /// APPBAR
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.indigo,
+        backgroundColor: Colors.indigo.shade300,
         title: Text(
           //homepage for
           "Home Page",
@@ -168,7 +168,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Icon(
                     icons[current],
                     size: 200,
-                    color: Colors.blue,
+                    color: Colors.indigo.shade300,
                   ),
                   const SizedBox(
                     height: 10,
@@ -178,7 +178,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     style: GoogleFonts.laila(
                         fontWeight: FontWeight.w500,
                         fontSize: 30,
-                        color: Colors.blue),
+                        color: Colors.indigo.shade300),
                   ),
                 ],
               ),
