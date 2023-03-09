@@ -41,7 +41,9 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   TextEditingController cmntController = TextEditingController();
   String dropdownValue = locationList.first;
-  String _list = "Comments: ";
+  String _lindermanList = "Comments: ";
+  String _fmlList = "Comments: ";
+  String _storeList = "Comments: ";
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -128,19 +130,49 @@ class _MyHomePageState extends State<MyHomePage> {
                           backgroundColor: Colors.indigo.shade300),
                       onPressed: () {
                         //send comment to db
-                        String list = _list +
-                            "\n" +
-                            dropdownValue +
-                            ":  " +
-                            cmntController.text;
-                        setState(() {
-                          _list = list;
-                        });
+                        if (dropdownValue == "Linderman Library") {
+                          String lindermanList = _lindermanList +
+                              "\n" +
+                              dropdownValue +
+                              ":  " +
+                              cmntController.text;
+                          setState(() {
+                            _lindermanList = lindermanList;
+                          });
+                        } else if (dropdownValue ==
+                            "Fairchild-Martindale Library") {
+                          String fmlList = _fmlList +
+                              "\n" +
+                              dropdownValue +
+                              ":  " +
+                              cmntController.text;
+                          setState(() {
+                            _fmlList = fmlList;
+                          });
+                        } else {
+                          String storeList = _storeList +
+                              "\n" +
+                              dropdownValue +
+                              ":  " +
+                              cmntController.text;
+                          setState(() {
+                            _storeList = storeList;
+                          });
+                        }
                       },
                       child: const Text('Add comment'),
                     ),
                     Text(
-                      _list,
+                      (() {
+                        if (dropdownValue == "Linderman Library") {
+                          return _lindermanList;
+                        } else if (dropdownValue ==
+                            "Fairchild-Martindale Library") {
+                          return _fmlList;
+                        } else {
+                          return _storeList;
+                        }
+                      }()),
                       style: TextStyle(fontSize: 20),
                     ),
                   ],

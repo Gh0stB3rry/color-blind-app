@@ -1,32 +1,3 @@
-/*import 'package:flutter/material.dart';
-import 'package:mobile_app/main.dart';
-import 'package:mobile_app/second.dart';
-void main() {
-  runApp(const SecondRoute());
-}
-class SecondRoute extends StatelessWidget {
-  const SecondRoute({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Second Route'),
-      ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const MyApp()),
-            );
-          },
-          child: const Text('Go back!'),
-        ),
-      ),
-    );
-  }
-}*/
-
 import 'package:flutter/material.dart';
 import 'package:mobile_app/home.dart';
 import 'package:mobile_app/maps.dart';
