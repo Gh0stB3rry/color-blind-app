@@ -113,168 +113,159 @@ class _MyHomePageState extends State<MyHomePage> {
             body: Center(
                 child: Padding(
               padding: const EdgeInsets.only(top: 30.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.lightGreen.shade300,
-                            minimumSize: Size(64, 64),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50.0),
-                                side: BorderSide(
-                                    color: Colors.lightGreen.shade300)),
-                          ),
-                          child: Icon(
-                            Icons.home,
-                            size: 30.0,
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Home()),
-                            );
-                          },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.lightGreen.shade300,
+                          minimumSize: Size(64, 64),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50.0),
+                              side: BorderSide(
+                                  color: Colors.lightGreen.shade300)),
                         ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.lightGreen.shade300,
-                            minimumSize: Size(64, 64),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50.0),
-                                side: BorderSide(
-                                    color: Colors.lightGreen.shade300)),
-                          ),
-                          child: Icon(
-                            Icons.map,
-                            size: 30.0,
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Maps()),
-                            );
-                          },
+                        child: Icon(
+                          Icons.home,
+                          size: 30.0,
                         ),
-                      ],
-                    ),
-                    DropdownButton(
-                      value: dropdownValue,
-                      items: locationList
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      onChanged: (String? value) {
-                        setState(() {
-                          dropdownValue = value!;
-                        });
-                      },
-                    ),
-                    TextField(
-                      controller: cmntController,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Comment',
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Home()),
+                          );
+                        },
                       ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.lightGreen.shade300,
+                          minimumSize: Size(64, 64),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50.0),
+                              side: BorderSide(
+                                  color: Colors.lightGreen.shade300)),
+                        ),
+                        child: Icon(
+                          Icons.map,
+                          size: 30.0,
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Maps()),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                  DropdownButton(
+                    value: dropdownValue,
+                    items: locationList
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (String? value) {
+                      setState(() {
+                        dropdownValue = value!;
+                      });
+                    },
+                  ),
+                  TextField(
+                    controller: cmntController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Comment',
                     ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.indigo.shade300),
-                      child: const Text('Select Image from Gallery and Camera'),
-                      onPressed: () {
-                        _showPicker(context: context);
-                      },
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.indigo.shade300),
-                      onPressed: () {
-                        //send comment to db
-                        if (dropdownValue == "Linderman Library") {
-                          String lindermanList = _lindermanList +
-                              "\n" +
-                              dropdownValue +
-                              ":  " +
-                              cmntController.text;
-                          setState(() {
-                            _lindermanList = lindermanList;
-                          });
-                        } else if (dropdownValue ==
-                            "Fairchild-Martindale Library") {
-                          String fmlList = _fmlList +
-                              "\n" +
-                              dropdownValue +
-                              ":  " +
-                              cmntController.text;
-                          setState(() {
-                            _fmlList = fmlList;
-                          });
-                        } else {
-                          String storeList = _storeList +
-                              "\n" +
-                              dropdownValue +
-                              ":  " +
-                              cmntController.text;
-                          setState(() {
-                            _storeList = storeList;
-                          });
-                        }
-                      },
-                      child: const Text('Add comment'),
-                    ),
-                    Text(
-                      (() {
-                        if (dropdownValue == "Linderman Library") {
-                          return _lindermanList;
-                        } else if (dropdownValue ==
-                            "Fairchild-Martindale Library") {
-                          return _fmlList;
-                        } else if (dropdownValue == "Lehigh Bookstore") {
-                          return _storeList;
-                        } else {
-                          return "";
-                        }
-                      }()),
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    SizedBox(
-                      height: 200.0,
-                      width: 300.0,
-                      child: _imgList.length < 1
-                          ? const Center(child: Text(''))
-                          : dropdownValue == "Images"
-                              ? Center(child: Image.file(_imgList[0]))
-                              : const Center(child: Text('')),
-                    ),
-                    SizedBox(
-                      height: 200.0,
-                      width: 300.0,
-                      child: _imgList.length < 2
-                          ? const Center(child: Text(''))
-                          : dropdownValue == "Images"
-                              ? Center(child: Image.file(_imgList[1]))
-                              : const Center(child: Text('')),
-                    ),
-                    SizedBox(
-                      height: 200.0,
-                      width: 300.0,
-                      child: _imgList.length < 3
-                          ? const Center(child: Text(''))
-                          : dropdownValue == "Images"
-                              ? Center(child: Image.file(_imgList[2]))
-                              : const Center(child: Text('')),
-                    ),
-                  ],
-                ),
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.indigo.shade300),
+                    child: const Text('Select Image from Gallery and Camera'),
+                    onPressed: () {
+                      _showPicker(context: context);
+                    },
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.indigo.shade300),
+                    onPressed: () {
+                      //send comment to db
+                      if (dropdownValue == "Linderman Library") {
+                        String lindermanList = _lindermanList +
+                            "\n" +
+                            dropdownValue +
+                            ":  " +
+                            cmntController.text;
+                        setState(() {
+                          _lindermanList = lindermanList;
+                        });
+                      } else if (dropdownValue ==
+                          "Fairchild-Martindale Library") {
+                        String fmlList = _fmlList +
+                            "\n" +
+                            dropdownValue +
+                            ":  " +
+                            cmntController.text;
+                        setState(() {
+                          _fmlList = fmlList;
+                        });
+                      } else {
+                        String storeList = _storeList +
+                            "\n" +
+                            dropdownValue +
+                            ":  " +
+                            cmntController.text;
+                        setState(() {
+                          _storeList = storeList;
+                        });
+                      }
+                    },
+                    child: const Text('Add comment'),
+                  ),
+                  Text(
+                    (() {
+                      if (dropdownValue == "Linderman Library") {
+                        return _lindermanList;
+                      } else if (dropdownValue ==
+                          "Fairchild-Martindale Library") {
+                        return _fmlList;
+                      } else if (dropdownValue == "Lehigh Bookstore") {
+                        return _storeList;
+                      } else {
+                        return "";
+                      }
+                    }()),
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  dropdownValue == "Images"
+                      ? Expanded(
+                          child: SizedBox(
+                          height: 200.0,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: _imgList.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Container(
+                                height: 200,
+                                width: 300,
+                                padding: const EdgeInsets.only(bottom: 8),
+                                child: dropdownValue == "Images"
+                                    ? Center(child: Image.file(_imgList[index]))
+                                    : const Center(child: Text('')),
+                              );
+                            },
+                          ),
+                        ))
+                      : const Center(child: Text('')),
+                ],
               ),
             ))));
   }
