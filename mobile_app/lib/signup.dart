@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/home.dart';
+import 'package:mobile_app/main.dart';
 import 'package:mobile_app/maps.dart';
-import 'package:mobile_app/signup.dart';
 import 'package:flutter/src/material/colors.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
-void main() => runApp(const MyApp());
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class Signup extends StatelessWidget {
+  const Signup({Key? key}) : super(key: key);
   static const String _title = 'Mental Health App';
 
   @override
@@ -54,7 +52,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     child: AnimatedTextKit(
                       animatedTexts: [
                         TypewriterAnimatedText('Welcome'),
-                        TypewriterAnimatedText('Kayla'),
                         TypewriterAnimatedText('How are you doing?'),
                       ],
                     ))),
@@ -62,7 +59,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 alignment: Alignment.center,
                 padding: const EdgeInsets.all(10),
                 child: const Text(
-                  'Sign in',
+                  'Sign up',
                   style: TextStyle(fontSize: 20),
                 )),
             Container(
@@ -88,17 +85,20 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             ),
             TextButton(
               onPressed: () {
-                //forgot password screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MyApp()),
+                );
               },
               child: const Text(
-                'Forgot Password',
+                'Back',
               ),
             ),
             Container(
                 height: 50,
                 padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                 child: ElevatedButton(
-                  child: const Text('Login'),
+                  child: const Text('Submit'),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -106,24 +106,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     );
                   },
                 )),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text('Does not have account?'),
-                TextButton(
-                  child: const Text(
-                    'Sign up',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Signup()),
-                    );
-                  },
-                )
-              ],
-            ),
           ],
         ));
   }
