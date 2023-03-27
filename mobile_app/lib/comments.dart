@@ -18,7 +18,8 @@ const List<String> locationList = <String>[
 ];
 
 class Comments extends StatelessWidget {
-  const Comments({super.key});
+  const Comments({super.key, required this.name});
+  final String name;
 
   // This widget is the root of your application.
   @override
@@ -28,15 +29,16 @@ class Comments extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.indigo,
       ),
-      home: const MyHomePage(title: 'Home Page'),
+      home: MyHomePage(title: 'Home Page', name: name),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({super.key, required this.title, required this.name});
 
   final String title;
+  final String name;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -98,7 +100,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   TextEditingController cmntController = TextEditingController();
-  String dropdownValue = locationList.first;
   String _lindermanList = "Comments: ";
   String _fmlList = "Comments: ";
   String _storeList = "Comments: ";
@@ -106,6 +107,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    String dropdownValue = widget.name;
+    print(dropdownValue);
     return MaterialApp(
         title: "Location",
         home: Scaffold(

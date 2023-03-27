@@ -132,8 +132,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                const Comments()));
+                                            builder: (context) => Comments(
+                                                name: "Linderman Library")));
                                   } else {
                                     Navigator.push(
                                         context,
