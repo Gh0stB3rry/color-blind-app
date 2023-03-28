@@ -78,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _add(lat, lng, id, yourLoc) {
-    var markerIdVal = id;
+    String markerIdVal = id;
     final MarkerId markerId = MarkerId(markerIdVal);
 
     final Marker marker = Marker(
@@ -87,6 +87,14 @@ class _MyHomePageState extends State<MyHomePage> {
       infoWindow: InfoWindow(title: markerIdVal, snippet: '*'),
       icon: BitmapDescriptor.defaultMarkerWithHue(
           (yourLoc) ? BitmapDescriptor.hueGreen : BitmapDescriptor.hueRed),
+      onTap: () => {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Comments(name: markerIdVal),
+          ),
+        )
+      },
     );
 
     setState(() {
@@ -188,7 +196,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Comments()),
+                              builder: (context) =>
+                                  Comments(name: "Linderman Library")),
                         );
                       },
                       child: const Text('Comments'),
