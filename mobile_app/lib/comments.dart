@@ -10,13 +10,6 @@ import 'package:mobile_app/main.dart';
 import 'package:mobile_app/maps.dart';
 import 'package:image_picker/image_picker.dart';
 
-const List<String> locationList = <String>[
-  'Linderman Library',
-  'Fairchild-Martindale Library',
-  'Lehigh Bookstore',
-  'Images'
-];
-
 class Comments extends StatelessWidget {
   const Comments({super.key, required this.name});
   final String name;
@@ -167,21 +160,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ],
                   ),
-                  DropdownButton(
-                    value: dropdownValue,
-                    items: locationList
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: (String? value) {
-                      setState(() {
-                        dropdownValue = value!;
-                      });
-                    },
-                  ),
+                  SizedBox(height: 10),
                   TextField(
                     controller: cmntController,
                     decoration: const InputDecoration(
@@ -235,6 +214,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     },
                     child: const Text('Add comment'),
                   ),
+                  Text(dropdownValue + " Comments:"),
                   dropdownValue == "Linderman Library"
                       ? Expanded(
                           child: SizedBox(
