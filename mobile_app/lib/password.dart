@@ -5,8 +5,8 @@ import 'package:mobile_app/maps.dart';
 import 'package:flutter/src/material/colors.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
-class Signup extends StatelessWidget {
-  const Signup({Key? key}) : super(key: key);
+class Password extends StatelessWidget {
+  const Password({Key? key}) : super(key: key);
   static const String _title = 'Mental Health App';
 
   @override
@@ -35,7 +35,7 @@ class MyStatefulWidget extends StatefulWidget {
 }
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   @override
@@ -52,7 +52,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     child: AnimatedTextKit(
                       animatedTexts: [
                         TypewriterAnimatedText('Did you'),
-                        TypewriterAnimatedText('forget your password'),
+                        TypewriterAnimatedText('forget your password?'),
                       ],
                     ))),
             Container(
@@ -65,10 +65,20 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             Container(
               padding: const EdgeInsets.all(10),
               child: TextField(
-                controller: nameController,
+                controller: emailController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'Forgot Password ',
+                  labelText: 'Email',
+                ),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.all(10),
+              child: TextField(
+                controller: passwordController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'New Password',
                 ),
               ),
             ),
