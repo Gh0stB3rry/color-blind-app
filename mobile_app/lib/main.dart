@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/home.dart';
 import 'package:mobile_app/maps.dart';
+import 'package:mobile_app/password.dart';
 import 'package:mobile_app/signup.dart';
 import 'package:flutter/src/material/colors.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
@@ -88,7 +89,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             ),
             TextButton(
               onPressed: () {
-                //forgot password screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Password()),
+                );
               },
               child: const Text(
                 'Forgot Password',

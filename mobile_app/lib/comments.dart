@@ -10,13 +10,6 @@ import 'package:mobile_app/main.dart';
 import 'package:mobile_app/maps.dart';
 import 'package:image_picker/image_picker.dart';
 
-const List<String> locationList = <String>[
-  'Linderman Library',
-  'Fairchild-Martindale Library',
-  'Lehigh Bookstore',
-  'Images'
-];
-
 class Comments extends StatelessWidget {
   const Comments({super.key, required this.name});
   final String name;
@@ -89,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
       () {
         if (xfilePick != null) {
           setState(() {
-            _imgList.add(File(pickedFile!.path));
+            galleryFile = File(pickedFile!.path);
           });
         } else {
           ScaffoldMessenger.of(context).showSnackBar(// is this context <<<
@@ -100,15 +93,16 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   TextEditingController cmntController = TextEditingController();
-  String _lindermanList = "Comments: ";
-  String _fmlList = "Comments: ";
-  String _storeList = "Comments: ";
-  List<File> _imgList = [];
+  List<String> _lindermanList = [];
+  List<String> _fmlList = [];
+  List<String> _storeList = [];
+  List<File> _lindermanImgList = [];
+  List<File> _fmlImgList = [];
+  List<File> _storeImgList = [];
 
   @override
   Widget build(BuildContext context) {
     String dropdownValue = widget.name;
-    print(dropdownValue);
     return MaterialApp(
         title: "Location",
         home: Scaffold(
@@ -166,21 +160,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ],
                   ),
-                  DropdownButton(
-                    value: dropdownValue,
-                    items: locationList
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: (String? value) {
-                      setState(() {
-                        dropdownValue = value!;
-                      });
-                    },
-                  ),
+                  SizedBox(height: 10),
                   TextField(
                     controller: cmntController,
                     decoration: const InputDecoration(
@@ -196,78 +176,140 @@ class _MyHomePageState extends State<MyHomePage> {
                       _showPicker(context: context);
                     },
                   ),
+                  SizedBox(
+                    height: galleryFile == null ? 0.0 : 200.0,
+                    width: galleryFile == null ? 0.0 : 300.0,
+                    child: galleryFile == null
+                        ? const Center(child: Text(''))
+                        : Center(child: Image.file(galleryFile!)),
+                  ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.indigo.shade300),
                     onPressed: () {
                       //send comment to db
                       if (dropdownValue == "Linderman Library") {
-                        String lindermanList = _lindermanList +
-                            "\n" +
-                            dropdownValue +
-                            ":  " +
-                            cmntController.text;
                         setState(() {
-                          _lindermanList = lindermanList;
+                          _lindermanList.add(cmntController.text);
+                          _lindermanImgList.add(galleryFile!);
+                          galleryFile = null;
+                          cmntController.clear();
                         });
                       } else if (dropdownValue ==
                           "Fairchild-Martindale Library") {
-                        String fmlList = _fmlList +
-                            "\n" +
-                            dropdownValue +
-                            ":  " +
-                            cmntController.text;
                         setState(() {
-                          _fmlList = fmlList;
+                          _fmlList.add(cmntController.text);
+                          _fmlImgList.add(galleryFile!);
+                          galleryFile = null;
+                          cmntController.clear();
                         });
                       } else {
-                        String storeList = _storeList +
-                            "\n" +
-                            dropdownValue +
-                            ":  " +
-                            cmntController.text;
                         setState(() {
-                          _storeList = storeList;
+                          _storeList.add(cmntController.text);
+                          _storeImgList.add(galleryFile!);
+                          galleryFile = null;
+                          cmntController.clear();
                         });
                       }
                     },
                     child: const Text('Add comment'),
                   ),
-                  Text(
-                    (() {
-                      if (dropdownValue == "Linderman Library") {
-                        return _lindermanList;
-                      } else if (dropdownValue ==
-                          "Fairchild-Martindale Library") {
-                        return _fmlList;
-                      } else if (dropdownValue == "Lehigh Bookstore") {
-                        return _storeList;
-                      } else {
-                        return "";
-                      }
-                    }()),
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  dropdownValue == "Images"
+                  Text(dropdownValue + " Comments:",
+                      style: TextStyle(fontSize: 16)),
+                  dropdownValue == "Linderman Library"
                       ? Expanded(
                           child: SizedBox(
                           height: 200.0,
                           child: ListView.builder(
                             shrinkWrap: true,
-                            itemCount: _imgList.length,
+                            itemCount: _lindermanImgList.length,
                             itemBuilder: (BuildContext context, int index) {
-                              return Container(
-                                height: 200,
-                                width: 300,
-                                padding: const EdgeInsets.only(bottom: 8),
-                                child: dropdownValue == "Images"
-                                    ? Center(child: Image.file(_imgList[index]))
-                                    : const Center(child: Text('')),
+                              return Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Container(
+                                      height: 150,
+                                      width: 150,
+                                      alignment: Alignment.center,
+                                      child: Text(_lindermanList[index],
+                                          style: TextStyle(fontSize: 12))),
+                                  Container(
+                                    height: 150,
+                                    width: 225,
+                                    padding: const EdgeInsets.only(bottom: 8),
+                                    child:
+                                        Image?.file(_lindermanImgList[index]),
+                                  )
+                                ],
                               );
                             },
                           ),
                         ))
-                      : const Center(child: Text('')),
+                      : dropdownValue == "Fairchild-Martindale Library"
+                          ? Expanded(
+                              child: SizedBox(
+                              height: 200.0,
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: _fmlImgList.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Container(
+                                            height: 150,
+                                            width: 150,
+                                            alignment: Alignment.center,
+                                            child: Text(_fmlList[index],
+                                                style:
+                                                    TextStyle(fontSize: 12))),
+                                        Container(
+                                          height: 150,
+                                          width: 225,
+                                          padding:
+                                              const EdgeInsets.only(bottom: 8),
+                                          child:
+                                              Image?.file(_fmlImgList[index]),
+                                        )
+                                      ]);
+                                },
+                              ),
+                            ))
+                          : dropdownValue == "Lehigh Bookstore"
+                              ? Expanded(
+                                  child: SizedBox(
+                                  height: 200.0,
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: _storeImgList.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Container(
+                                                height: 150,
+                                                width: 150,
+                                                alignment: Alignment.center,
+                                                child: Text(_storeList[index],
+                                                    style: TextStyle(
+                                                        fontSize: 12))),
+                                            Container(
+                                              height: 150,
+                                              width: 225,
+                                              padding: const EdgeInsets.only(
+                                                  bottom: 8),
+                                              child: Image?.file(
+                                                  _storeImgList[index]),
+                                            )
+                                          ]);
+                                    },
+                                  ),
+                                ))
+                              : Text(""),
                 ],
               ),
             ))));

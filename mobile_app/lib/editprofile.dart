@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/home.dart';
 import 'package:mobile_app/profile.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class EditProfile extends StatelessWidget {
   const EditProfile({super.key});
@@ -37,6 +39,60 @@ class _MyEditProfileState extends State<MyEditProfile> {
       TextEditingController(text: '(917)-484-0064');
   TextEditingController emailController =
       TextEditingController(text: 'kak524@lehigh.edu');
+  final picker = ImagePicker();
+
+  File? tempFile;
+
+  void _showPicker({
+    required BuildContext context,
+  }) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: Wrap(
+            children: <Widget>[
+              ListTile(
+                leading: const Icon(Icons.photo_library),
+                title: const Text('Photo Library'),
+                onTap: () {
+                  getImage(ImageSource.gallery);
+                  Navigator.of(context).pop();
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.photo_camera),
+                title: const Text('Camera'),
+                onTap: () {
+                  getImage(ImageSource.camera);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future getImage(
+    ImageSource img,
+  ) async {
+    final pickedFile = await picker.pickImage(source: img);
+    XFile? xfilePick = pickedFile;
+    setState(
+      () {
+        if (xfilePick != null) {
+          setState(() {
+            tempFile = File(pickedFile!.path);
+          });
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(// is this context <<<
+              const SnackBar(content: Text('Nothing is selected')));
+        }
+      },
+    );
+  }
 
   // This widget is the root of your application.
   @override
@@ -72,11 +128,26 @@ class _MyEditProfileState extends State<MyEditProfile> {
                       CircleAvatar(
                         backgroundColor: Colors.white70,
                         minRadius: 60.0,
-                        child: CircleAvatar(
-                          radius: 50.0,
-                          backgroundImage: NetworkImage(
-                              'https://media.licdn.com/dms/image/C4E03AQHV-3X6k9bGAA/profile-displayphoto-shrink_400_400/0/1652210364998?e=1681948800&v=beta&t=Js0jSYlDsFBn5NkfRAmCJEN3ZHs1gqzDCc0Nfj4_42E'),
-                        ),
+                        child: tempFile == null
+                            ? IconButton(
+                                onPressed: () {
+                                  _showPicker(context: context);
+                                },
+                                icon: Icon(
+                                  Icons.edit,
+                                  size: 30.0,
+                                ))
+                            : CircleAvatar(
+                                radius: 30.0,
+                                backgroundImage: FileImage(tempFile!),
+                                child: IconButton(
+                                    onPressed: () {
+                                      _showPicker(context: context);
+                                    },
+                                    icon: Icon(
+                                      Icons.edit,
+                                      size: 30.0,
+                                    ))),
                       ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
