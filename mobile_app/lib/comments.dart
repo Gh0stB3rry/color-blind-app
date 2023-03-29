@@ -214,7 +214,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     },
                     child: const Text('Add comment'),
                   ),
-                  Text(dropdownValue + " Comments:"),
+                  Text(dropdownValue + " Comments:",
+                      style: TextStyle(fontSize: 16)),
                   dropdownValue == "Linderman Library"
                       ? Expanded(
                           child: SizedBox(
@@ -225,9 +226,14 @@ class _MyHomePageState extends State<MyHomePage> {
                             itemBuilder: (BuildContext context, int index) {
                               return Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Text(_lindermanList[index]),
+                                  Container(
+                                      height: 150,
+                                      width: 150,
+                                      alignment: Alignment.center,
+                                      child: Text(_lindermanList[index],
+                                          style: TextStyle(fontSize: 12))),
                                   Container(
                                     height: 150,
                                     width: 225,
@@ -250,9 +256,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                 itemBuilder: (BuildContext context, int index) {
                                   return Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        Text(_fmlList[index]),
+                                        Container(
+                                            height: 150,
+                                            width: 150,
+                                            alignment: Alignment.center,
+                                            child: Text(_fmlList[index],
+                                                style:
+                                                    TextStyle(fontSize: 12))),
                                         Container(
                                           height: 150,
                                           width: 225,
@@ -276,9 +288,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                         (BuildContext context, int index) {
                                       return Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                              MainAxisAlignment.spaceEvenly,
                                           children: [
-                                            Text(_storeList[index]),
+                                            Container(
+                                                height: 150,
+                                                width: 150,
+                                                alignment: Alignment.center,
+                                                child: Text(_storeList[index],
+                                                    style: TextStyle(
+                                                        fontSize: 12))),
                                             Container(
                                               height: 150,
                                               width: 225,
