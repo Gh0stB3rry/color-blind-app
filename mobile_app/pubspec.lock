@@ -82,13 +82,13 @@ packages:
     source: hosted
     version: "4.0.0"
   equatable:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: equatable
-      sha256: "8007a033720c056066dd1dc20bc2934cac91e271f0408c578aa26c7731618a03"
+      sha256: c2b87cb7756efdf69892005af546c56c0b5037f54d2a88269b4f347a505e3ca2
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.6"
+    version: "2.0.5"
   fake_async:
     dependency: transitive
     description:
@@ -196,10 +196,10 @@ packages:
     dependency: "direct main"
     description:
       name: geolocator
-      sha256: dffcc8ac98ae78db2ab83e1b3486741b8810a927b76116d4b4ed2d87f036dc44
+      sha256: "6bae701dd7937c268f4881b4bcdf9cda54131a797ae33ad8c83d3270147da1f5"
       url: "https://pub.dev"
     source: hosted
-    version: "5.3.2+2"
+    version: "5.2.1"
   google_api_availability:
     dependency: transitive
     description:
@@ -332,10 +332,10 @@ packages:
     dependency: transitive
     description:
       name: location_permissions
-      sha256: "7e05fdf2c00c2950372641f0f71b3de928fc6ba488b23f1bb45f6d910d58c155"
+      sha256: "68ec5b1bbe7d12c39776187d65be05827267cef4806857b1ef189c43f67fea24"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.0+1"
+    version: "2.0.5"
   matcher:
     dependency: transitive
     description:
