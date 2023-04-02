@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_app/home.dart';
 import 'package:mobile_app/maps.dart';
@@ -5,6 +6,8 @@ import 'package:mobile_app/password.dart';
 import 'package:mobile_app/signup.dart';
 import 'package:flutter/src/material/colors.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
 
 void main() => runApp(const MyApp());
 
