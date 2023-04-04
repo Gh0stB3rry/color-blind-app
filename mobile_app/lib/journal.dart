@@ -236,8 +236,18 @@ class _MyHomePageState extends State<MyHomePage> {
                                   height: _imgBoolList[index] ? 150 : 50,
                                   width: 150,
                                   alignment: Alignment.center,
-                                  child: Text(_journalList[index],
-                                      style: TextStyle(fontSize: 12))),
+                                  child: Row(children: [
+                                    Text(
+                                        now.month.toString() +
+                                            "/" +
+                                            now.day.toString() +
+                                            "/" +
+                                            now.year.toString() +
+                                            "   ",
+                                        style: TextStyle(fontSize: 12)),
+                                    Text(_journalList[index],
+                                        style: TextStyle(fontSize: 12))
+                                  ])),
                               _imgBoolList[index]
                                   ? Container(
                                       height: 150,
