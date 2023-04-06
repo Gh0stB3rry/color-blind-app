@@ -139,8 +139,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
+                      SizedBox(width: 10),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.lightGreen.shade300,
@@ -162,27 +163,14 @@ class _MyHomePageState extends State<MyHomePage> {
                           );
                         },
                       ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.lightGreen.shade300,
-                          minimumSize: Size(64, 64),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50.0),
-                              side: BorderSide(
-                                  color: Colors.lightGreen.shade300)),
-                        ),
-                        child: Icon(
-                          Icons.map,
-                          size: 30.0,
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Maps()),
-                          );
-                        },
-                      ),
+                      SizedBox(width: 60),
+                      Text(
+                        "~ My Journal ~",
+                        style: GoogleFonts.lato(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 20,
+                            color: Colors.indigo.shade300),
+                      )
                     ],
                   ),
                   SizedBox(height: 10),
