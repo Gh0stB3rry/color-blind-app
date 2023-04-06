@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobile_app/home.dart';
 import 'package:mobile_app/main.dart';
@@ -100,6 +101,31 @@ class _MyHomePageState extends State<MyHomePage> {
   DateTime now = DateTime.now();
   final location = Position(latitude: 40.6049, longitude: -75.3775);
 
+  Widget _buildPopupDialog(BuildContext context, index) {
+    return AlertDialog(
+      title: const Text('Journal Entry'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(_journalList[index],
+              style:
+                  GoogleFonts.lato(fontWeight: FontWeight.w500, fontSize: 12))
+        ],
+      ),
+      actions: <Widget>[
+        ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          style:
+              ElevatedButton.styleFrom(backgroundColor: Colors.indigo.shade300),
+          child: const Text('Close'),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -164,19 +190,22 @@ class _MyHomePageState extends State<MyHomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(
-                          "Date: " +
-                              now.month.toString() +
-                              "/" +
-                              now.day.toString() +
-                              "/" +
-                              now.year.toString(),
-                          style: TextStyle(fontSize: 16)),
+                        "Date: " +
+                            now.month.toString() +
+                            "/" +
+                            now.day.toString() +
+                            "/" +
+                            now.year.toString(),
+                        style: GoogleFonts.lato(
+                            fontWeight: FontWeight.w500, fontSize: 16),
+                      ),
                       Text(
                           "Location: " +
                               location.latitude.toString() +
                               " " +
                               location.longitude.toString(),
-                          style: TextStyle(fontSize: 16))
+                          style: GoogleFonts.lato(
+                              fontWeight: FontWeight.w500, fontSize: 16))
                     ],
                   ),
                   SizedBox(height: 10),
@@ -222,6 +251,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     },
                     child: const Text('Add Entry'),
                   ),
+                  Divider(color: Colors.black),
                   Expanded(
                       child: SizedBox(
                     height: 200.0,
@@ -234,28 +264,63 @@ class _MyHomePageState extends State<MyHomePage> {
                             children: [
                               Container(
                                   height: _imgBoolList[index] ? 150 : 50,
-                                  width: 150,
+                                  width: 250,
                                   alignment: Alignment.center,
-                                  child: Row(children: [
-                                    Text(
-                                        now.month.toString() +
-                                            "/" +
-                                            now.day.toString() +
-                                            "/" +
-                                            now.year.toString() +
-                                            "   ",
-                                        style: TextStyle(fontSize: 12)),
-                                    Text(_journalList[index],
-                                        style: TextStyle(fontSize: 12))
-                                  ])),
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                                now.month.toString() +
+                                                    "/" +
+                                                    now.day.toString() +
+                                                    "/" +
+                                                    now.year.toString(),
+                                                style: GoogleFonts.lato(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 12)),
+                                            Text(
+                                                "at " +
+                                                    location.latitude
+                                                        .toString() +
+                                                    " " +
+                                                    location.longitude
+                                                        .toString(),
+                                                style: GoogleFonts.lato(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 12)),
+                                          ],
+                                        ),
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor:
+                                                  Colors.indigo.shade300),
+                                          child: Text('Show Message',
+                                              style: GoogleFonts.lato(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 12)),
+                                          onPressed: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) =>
+                                                  _buildPopupDialog(
+                                                      context, index),
+                                            );
+                                          },
+                                        ),
+                                      ])),
                               _imgBoolList[index]
                                   ? Container(
                                       height: 150,
-                                      width: 225,
+                                      width: 130,
                                       padding: const EdgeInsets.only(bottom: 8),
                                       child: Image?.file(_ImgList[index]!),
                                     )
-                                  : SizedBox(width: 225)
+                                  : SizedBox(width: 130)
                             ]);
                       },
                     ),
