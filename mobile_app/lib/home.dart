@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_app/comments.dart';
+import 'package:mobile_app/journal.dart';
 import 'package:mobile_app/maps.dart';
 import 'package:mobile_app/profile.dart';
 
@@ -180,6 +181,17 @@ class _MyHomePageState extends State<MyHomePage> {
                         fontSize: 30,
                         color: Colors.indigo.shade300),
                   ),
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.indigo.shade300),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Journal()),
+                        );
+                      },
+                      child: Text("Do you want to journal?"))
                 ],
               ),
             ),
