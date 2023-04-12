@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mobile_app/comments.dart';
 import 'package:mobile_app/journal.dart';
 import 'package:mobile_app/maps.dart';
 import 'package:mobile_app/profile.dart';
@@ -57,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
   /// List of Tab Bar Item
   List<String> items = [
     "Maps",
-    "Comments",
+    "Journal",
     "Profile",
   ];
 
@@ -133,8 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => Comments(
-                                                name: "Linderman Library")));
+                                            builder: (context) => Journal()));
                                   } else {
                                     Navigator.push(
                                         context,

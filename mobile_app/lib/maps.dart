@@ -1,16 +1,18 @@
 import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:mobile_app/comments.dart';
 import 'package:mobile_app/home.dart';
 import 'package:mobile_app/main.dart';
 import 'package:mobile_app/maps.dart';
 import 'package:mobile_app/profile.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 
 const List<String> collegeList = <String>['None', 'Lehigh'];
 
@@ -39,7 +41,227 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+List<String> _lindermanList = [];
+List<String> _fmlList = [];
+List<String> _storeList = [];
+List<File?> _lindermanImgList = [];
+List<File?> _fmlImgList = [];
+List<File?> _storeImgList = [];
+List<bool> _lindermanImgBoolList = [];
+List<bool> _fmlImgBoolList = [];
+List<bool> _storeImgBoolList = [];
+bool imgFlag = false;
+String locValue = "Linderman Library";
+
 class _MyHomePageState extends State<MyHomePage> {
+  File? galleryFile;
+  final picker = ImagePicker();
+
+  Widget _buildPopupDialog(BuildContext context, locValue) {
+    return AlertDialog(
+      title: const Text('Comments'),
+      content: Container(
+          height: 400,
+          width: 150,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: locValue == "Linderman Library"
+                    ? _lindermanList.length
+                    : locValue == "Fairchild-Martindale Library"
+                        ? _fmlList.length
+                        : locValue == "Lehigh Bookstore"
+                            ? _storeList.length
+                            : 1,
+                itemBuilder: (BuildContext context, int index) {
+                  return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(locValue == "Linderman Library"
+                            ? _lindermanList[index]
+                            : locValue == "Fairchild-Martindale Library"
+                                ? _fmlList[index]
+                                : locValue == "Lehigh Bookstore"
+                                    ? _storeList[index]
+                                    : "HI :D"),
+                      ]);
+                },
+              ),
+            ],
+          )),
+      actions: <Widget>[
+        ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          style:
+              ElevatedButton.styleFrom(backgroundColor: Colors.indigo.shade300),
+          child: const Text('Close'),
+        ),
+        ElevatedButton(
+          style:
+              ElevatedButton.styleFrom(backgroundColor: Colors.indigo.shade300),
+          onPressed: () {
+            Navigator.of(context).pop();
+            showDialog(
+                context: context,
+                builder: (BuildContext context) =>
+                    _buildCommentDialog(context));
+          },
+          child: const Text('Add Comment'),
+        ),
+      ],
+    );
+  }
+
+  void _showPicker({
+    required BuildContext context,
+  }) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: Wrap(
+            children: <Widget>[
+              ListTile(
+                leading: const Icon(Icons.photo_library),
+                title: const Text('Photo Library'),
+                onTap: () {
+                  getImage(ImageSource.gallery);
+                  Navigator.of(context).pop();
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.photo_camera),
+                title: const Text('Camera'),
+                onTap: () {
+                  getImage(ImageSource.camera);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future getImage(
+    ImageSource img,
+  ) async {
+    final pickedFile = await picker.pickImage(source: img);
+    XFile? xfilePick = pickedFile;
+    setState(
+      () {
+        if (xfilePick != null) {
+          setState(() {
+            galleryFile = File(pickedFile!.path);
+            imgFlag = true;
+          });
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(// is this context <<<
+              const SnackBar(content: Text('Nothing is selected')));
+        }
+      },
+    );
+  }
+
+  TextEditingController cmntController = TextEditingController();
+
+  Widget _buildCommentDialog(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Comments'),
+      content: Column(children: <Widget>[
+        TextField(
+          controller: cmntController,
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            labelText: 'Comment Entry',
+          ),
+        ),
+        ElevatedButton(
+          style:
+              ElevatedButton.styleFrom(backgroundColor: Colors.indigo.shade300),
+          child: const Text('Select Image'),
+          onPressed: () {
+            _showPicker(context: context);
+          },
+        ),
+        SizedBox(
+          height: galleryFile == null ? 0.0 : 200.0,
+          width: galleryFile == null ? 0.0 : 300.0,
+          child: galleryFile == null
+              ? const Center(child: Text(''))
+              : Center(child: Image.file(galleryFile!)),
+        )
+      ]),
+      actions: <Widget>[
+        ElevatedButton(
+          style:
+              ElevatedButton.styleFrom(backgroundColor: Colors.indigo.shade300),
+          onPressed: () {
+            setState(() {
+              if (locValue == "Linderman Library") {
+                setState(() {
+                  _lindermanList.add(cmntController.text);
+                  if (imgFlag) {
+                    _lindermanImgList.add(galleryFile!);
+                    _lindermanImgBoolList.add(true);
+                    imgFlag = false;
+                  } else {
+                    _lindermanImgList.add(null);
+                    _lindermanImgBoolList.add(false);
+                  }
+                  galleryFile = null;
+                  cmntController.clear();
+                });
+              } else if (locValue == "Fairchild-Martindale Library") {
+                setState(() {
+                  _fmlList.add(cmntController.text);
+                  if (imgFlag) {
+                    _fmlImgList.add(galleryFile!);
+                    _fmlImgBoolList.add(true);
+                    imgFlag = false;
+                  } else {
+                    _fmlImgList.add(null);
+                    _fmlImgBoolList.add(false);
+                  }
+                  galleryFile = null;
+                  cmntController.clear();
+                });
+              } else {
+                setState(() {
+                  _storeList.add(cmntController.text);
+                  if (imgFlag) {
+                    _storeImgList.add(galleryFile!);
+                    _storeImgBoolList.add(true);
+                    imgFlag = false;
+                  } else {
+                    _storeImgList.add(null);
+                    _storeImgBoolList.add(false);
+                  }
+                  galleryFile = null;
+                  cmntController.clear();
+                });
+              }
+            });
+          },
+          child: const Text('Add Entry'),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          style:
+              ElevatedButton.styleFrom(backgroundColor: Colors.indigo.shade300),
+          child: const Text('Close'),
+        ),
+      ],
+    );
+  }
+
   Position _location = Position(latitude: 0, longitude: 0);
   String dropdownValue = collegeList.first;
 
@@ -88,11 +310,10 @@ class _MyHomePageState extends State<MyHomePage> {
       icon: BitmapDescriptor.defaultMarkerWithHue(
           (yourLoc) ? BitmapDescriptor.hueGreen : BitmapDescriptor.hueRed),
       onTap: () => {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Comments(name: markerIdVal),
-          ),
+        showDialog(
+          context: context,
+          builder: (BuildContext context) =>
+              _buildPopupDialog(context, markerIdVal),
         )
       },
     );
@@ -188,19 +409,6 @@ class _MyHomePageState extends State<MyHomePage> {
                         });
                         _addCollegeMarkers(value!);
                       },
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.indigo.shade300),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  Comments(name: "Linderman Library")),
-                        );
-                      },
-                      child: const Text('Comments'),
                     ),
                     SizedBox(
                         width: 500,
