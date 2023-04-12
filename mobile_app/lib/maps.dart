@@ -50,8 +50,10 @@ List<File?> _storeImgList = [];
 List<bool> _lindermanImgBoolList = [];
 List<bool> _fmlImgBoolList = [];
 List<bool> _storeImgBoolList = [];
+DateTime _lindermanTime = DateTime.parse("2000-01-01");
+DateTime _fmlTime = DateTime.parse("2000-01-01");
+DateTime _storeTime = DateTime.parse("2000-01-01");
 bool imgFlag = false;
-String locValue = "Linderman Library";
 
 class _MyHomePageState extends State<MyHomePage> {
   File? galleryFile;
@@ -59,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _buildPopupDialog(BuildContext context, locValue) {
     return AlertDialog(
-      title: const Text('Comments'),
+      title: Text(locValue + " Comments"),
       content: Container(
           height: 400,
           width: 150,
@@ -108,7 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
             showDialog(
                 context: context,
                 builder: (BuildContext context) =>
-                    _buildCommentDialog(context));
+                    _buildCommentDialog(context, locValue));
           },
           child: const Text('Add Comment'),
         ),
@@ -170,33 +172,34 @@ class _MyHomePageState extends State<MyHomePage> {
 
   TextEditingController cmntController = TextEditingController();
 
-  Widget _buildCommentDialog(BuildContext context) {
+  Widget _buildCommentDialog(BuildContext context, locValue) {
     return AlertDialog(
       title: const Text('Comments'),
-      content: Column(children: <Widget>[
-        TextField(
-          controller: cmntController,
-          decoration: const InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: 'Comment Entry',
-          ),
-        ),
-        ElevatedButton(
-          style:
-              ElevatedButton.styleFrom(backgroundColor: Colors.indigo.shade300),
-          child: const Text('Select Image'),
-          onPressed: () {
-            _showPicker(context: context);
-          },
-        ),
-        SizedBox(
-          height: galleryFile == null ? 0.0 : 200.0,
-          width: galleryFile == null ? 0.0 : 300.0,
-          child: galleryFile == null
-              ? const Center(child: Text(''))
-              : Center(child: Image.file(galleryFile!)),
-        )
-      ]),
+      content: Container(
+          height: 300,
+          width: 150,
+          child: Column(children: <Widget>[
+            TextField(
+              controller: cmntController,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Comment Entry',
+              ),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.indigo.shade300),
+              child: const Text('Select Image'),
+              onPressed: () {
+                _showPicker(context: context);
+              },
+            ),
+            SizedBox(
+              child: galleryFile == null
+                  ? const Center(child: Text(''))
+                  : Center(child: Image.file(galleryFile!)),
+            )
+          ])),
       actions: <Widget>[
         ElevatedButton(
           style:
@@ -206,6 +209,7 @@ class _MyHomePageState extends State<MyHomePage> {
               if (locValue == "Linderman Library") {
                 setState(() {
                   _lindermanList.add(cmntController.text);
+                  _lindermanTime = DateTime.now();
                   if (imgFlag) {
                     _lindermanImgList.add(galleryFile!);
                     _lindermanImgBoolList.add(true);
@@ -220,6 +224,7 @@ class _MyHomePageState extends State<MyHomePage> {
               } else if (locValue == "Fairchild-Martindale Library") {
                 setState(() {
                   _fmlList.add(cmntController.text);
+                  _fmlTime = DateTime.now();
                   if (imgFlag) {
                     _fmlImgList.add(galleryFile!);
                     _fmlImgBoolList.add(true);
@@ -234,6 +239,7 @@ class _MyHomePageState extends State<MyHomePage> {
               } else {
                 setState(() {
                   _storeList.add(cmntController.text);
+                  _storeTime = DateTime.now();
                   if (imgFlag) {
                     _storeImgList.add(galleryFile!);
                     _storeImgBoolList.add(true);
@@ -246,6 +252,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   cmntController.clear();
                 });
               }
+              markers.clear();
+              _add(40.60958556811076, -75.37811001464506, "Lehigh Bookstore",
+                  false);
+              _add(40.60895596054946, -75.37787503466733,
+                  "Fairchild-Martindale Library", false);
+              _add(40.60661885328797, -75.3773548234956, "Linderman Library",
+                  false);
             });
           },
           child: const Text('Add Entry'),
@@ -306,9 +319,34 @@ class _MyHomePageState extends State<MyHomePage> {
     final Marker marker = Marker(
       markerId: markerId,
       position: LatLng(lat, lng),
-      infoWindow: InfoWindow(title: markerIdVal, snippet: '*'),
-      icon: BitmapDescriptor.defaultMarkerWithHue(
-          (yourLoc) ? BitmapDescriptor.hueGreen : BitmapDescriptor.hueRed),
+      infoWindow: InfoWindow(title: markerIdVal),
+      icon: BitmapDescriptor.defaultMarkerWithHue((yourLoc)
+          ? BitmapDescriptor.hueGreen
+          : markerIdVal == "Linderman Library"
+              ? _lindermanTime.year == DateTime.now().year
+                  ? _lindermanTime.month == DateTime.now().month
+                      ? _lindermanTime.day == DateTime.now().day
+                          ? BitmapDescriptor.hueAzure
+                          : BitmapDescriptor.hueCyan
+                      : BitmapDescriptor.hueBlue
+                  : BitmapDescriptor.hueBlue
+              : markerIdVal == "Fairchild-Martindale Library"
+                  ? _fmlTime.year == DateTime.now().year
+                      ? _fmlTime.month == DateTime.now().month
+                          ? _fmlTime.day == DateTime.now().day
+                              ? BitmapDescriptor.hueAzure
+                              : BitmapDescriptor.hueCyan
+                          : BitmapDescriptor.hueBlue
+                      : BitmapDescriptor.hueBlue
+                  : markerIdVal == "Lehigh Bookstore"
+                      ? _storeTime.year == DateTime.now().year
+                          ? _storeTime.month == DateTime.now().month
+                              ? _storeTime.day == DateTime.now().day
+                                  ? BitmapDescriptor.hueAzure
+                                  : BitmapDescriptor.hueCyan
+                              : BitmapDescriptor.hueBlue
+                          : BitmapDescriptor.hueBlue
+                      : BitmapDescriptor.hueBlue),
       onTap: () => {
         showDialog(
           context: context,

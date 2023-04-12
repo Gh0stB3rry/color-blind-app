@@ -55,7 +55,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   /// List of Tab Bar Item
   List<String> items = [
-    "Maps",
+    "Community",
     "Journal",
     "Profile",
   ];
