@@ -8,7 +8,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobile_app/home.dart';
 import 'package:mobile_app/main.dart';
-import 'package:mobile_app/maps.dart';
 import 'package:image_picker/image_picker.dart';
 
 class Journal extends StatelessWidget {
