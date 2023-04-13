@@ -438,63 +438,63 @@ class _MyHomePageState extends State<MyHomePage> {
                 height: double.infinity,
                 margin: const EdgeInsets.all(5),
                 child: Column(children: [
-                  SizedBox(
-                    width: double.infinity,
-                    height: 60,
-                    child: ListView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        itemCount: 2,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (ctx, index) {
-                          return Column(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    current = index;
-                                  });
-                                },
-                                child: AnimatedContainer(
-                                  duration: const Duration(milliseconds: 300),
-                                  margin: const EdgeInsets.all(5),
-                                  width: 117,
-                                  height: 45,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white54,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Center(
-                                    child: TextButton(
-                                      child: Text(items[index]),
-                                      onPressed: () {
-                                        if (index == 0) {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      Journal()));
-                                        } else {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const Profile()));
-                                        }
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Visibility(
-                                  visible: current == index,
-                                  child: Container(
-                                    width: 5,
-                                    height: 5,
-                                  ))
-                            ],
-                          );
-                        }),
+                  Text(
+                    "Testing",
+                    style: GoogleFonts.lato(
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
+                  SizedBox(
+                      width: double.infinity,
+                      height: 60,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          AnimatedContainer(
+                            duration: const Duration(milliseconds: 300),
+                            margin: const EdgeInsets.all(5),
+                            width: 117,
+                            height: 45,
+                            decoration: BoxDecoration(
+                              color: Colors.white54,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Center(
+                              child: TextButton(
+                                child: Text(items[0]),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Journal()));
+                                },
+                              ),
+                            ),
+                          ),
+                          AnimatedContainer(
+                            duration: const Duration(milliseconds: 300),
+                            margin: const EdgeInsets.all(5),
+                            width: 117,
+                            height: 45,
+                            decoration: BoxDecoration(
+                              color: Colors.white54,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Center(
+                              child: TextButton(
+                                child: Text(items[1]),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const Profile()));
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
+                      )),
                   Padding(
                     padding: const EdgeInsets.only(top: 30.0),
                     child: Column(
