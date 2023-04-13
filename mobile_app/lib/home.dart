@@ -434,16 +434,16 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             body: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("lib/assets/beach.jpg"),
+                    fit: BoxFit.cover,
+                  ),
+                ),
                 width: double.infinity,
                 height: double.infinity,
                 margin: const EdgeInsets.all(5),
                 child: Column(children: [
-                  Text(
-                    "Testing",
-                    style: GoogleFonts.lato(
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
                   SizedBox(
                       width: double.infinity,
                       height: 60,
@@ -461,7 +461,12 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                             child: Center(
                               child: TextButton(
-                                child: Text(items[0]),
+                                child: Text(
+                                  items[0],
+                                  style: GoogleFonts.lato(
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.indigo.shade300),
+                                ),
                                 onPressed: () {
                                   Navigator.push(
                                       context,
@@ -482,7 +487,12 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                             child: Center(
                               child: TextButton(
-                                child: Text(items[1]),
+                                child: Text(
+                                  items[1],
+                                  style: GoogleFonts.lato(
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.indigo.shade300),
+                                ),
                                 onPressed: () {
                                   Navigator.push(
                                       context,
@@ -495,12 +505,25 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ],
                       )),
+                  Text(
+                    Random().nextInt(2) == 0
+                        ? "\"You have an individual story to tell\""
+                        : "\"Find happiness in the darkest times\"",
+                    style: GoogleFonts.lato(
+                        fontWeight: FontWeight.w800,
+                        fontSize: 20,
+                        color: Colors.indigo.shade300),
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(top: 30.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        Text("Change current college:"),
+                        Text(
+                          "Change current college:",
+                          style:
+                              GoogleFonts.lato(color: Colors.indigo.shade500),
+                        ),
                         DropdownButton(
                           value: dropdownValue,
                           items: collegeList
