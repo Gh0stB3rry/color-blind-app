@@ -4,6 +4,8 @@ import 'package:mobile_app/main.dart';
 import 'package:mobile_app/maps.dart';
 import 'package:flutter/src/material/colors.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class Signup extends StatelessWidget {
   const Signup({Key? key}) : super(key: key);
@@ -33,6 +35,8 @@ class MyStatefulWidget extends StatefulWidget {
   @override
   State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
 }
+
+final _auth = FirebaseAuth.instance;
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   TextEditingController nameController = TextEditingController();
@@ -100,10 +104,19 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 child: ElevatedButton(
                   child: const Text('Submit'),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Home()),
-                    );
+                    try {
+                      final user = _auth.createUserWithEmailAndPassword(
+                          email: nameController.text,
+                          password: passwordController.text);
+                      if (user != null) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const Home()),
+                        );
+                      }
+                    } catch (e) {
+                      print(e);
+                    }
                   },
                 )),
           ],
