@@ -33,6 +33,5 @@ flutter:
   uses-material-design: true
   assets:
   - lib/assets/map_style.json
-  - lib/assets/images/beach.jpg
-
-  
+  - lib/assets/beach.jpg
+  - lib/assets/tree.jpg
