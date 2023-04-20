@@ -46,6 +46,9 @@ class MyHomePage extends StatefulWidget {
 List<String> _lindermanList = [];
 List<String> _fmlList = [];
 List<String> _storeList = [];
+List<num> _lindermanFeelList = [];
+List<num> _fmlFeelList = [];
+List<num> _storeFeelList = [];
 num _lindermanFeel = -1;
 num _fmlFeel = -1;
 num _storeFeel = -1;
@@ -63,6 +66,38 @@ bool imgFlag = false;
 class _MyHomePageState extends State<MyHomePage> {
   File? galleryFile;
   final picker = ImagePicker();
+
+  Widget _buildDisplayDialog(BuildContext context, index, locValue) {
+    return AlertDialog(
+      title: const Text('Comment'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+              locValue == "Linderman Library"
+                  ? _lindermanList[index]
+                  : locValue == "Fairchild-Martindale Library"
+                      ? _fmlList[index]
+                      : locValue == "Lehigh Bookstore"
+                          ? _storeList[index]
+                          : "HI :D",
+              style:
+                  GoogleFonts.lato(fontWeight: FontWeight.w500, fontSize: 14))
+        ],
+      ),
+      actions: <Widget>[
+        ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          style:
+              ElevatedButton.styleFrom(backgroundColor: Colors.indigo.shade300),
+          child: const Text('Close'),
+        ),
+      ],
+    );
+  }
 
   Widget _buildPopupDialog(BuildContext context, locValue) {
     return AlertDialog(
@@ -86,43 +121,76 @@ class _MyHomePageState extends State<MyHomePage> {
                   return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(locValue == "Linderman Library"
-                            ? _lindermanList[index]
-                            : locValue == "Fairchild-Martindale Library"
-                                ? _fmlList[index]
-                                : locValue == "Lehigh Bookstore"
-                                    ? _storeList[index]
-                                    : "HI :D"),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: locValue == "Linderman Library"
+                                ? _lindermanFeelList[index] == 0
+                                    ? Colors.red
+                                    : _lindermanFeelList[index] == 1
+                                        ? Colors.yellow
+                                        : Colors.green
+                                : locValue == "Fairchild-Martindale Library"
+                                    ? _fmlFeelList[index] == 0
+                                        ? Colors.red
+                                        : _fmlFeelList[index] == 1
+                                            ? Colors.yellow
+                                            : Colors.green
+                                    : _storeFeelList[index] == 0
+                                        ? Colors.red
+                                        : _storeFeelList[index] == 1
+                                            ? Colors.yellow
+                                            : Colors.green,
+                            minimumSize: Size(10, 10),
+                            shape: CircleBorder(
+                                side: BorderSide(color: Colors.white54)),
+                          ),
+                          child: Text(""),
+                          onPressed: () {},
+                        ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.indigo.shade300),
+                          child: Text('Show Message',
+                              style: GoogleFonts.lato(
+                                  fontWeight: FontWeight.w500, fontSize: 12)),
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  _buildDisplayDialog(context, index, locValue),
+                            );
+                          },
+                        ),
                         locValue == "Linderman Library"
                             ? _lindermanImgBoolList[index]
                                 ? Container(
                                     height: 150,
-                                    width: 130,
+                                    width: 100,
                                     padding: const EdgeInsets.only(bottom: 8),
                                     child:
                                         Image?.file(_lindermanImgList[index]!),
                                   )
-                                : SizedBox(width: 130)
+                                : SizedBox(width: 100)
                             : locValue == "Fairchild-Martindale Library"
                                 ? _fmlImgBoolList[index]
                                     ? Container(
                                         height: 150,
-                                        width: 130,
+                                        width: 100,
                                         padding:
                                             const EdgeInsets.only(bottom: 8),
                                         child: Image?.file(_fmlImgList[index]!),
                                       )
-                                    : SizedBox(width: 130)
+                                    : SizedBox(width: 100)
                                 : _storeImgBoolList[index]
                                     ? Container(
                                         height: 150,
-                                        width: 130,
+                                        width: 100,
                                         padding:
                                             const EdgeInsets.only(bottom: 8),
                                         child:
                                             Image?.file(_storeImgList[index]!),
                                       )
-                                    : SizedBox(width: 130)
+                                    : SizedBox(width: 100)
                       ]);
                 },
               ),
@@ -249,6 +317,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       a.contains("positive") ||
                       a.contains("beautiful")) {
                     _lindermanFeel = 2;
+                    _lindermanFeelList.add(2);
                   } else if (a.contains("bad") ||
                       a.contains("awful") ||
                       a.contains("sad") ||
@@ -257,8 +326,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       a.contains("ugly") ||
                       a.contains("uncomfortable")) {
                     _lindermanFeel = 0;
+                    _lindermanFeelList.add(0);
                   } else {
                     _lindermanFeel = 1;
+                    _lindermanFeelList.add(1);
                   }
                   if (imgFlag) {
                     _lindermanImgList.add(galleryFile!);
@@ -283,6 +354,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       a.contains("positive") ||
                       a.contains("beautiful")) {
                     _fmlFeel = 2;
+                    _fmlFeelList.add(2);
                   } else if (a.contains("bad") ||
                       a.contains("awful") ||
                       a.contains("sad") ||
@@ -291,8 +363,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       a.contains("ugly") ||
                       a.contains("uncomfortable")) {
                     _fmlFeel = 0;
+                    _fmlFeelList.add(0);
                   } else {
                     _fmlFeel = 1;
+                    _fmlFeelList.add(1);
                   }
                   if (imgFlag) {
                     _fmlImgList.add(galleryFile!);
@@ -317,6 +391,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       a.contains("positive") ||
                       a.contains("beautiful")) {
                     _storeFeel = 2;
+                    _storeFeelList.add(2);
                   } else if (a.contains("bad") ||
                       a.contains("awful") ||
                       a.contains("sad") ||
@@ -325,8 +400,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       a.contains("ugly") ||
                       a.contains("uncomfortable")) {
                     _storeFeel = 0;
+                    _storeFeelList.add(0);
                   } else {
                     _storeFeel = 1;
+                    _storeFeelList.add(1);
                   }
                   if (imgFlag) {
                     _storeImgList.add(galleryFile!);
