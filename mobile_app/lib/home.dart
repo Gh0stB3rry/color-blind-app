@@ -46,6 +46,9 @@ class MyHomePage extends StatefulWidget {
 List<String> _lindermanList = [];
 List<String> _fmlList = [];
 List<String> _storeList = [];
+num _lindermanFeel = -1;
+num _fmlFeel = -1;
+num _storeFeel = -1;
 List<File?> _lindermanImgList = [];
 List<File?> _fmlImgList = [];
 List<File?> _storeImgList = [];
@@ -232,11 +235,31 @@ class _MyHomePageState extends State<MyHomePage> {
           style:
               ElevatedButton.styleFrom(backgroundColor: Colors.indigo.shade300),
           onPressed: () {
+            String a = cmntController.text.toLowerCase();
             setState(() {
               if (locValue == "Linderman Library") {
                 setState(() {
                   _lindermanList.add(cmntController.text);
                   _lindermanTime = DateTime.now();
+                  if (a.contains("good") ||
+                      a.contains("great") ||
+                      a.contains("fun") ||
+                      a.contains("incredible") ||
+                      a.contains("enjoyed") ||
+                      a.contains("positive") ||
+                      a.contains("beautiful")) {
+                    _lindermanFeel = 2;
+                  } else if (a.contains("bad") ||
+                      a.contains("awful") ||
+                      a.contains("sad") ||
+                      a.contains("disgusting") ||
+                      a.contains("boring") ||
+                      a.contains("ugly") ||
+                      a.contains("uncomfortable")) {
+                    _lindermanFeel = 0;
+                  } else {
+                    _lindermanFeel = 1;
+                  }
                   if (imgFlag) {
                     _lindermanImgList.add(galleryFile!);
                     _lindermanImgBoolList.add(true);
@@ -252,6 +275,25 @@ class _MyHomePageState extends State<MyHomePage> {
                 setState(() {
                   _fmlList.add(cmntController.text);
                   _fmlTime = DateTime.now();
+                  if (a.contains("good") ||
+                      a.contains("great") ||
+                      a.contains("fun") ||
+                      a.contains("incredible") ||
+                      a.contains("enjoyed") ||
+                      a.contains("positive") ||
+                      a.contains("beautiful")) {
+                    _fmlFeel = 2;
+                  } else if (a.contains("bad") ||
+                      a.contains("awful") ||
+                      a.contains("sad") ||
+                      a.contains("disgusting") ||
+                      a.contains("boring") ||
+                      a.contains("ugly") ||
+                      a.contains("uncomfortable")) {
+                    _fmlFeel = 0;
+                  } else {
+                    _fmlFeel = 1;
+                  }
                   if (imgFlag) {
                     _fmlImgList.add(galleryFile!);
                     _fmlImgBoolList.add(true);
@@ -267,6 +309,25 @@ class _MyHomePageState extends State<MyHomePage> {
                 setState(() {
                   _storeList.add(cmntController.text);
                   _storeTime = DateTime.now();
+                  if (a.contains("good") ||
+                      a.contains("great") ||
+                      a.contains("fun") ||
+                      a.contains("incredible") ||
+                      a.contains("enjoyed") ||
+                      a.contains("positive") ||
+                      a.contains("beautiful")) {
+                    _storeFeel = 2;
+                  } else if (a.contains("bad") ||
+                      a.contains("awful") ||
+                      a.contains("sad") ||
+                      a.contains("disgusting") ||
+                      a.contains("boring") ||
+                      a.contains("ugly") ||
+                      a.contains("uncomfortable")) {
+                    _storeFeel = 0;
+                  } else {
+                    _storeFeel = 1;
+                  }
                   if (imgFlag) {
                     _storeImgList.add(galleryFile!);
                     _storeImgBoolList.add(true);
@@ -349,32 +410,32 @@ class _MyHomePageState extends State<MyHomePage> {
       position: LatLng(lat, lng),
       infoWindow: InfoWindow(title: markerIdVal),
       icon: BitmapDescriptor.defaultMarkerWithHue((yourLoc)
-          ? BitmapDescriptor.hueGreen
+          ? BitmapDescriptor.hueBlue
           : markerIdVal == "Linderman Library"
-              ? _lindermanTime.year == DateTime.now().year
-                  ? _lindermanTime.month == DateTime.now().month
-                      ? _lindermanTime.day == DateTime.now().day
-                          ? BitmapDescriptor.hueAzure
-                          : BitmapDescriptor.hueCyan
-                      : BitmapDescriptor.hueBlue
-                  : BitmapDescriptor.hueBlue
+              ? _lindermanFeel == 0
+                  ? BitmapDescriptor.hueRed
+                  : _lindermanFeel == 1
+                      ? BitmapDescriptor.hueYellow
+                      : _lindermanFeel == 2
+                          ? BitmapDescriptor.hueGreen
+                          : BitmapDescriptor.hueOrange
               : markerIdVal == "Fairchild-Martindale Library"
-                  ? _fmlTime.year == DateTime.now().year
-                      ? _fmlTime.month == DateTime.now().month
-                          ? _fmlTime.day == DateTime.now().day
-                              ? BitmapDescriptor.hueAzure
-                              : BitmapDescriptor.hueCyan
-                          : BitmapDescriptor.hueBlue
-                      : BitmapDescriptor.hueBlue
+                  ? _fmlFeel == 0
+                      ? BitmapDescriptor.hueRed
+                      : _fmlFeel == 1
+                          ? BitmapDescriptor.hueYellow
+                          : _fmlFeel == 2
+                              ? BitmapDescriptor.hueGreen
+                              : BitmapDescriptor.hueOrange
                   : markerIdVal == "Lehigh Bookstore"
-                      ? _storeTime.year == DateTime.now().year
-                          ? _storeTime.month == DateTime.now().month
-                              ? _storeTime.day == DateTime.now().day
-                                  ? BitmapDescriptor.hueAzure
-                                  : BitmapDescriptor.hueCyan
-                              : BitmapDescriptor.hueBlue
-                          : BitmapDescriptor.hueBlue
-                      : BitmapDescriptor.hueBlue),
+                      ? _storeFeel == 0
+                          ? BitmapDescriptor.hueRed
+                          : _storeFeel == 1
+                              ? BitmapDescriptor.hueYellow
+                              : _storeFeel == 2
+                                  ? BitmapDescriptor.hueGreen
+                                  : BitmapDescriptor.hueOrange
+                      : BitmapDescriptor.hueOrange),
       onTap: () => {
         showDialog(
           context: context,
