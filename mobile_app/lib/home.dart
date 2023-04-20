@@ -316,8 +316,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       a.contains("enjoyed") ||
                       a.contains("positive") ||
                       a.contains("beautiful")) {
-                    _lindermanFeel = 2;
+                    _lindermanFeel = 0;
                     _lindermanFeelList.add(2);
+                    for (var i = 0; i < _lindermanFeelList.length; i++) {
+                      _lindermanFeel += _lindermanFeelList[i];
+                    }
+                    _lindermanFeel = _lindermanFeel / _lindermanFeelList.length;
                   } else if (a.contains("bad") ||
                       a.contains("awful") ||
                       a.contains("sad") ||
@@ -327,9 +331,17 @@ class _MyHomePageState extends State<MyHomePage> {
                       a.contains("uncomfortable")) {
                     _lindermanFeel = 0;
                     _lindermanFeelList.add(0);
+                    for (var i = 0; i < _lindermanFeelList.length; i++) {
+                      _lindermanFeel += _lindermanFeelList[i];
+                    }
+                    _lindermanFeel = _lindermanFeel / _lindermanFeelList.length;
                   } else {
-                    _lindermanFeel = 1;
+                    _lindermanFeel = 0;
                     _lindermanFeelList.add(1);
+                    for (var i = 0; i < _lindermanFeelList.length; i++) {
+                      _lindermanFeel += _lindermanFeelList[i];
+                    }
+                    _lindermanFeel = _lindermanFeel / _lindermanFeelList.length;
                   }
                   if (imgFlag) {
                     _lindermanImgList.add(galleryFile!);
@@ -353,8 +365,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       a.contains("enjoyed") ||
                       a.contains("positive") ||
                       a.contains("beautiful")) {
-                    _fmlFeel = 2;
+                    _fmlFeel = 0;
                     _fmlFeelList.add(2);
+                    for (var i = 0; i < _fmlFeelList.length; i++) {
+                      _fmlFeel += _fmlFeelList[i];
+                    }
+                    _fmlFeel = _fmlFeel / _fmlFeelList.length;
                   } else if (a.contains("bad") ||
                       a.contains("awful") ||
                       a.contains("sad") ||
@@ -364,9 +380,17 @@ class _MyHomePageState extends State<MyHomePage> {
                       a.contains("uncomfortable")) {
                     _fmlFeel = 0;
                     _fmlFeelList.add(0);
+                    for (var i = 0; i < _fmlFeelList.length; i++) {
+                      _fmlFeel += _fmlFeelList[i];
+                    }
+                    _fmlFeel = _fmlFeel / _fmlFeelList.length;
                   } else {
-                    _fmlFeel = 1;
+                    _fmlFeel = 0;
                     _fmlFeelList.add(1);
+                    for (var i = 0; i < _fmlFeelList.length; i++) {
+                      _fmlFeel += _fmlFeelList[i];
+                    }
+                    _fmlFeel = _fmlFeel / _fmlFeelList.length;
                   }
                   if (imgFlag) {
                     _fmlImgList.add(galleryFile!);
@@ -390,8 +414,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       a.contains("enjoyed") ||
                       a.contains("positive") ||
                       a.contains("beautiful")) {
-                    _storeFeel = 2;
+                    _storeFeel = 0;
                     _storeFeelList.add(2);
+                    for (var i = 0; i < _storeFeelList.length; i++) {
+                      _storeFeel += _storeFeelList[i];
+                    }
+                    _storeFeel = _storeFeel / _storeFeelList.length;
                   } else if (a.contains("bad") ||
                       a.contains("awful") ||
                       a.contains("sad") ||
@@ -401,9 +429,17 @@ class _MyHomePageState extends State<MyHomePage> {
                       a.contains("uncomfortable")) {
                     _storeFeel = 0;
                     _storeFeelList.add(0);
+                    for (var i = 0; i < _storeFeelList.length; i++) {
+                      _storeFeel += _storeFeelList[i];
+                    }
+                    _storeFeel = _storeFeel / _storeFeelList.length;
                   } else {
-                    _storeFeel = 1;
+                    _storeFeel = 0;
                     _storeFeelList.add(1);
+                    for (var i = 0; i < _storeFeelList.length; i++) {
+                      _storeFeel += _storeFeelList[i];
+                    }
+                    _storeFeel = _storeFeel / _storeFeelList.length;
                   }
                   if (imgFlag) {
                     _storeImgList.add(galleryFile!);
@@ -489,27 +525,27 @@ class _MyHomePageState extends State<MyHomePage> {
       icon: BitmapDescriptor.defaultMarkerWithHue((yourLoc)
           ? BitmapDescriptor.hueBlue
           : markerIdVal == "Linderman Library"
-              ? _lindermanFeel == 0
+              ? _lindermanFeel <= 0.5 && _lindermanFeel >= 0
                   ? BitmapDescriptor.hueRed
-                  : _lindermanFeel == 1
+                  : _lindermanFeel <= 1.2 && _lindermanFeel >= 0
                       ? BitmapDescriptor.hueYellow
-                      : _lindermanFeel == 2
+                      : _lindermanFeel <= 2 && _lindermanFeel >= 0
                           ? BitmapDescriptor.hueGreen
                           : BitmapDescriptor.hueOrange
               : markerIdVal == "Fairchild-Martindale Library"
-                  ? _fmlFeel == 0
+                  ? _fmlFeel <= 0.5 && _fmlFeel >= 0
                       ? BitmapDescriptor.hueRed
-                      : _fmlFeel == 1
+                      : _fmlFeel <= 1.2 && _fmlFeel >= 0
                           ? BitmapDescriptor.hueYellow
-                          : _fmlFeel == 2
+                          : _fmlFeel <= 2 && _fmlFeel >= 0
                               ? BitmapDescriptor.hueGreen
                               : BitmapDescriptor.hueOrange
                   : markerIdVal == "Lehigh Bookstore"
-                      ? _storeFeel == 0
+                      ? _storeFeel <= 0.5 && _storeFeel >= 0
                           ? BitmapDescriptor.hueRed
-                          : _storeFeel == 1
+                          : _storeFeel <= 1.2 && _storeFeel >= 0
                               ? BitmapDescriptor.hueYellow
-                              : _storeFeel == 2
+                              : _storeFeel <= 2 && _storeFeel >= 0
                                   ? BitmapDescriptor.hueGreen
                                   : BitmapDescriptor.hueOrange
                       : BitmapDescriptor.hueOrange),
