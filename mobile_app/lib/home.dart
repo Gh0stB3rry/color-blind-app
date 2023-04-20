@@ -9,6 +9,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobile_app/home.dart';
 import 'package:mobile_app/main.dart';
+import 'package:mobile_app/help.dart';
 import 'package:mobile_app/profile.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -426,7 +427,6 @@ class _MyHomePageState extends State<MyHomePage> {
               centerTitle: true,
               backgroundColor: Colors.indigo.shade300,
               title: Text(
-                //homepage for
                 "Home Page",
                 style: GoogleFonts.lato(
                   fontWeight: FontWeight.w500,
@@ -475,6 +475,26 @@ class _MyHomePageState extends State<MyHomePage> {
                                 },
                               ),
                             ),
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white54,
+                              minimumSize: Size(30, 30),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                  side: BorderSide(color: Colors.white54)),
+                            ),
+                            child: Icon(
+                              Icons.question_mark,
+                              size: 15.0,
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Help()),
+                              );
+                            },
                           ),
                           AnimatedContainer(
                             duration: const Duration(milliseconds: 300),
