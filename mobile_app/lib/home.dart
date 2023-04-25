@@ -623,12 +623,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       width: double.infinity,
                       height: 60,
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           AnimatedContainer(
                             duration: const Duration(milliseconds: 300),
                             margin: const EdgeInsets.all(5),
-                            width: 75,
+                            width: 85,
                             height: 45,
                             decoration: BoxDecoration(
                               color: Colors.white54,
@@ -654,7 +654,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           AnimatedContainer(
                             duration: const Duration(milliseconds: 300),
                             margin: const EdgeInsets.all(5),
-                            width: 75,
+                            width: 85,
                             height: 45,
                             decoration: BoxDecoration(
                               color: Colors.white54,
@@ -680,7 +680,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           AnimatedContainer(
                             duration: const Duration(milliseconds: 300),
                             margin: const EdgeInsets.all(5),
-                            width: 75,
+                            width: 85,
                             height: 45,
                             decoration: BoxDecoration(
                               color: Colors.white54,
@@ -707,7 +707,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           AnimatedContainer(
                             duration: const Duration(milliseconds: 300),
                             margin: const EdgeInsets.all(5),
-                            width: 75,
+                            width: 85,
                             height: 45,
                             decoration: BoxDecoration(
                               color: Colors.white54,
