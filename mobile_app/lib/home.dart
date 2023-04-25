@@ -14,6 +14,7 @@ import 'package:mobile_app/profile.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
+import 'groups.dart';
 import 'journal.dart';
 
 const List<String> collegeList = <String>['None', 'Lehigh'];
@@ -627,7 +628,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           AnimatedContainer(
                             duration: const Duration(milliseconds: 300),
                             margin: const EdgeInsets.all(5),
-                            width: 117,
+                            width: 75,
                             height: 45,
                             decoration: BoxDecoration(
                               color: Colors.white54,
@@ -636,7 +637,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             child: Center(
                               child: TextButton(
                                 child: Text(
-                                  items[0],
+                                  "Journal",
                                   style: GoogleFonts.lato(
                                       fontWeight: FontWeight.w800,
                                       color: Colors.indigo.shade300),
@@ -650,30 +651,10 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
                             ),
                           ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white54,
-                              minimumSize: Size(30, 30),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                  side: BorderSide(color: Colors.white54)),
-                            ),
-                            child: Icon(
-                              Icons.question_mark,
-                              size: 15.0,
-                            ),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const Help()),
-                              );
-                            },
-                          ),
                           AnimatedContainer(
                             duration: const Duration(milliseconds: 300),
                             margin: const EdgeInsets.all(5),
-                            width: 117,
+                            width: 75,
                             height: 45,
                             decoration: BoxDecoration(
                               color: Colors.white54,
@@ -682,7 +663,60 @@ class _MyHomePageState extends State<MyHomePage> {
                             child: Center(
                               child: TextButton(
                                 child: Text(
-                                  items[1],
+                                  "Help",
+                                  style: GoogleFonts.lato(
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.indigo.shade300),
+                                ),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => const Help()));
+                                },
+                              ),
+                            ),
+                          ),
+                          AnimatedContainer(
+                            duration: const Duration(milliseconds: 300),
+                            margin: const EdgeInsets.all(5),
+                            width: 75,
+                            height: 45,
+                            decoration: BoxDecoration(
+                              color: Colors.white54,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Center(
+                              child: TextButton(
+                                child: Text(
+                                  "Groups",
+                                  style: GoogleFonts.lato(
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.indigo.shade300),
+                                ),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const Groups()));
+                                },
+                              ),
+                            ),
+                          ),
+                          AnimatedContainer(
+                            duration: const Duration(milliseconds: 300),
+                            margin: const EdgeInsets.all(5),
+                            width: 75,
+                            height: 45,
+                            decoration: BoxDecoration(
+                              color: Colors.white54,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Center(
+                              child: TextButton(
+                                child: Text(
+                                  "Profile",
                                   style: GoogleFonts.lato(
                                       fontWeight: FontWeight.w800,
                                       color: Colors.indigo.shade300),
