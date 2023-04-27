@@ -36,25 +36,119 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   TextEditingController cmntController = TextEditingController();
+  TextEditingController descController = TextEditingController();
   var _groupList = [
-    ["test", "public", "ishan@gmail.com"],
-    ["Bookstores!!", "public", "ishan@gmail.com"],
-    ["Libraries are cool", "public", "ntm224@lehigh.edu"]
+    [
+      "test",
+      "Public",
+      "ishan@gmail.com",
+      "my first group, seeing how it works"
+    ],
+    [
+      "Bookstores!!",
+      "Public",
+      "ishan@gmail.com",
+      "A group for all who love bookstores!!"
+    ],
+    ["Libraries are cool", "Public", "kayla@gmail.com", "I like books. Do you?"]
   ];
+  var _groupEntry = [false, false, false];
+  var _pubpriv = false;
 
   Widget _buildPopupDialog(BuildContext context) {
     return AlertDialog(
-      title: const Text('Journal Entry'),
+      title: const Text('Group Creation'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text("test",
+          TextField(
+            controller: cmntController,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'Group Name',
+            ),
+          ),
+          SizedBox(height: 5),
+          TextField(
+            maxLines: null,
+            controller: descController,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'Description',
+            ),
+          ),
+          SizedBox(height: 5),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(""),
+            ],
+          )
+        ],
+      ),
+      actions: <Widget>[
+        ElevatedButton(
+          onPressed: () {
+            if (cmntController.text.isNotEmpty &&
+                descController.text.isNotEmpty) {
+              setState(() {
+                _groupList.add([
+                  cmntController.text,
+                  _pubpriv == true ? "Private" : "Public",
+                  "ishan@gmail.com",
+                  descController.text
+                ]);
+                _groupEntry.add(true);
+                _pubpriv = false;
+              });
+              cmntController.clear();
+              descController.clear();
+              Navigator.of(context).pop();
+            }
+          },
+          style:
+              ElevatedButton.styleFrom(backgroundColor: Colors.indigo.shade300),
+          child: const Text('Create'),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            cmntController.clear();
+            descController.clear();
+            Navigator.of(context).pop();
+          },
+          style:
+              ElevatedButton.styleFrom(backgroundColor: Colors.indigo.shade300),
+          child: const Text('Close'),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildGroupDialog(BuildContext context, index) {
+    return AlertDialog(
+      title: const Text('Group Description'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(_groupList[index][3],
               style:
                   GoogleFonts.lato(fontWeight: FontWeight.w500, fontSize: 12))
         ],
       ),
       actions: <Widget>[
+        ElevatedButton(
+          onPressed: () {
+            setState(() {
+              _groupEntry[index] = true;
+            });
+            Navigator.of(context).pop();
+          },
+          style:
+              ElevatedButton.styleFrom(backgroundColor: Colors.indigo.shade300),
+          child: const Text('Join'),
+        ),
         ElevatedButton(
           onPressed: () {
             Navigator.of(context).pop();
@@ -134,6 +228,42 @@ class _MyHomePageState extends State<MyHomePage> {
                             fontSize: 20,
                             color: Colors.indigo.shade300),
                       ),
+                      SizedBox(height: 10),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Container(
+                                height: 30,
+                                width: 380,
+                                alignment: Alignment.center,
+                                child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Container(
+                                          width: 95,
+                                          child: Text(
+                                            "Name",
+                                            style: GoogleFonts.lato(
+                                                color: Colors.indigo.shade500),
+                                          )),
+                                      Container(
+                                          width: 75,
+                                          child: Text(
+                                            "Visibility",
+                                            style: GoogleFonts.lato(
+                                                color: Colors.indigo.shade500),
+                                          )),
+                                      Container(
+                                          width: 110,
+                                          child: Text(
+                                            "Creator",
+                                            style: GoogleFonts.lato(
+                                                color: Colors.indigo.shade500),
+                                          )),
+                                      Container(width: 95, child: Text("")),
+                                    ])),
+                          ]),
                       Divider(color: Colors.black),
                       Expanded(
                           child: SizedBox(
@@ -179,27 +309,57 @@ class _MyHomePageState extends State<MyHomePage> {
                                                           .indigo.shade500),
                                                 )),
                                             Container(
-                                                width: 95,
-                                                child:
-                                                    _groupList[index][1] ==
-                                                            "public"
-                                                        ? ElevatedButton(
-                                                            style: ElevatedButton.styleFrom(
-                                                                backgroundColor:
-                                                                    Colors
-                                                                        .indigo
-                                                                        .shade300),
-                                                            child: Text(
-                                                                'Join Group',
-                                                                style: GoogleFonts.lato(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                    fontSize:
-                                                                        12)),
-                                                            onPressed: () {},
-                                                          )
-                                                        : Text("")),
+                                              width: 95,
+                                              child: _groupEntry[index] == false
+                                                  ? _groupList[index][1] ==
+                                                          "Public"
+                                                      ? ElevatedButton(
+                                                          style: ElevatedButton
+                                                              .styleFrom(
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .indigo
+                                                                          .shade300),
+                                                          child: Text(
+                                                              'Join Group',
+                                                              style: GoogleFonts.lato(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  fontSize:
+                                                                      12)),
+                                                          onPressed: () {
+                                                            showDialog(
+                                                              context: context,
+                                                              builder: (BuildContext
+                                                                      context) =>
+                                                                  _buildGroupDialog(
+                                                                      context,
+                                                                      index),
+                                                            );
+                                                          },
+                                                        )
+                                                      : ElevatedButton(
+                                                          style: ElevatedButton
+                                                              .styleFrom(
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .indigo
+                                                                          .shade300),
+                                                          child:
+                                                              Icon(Icons.check),
+                                                          onPressed: () => {},
+                                                        )
+                                                  : ElevatedButton(
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                              backgroundColor:
+                                                                  Colors.indigo
+                                                                      .shade300),
+                                                      child: Icon(Icons.check),
+                                                      onPressed: () => {},
+                                                    ),
+                                            )
                                           ])),
                                 ]);
                           },
