@@ -526,9 +526,9 @@ class _MyHomePageState extends State<MyHomePage> {
       icon: BitmapDescriptor.defaultMarkerWithHue((yourLoc)
           ? BitmapDescriptor.hueBlue
           : markerIdVal == "Linderman Library"
-              ? _lindermanFeel <= 0.5 && _lindermanFeel >= 0
+              ? _lindermanFeel <= 0.7 && _lindermanFeel >= 0
                   ? BitmapDescriptor.hueRed
-                  : _lindermanFeel <= 1.2 && _lindermanFeel >= 0
+                  : _lindermanFeel <= 1.3 && _lindermanFeel >= 0
                       ? BitmapDescriptor.hueYellow
                       : _lindermanFeel <= 2 && _lindermanFeel >= 0
                           ? BitmapDescriptor.hueGreen

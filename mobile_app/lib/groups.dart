@@ -79,12 +79,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           SizedBox(height: 5),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text(""),
-            ],
-          )
         ],
       ),
       actions: <Widget>[
@@ -95,12 +89,11 @@ class _MyHomePageState extends State<MyHomePage> {
               setState(() {
                 _groupList.add([
                   cmntController.text,
-                  _pubpriv == true ? "Private" : "Public",
+                  "Public",
                   "ishan@gmail.com",
                   descController.text
                 ]);
                 _groupEntry.add(true);
-                _pubpriv = false;
               });
               cmntController.clear();
               descController.clear();
@@ -228,7 +221,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             fontSize: 20,
                             color: Colors.indigo.shade300),
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 20),
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
@@ -289,6 +282,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 child: Text(
                                                   _groupList[index][0],
                                                   style: GoogleFonts.lato(
+                                                      fontWeight:
+                                                          FontWeight.w900,
                                                       color: Colors
                                                           .indigo.shade500),
                                                 )),
