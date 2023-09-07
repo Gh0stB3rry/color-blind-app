@@ -4,7 +4,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobile_app/home.dart';
 import 'package:mobile_app/main.dart';
@@ -98,7 +97,15 @@ class _MyHomePageState extends State<MyHomePage> {
   bool imgFlag = false;
 
   DateTime now = DateTime.now();
-  final location = Position(latitude: 40.6049, longitude: -75.3775);
+  final location = Position(
+      latitude: 40.6049,
+      longitude: -75.3775,
+      speed: 0,
+      timestamp: null,
+      accuracy: 0,
+      altitude: 0,
+      speedAccuracy: 0,
+      heading: 0);
 
   Widget _buildPopupDialog(BuildContext context, index) {
     return AlertDialog(
@@ -108,8 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(_journalList[index],
-              style:
-                  GoogleFonts.lato(fontWeight: FontWeight.w500, fontSize: 12))
+              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 12))
         ],
       ),
       actions: <Widget>[
@@ -172,7 +178,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           SizedBox(width: 60),
                           Text(
                             "~ My Journal ~",
-                            style: GoogleFonts.lato(
+                            style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 20,
                                 color: Colors.indigo.shade300),
@@ -190,7 +196,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 now.day.toString() +
                                 "/" +
                                 now.year.toString(),
-                            style: GoogleFonts.lato(
+                            style: TextStyle(
                                 fontWeight: FontWeight.w500, fontSize: 16),
                           ),
                           Text(
@@ -198,7 +204,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   location.latitude.toString() +
                                   " " +
                                   location.longitude.toString(),
-                              style: GoogleFonts.lato(
+                              style: TextStyle(
                                   fontWeight: FontWeight.w500, fontSize: 16))
                         ],
                       ),
@@ -275,7 +281,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                         now.day.toString() +
                                                         "/" +
                                                         now.year.toString(),
-                                                    style: GoogleFonts.lato(
+                                                    style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.w500,
                                                         fontSize: 12)),
@@ -286,7 +292,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                         " " +
                                                         location.longitude
                                                             .toString(),
-                                                    style: GoogleFonts.lato(
+                                                    style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.w500,
                                                         fontSize: 12)),
@@ -297,7 +303,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                   backgroundColor:
                                                       Colors.indigo.shade300),
                                               child: Text('Show Message',
-                                                  style: GoogleFonts.lato(
+                                                  style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.w500,
                                                       fontSize: 12)),

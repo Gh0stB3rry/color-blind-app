@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_app/home.dart';
 import 'package:mobile_app/main.dart';
 import 'package:flutter/src/material/colors.dart';
@@ -20,8 +19,7 @@ class Help extends StatelessWidget {
         children: <Widget>[
           Text(
               "If you want to leave a priviate message in the journal, click the journal button on the upper-left corner.\n\nThis will allow you to leave a priviate message or image. This records the date and your location as well!",
-              style:
-                  GoogleFonts.lato(fontWeight: FontWeight.w500, fontSize: 14))
+              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14))
         ],
       ),
       actions: <Widget>[
@@ -46,8 +44,7 @@ class Help extends StatelessWidget {
         children: <Widget>[
           Text(
               "To edit your profile, click on the \'profile\' button, and then the pencil button to make any changes to your personal interests!",
-              style:
-                  GoogleFonts.lato(fontWeight: FontWeight.w500, fontSize: 14))
+              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14))
         ],
       ),
       actions: <Widget>[
@@ -72,8 +69,7 @@ class Help extends StatelessWidget {
         children: <Widget>[
           Text(
               'If you want to record a message or image for others to see, click the drop down button on the home screen to find your college.\nAfter, find the location you want to blog about and click its icon.\nHere you can see other comments and add your own.',
-              style:
-                  GoogleFonts.lato(fontWeight: FontWeight.w500, fontSize: 14))
+              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14))
         ],
       ),
       actions: <Widget>[
@@ -142,7 +138,7 @@ class Help extends StatelessWidget {
                           SizedBox(width: 80),
                           Text(
                             "Help",
-                            style: GoogleFonts.lato(
+                            style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 20,
                                 color: Colors.indigo.shade300),
@@ -161,7 +157,7 @@ class Help extends StatelessWidget {
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.indigo.shade300),
                             child: Text('How to Journal',
-                                style: GoogleFonts.lato(
+                                style: TextStyle(
                                     fontWeight: FontWeight.w500, fontSize: 12)),
                             onPressed: () {
                               showDialog(
@@ -175,7 +171,7 @@ class Help extends StatelessWidget {
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.indigo.shade300),
                             child: Text('Maps and Commenting',
-                                style: GoogleFonts.lato(
+                                style: TextStyle(
                                     fontWeight: FontWeight.w500, fontSize: 12)),
                             onPressed: () {
                               showDialog(
@@ -189,7 +185,7 @@ class Help extends StatelessWidget {
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.indigo.shade300),
                             child: Text('Profile Editing',
-                                style: GoogleFonts.lato(
+                                style: TextStyle(
                                     fontWeight: FontWeight.w500, fontSize: 12)),
                             onPressed: () {
                               showDialog(

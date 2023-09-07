@@ -11,7 +11,6 @@ import 'package:mobile_app/home.dart';
 import 'package:mobile_app/main.dart';
 import 'package:mobile_app/help.dart';
 import 'package:mobile_app/profile.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'groups.dart';
@@ -83,8 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       : locValue == "Lehigh Bookstore"
                           ? _storeList[index]
                           : "HI :D",
-              style:
-                  GoogleFonts.lato(fontWeight: FontWeight.w500, fontSize: 14))
+              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14))
         ],
       ),
       actions: <Widget>[
@@ -152,7 +150,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.indigo.shade300),
                           child: Text('Show Message',
-                              style: GoogleFonts.lato(
+                              style: TextStyle(
                                   fontWeight: FontWeight.w500, fontSize: 12)),
                           onPressed: () {
                             showDialog(
@@ -478,7 +476,15 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Position _location = Position(latitude: 0, longitude: 0);
+  Position _location = Position(
+      latitude: 0,
+      longitude: 0,
+      speed: 0,
+      timestamp: null,
+      accuracy: 0,
+      altitude: 0,
+      speedAccuracy: 0,
+      heading: 0);
   String dropdownValue = collegeList.first;
 
   late GoogleMapController mapController;
@@ -507,7 +513,15 @@ class _MyHomePageState extends State<MyHomePage> {
   void _displayCurrentLocation() async {
     /*final location = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);*/
-    final location = Position(latitude: 40.6049, longitude: -75.3775);
+    final location = Position(
+        latitude: 40.6049,
+        longitude: -75.3775,
+        speed: 0,
+        timestamp: null,
+        accuracy: 0,
+        altitude: 0,
+        speedAccuracy: 0,
+        heading: 0);
     _add(location.latitude, location.longitude, 'Your Location', true);
 
     setState(() {
@@ -603,7 +617,7 @@ class _MyHomePageState extends State<MyHomePage> {
               backgroundColor: Colors.indigo.shade300,
               title: Text(
                 "Home Page",
-                style: GoogleFonts.lato(
+                style: TextStyle(
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -638,7 +652,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               child: TextButton(
                                 child: Text(
                                   "Journal",
-                                  style: GoogleFonts.lato(
+                                  style: TextStyle(
                                       fontWeight: FontWeight.w800,
                                       color: Colors.indigo.shade300),
                                 ),
@@ -664,7 +678,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               child: TextButton(
                                 child: Text(
                                   "Help",
-                                  style: GoogleFonts.lato(
+                                  style: TextStyle(
                                       fontWeight: FontWeight.w800,
                                       color: Colors.indigo.shade300),
                                 ),
@@ -690,7 +704,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               child: TextButton(
                                 child: Text(
                                   "Groups",
-                                  style: GoogleFonts.lato(
+                                  style: TextStyle(
                                       fontWeight: FontWeight.w800,
                                       color: Colors.indigo.shade300),
                                 ),
@@ -717,7 +731,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               child: TextButton(
                                 child: Text(
                                   "Profile",
-                                  style: GoogleFonts.lato(
+                                  style: TextStyle(
                                       fontWeight: FontWeight.w800,
                                       color: Colors.indigo.shade300),
                                 ),
@@ -737,7 +751,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Random().nextInt(2) == 0
                         ? "\"You have an individual story to tell\""
                         : "\"Find happiness in the darkest times\"",
-                    style: GoogleFonts.lato(
+                    style: TextStyle(
                         fontWeight: FontWeight.w800,
                         fontSize: 20,
                         color: Colors.indigo.shade300),
@@ -749,8 +763,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: <Widget>[
                         Text(
                           "Change current college:",
-                          style:
-                              GoogleFonts.lato(color: Colors.indigo.shade500),
+                          style: TextStyle(color: Colors.indigo.shade500),
                         ),
                         DropdownButton(
                           value: dropdownValue,

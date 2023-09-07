@@ -4,7 +4,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobile_app/home.dart';
 import 'package:mobile_app/main.dart';
@@ -126,8 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(_groupList[index][3],
-              style:
-                  GoogleFonts.lato(fontWeight: FontWeight.w500, fontSize: 12))
+              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 12))
         ],
       ),
       actions: <Widget>[
@@ -216,7 +214,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       SizedBox(height: 20),
                       Text(
                         "Existing Groups",
-                        style: GoogleFonts.lato(
+                        style: TextStyle(
                             fontWeight: FontWeight.w700,
                             fontSize: 20,
                             color: Colors.indigo.shade300),
@@ -237,21 +235,21 @@ class _MyHomePageState extends State<MyHomePage> {
                                           width: 95,
                                           child: Text(
                                             "Name",
-                                            style: GoogleFonts.lato(
+                                            style: TextStyle(
                                                 color: Colors.indigo.shade500),
                                           )),
                                       Container(
                                           width: 75,
                                           child: Text(
                                             "Visibility",
-                                            style: GoogleFonts.lato(
+                                            style: TextStyle(
                                                 color: Colors.indigo.shade500),
                                           )),
                                       Container(
                                           width: 110,
                                           child: Text(
                                             "Creator",
-                                            style: GoogleFonts.lato(
+                                            style: TextStyle(
                                                 color: Colors.indigo.shade500),
                                           )),
                                       Container(width: 95, child: Text("")),
@@ -281,7 +279,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 width: 95,
                                                 child: Text(
                                                   _groupList[index][0],
-                                                  style: GoogleFonts.lato(
+                                                  style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.w900,
                                                       color: Colors
@@ -291,7 +289,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 width: 50,
                                                 child: Text(
                                                   _groupList[index][1],
-                                                  style: GoogleFonts.lato(
+                                                  style: TextStyle(
                                                       color: Colors
                                                           .indigo.shade500),
                                                 )),
@@ -299,7 +297,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 width: 110,
                                                 child: Text(
                                                   _groupList[index][2],
-                                                  style: GoogleFonts.lato(
+                                                  style: TextStyle(
                                                       color: Colors
                                                           .indigo.shade500),
                                                 )),
@@ -317,7 +315,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                                           .shade300),
                                                           child: Text(
                                                               'Join Group',
-                                                              style: GoogleFonts.lato(
+                                                              style: TextStyle(
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w500,
