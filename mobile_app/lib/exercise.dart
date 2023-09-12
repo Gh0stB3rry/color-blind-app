@@ -5,8 +5,6 @@ import 'package:flutter/src/material/colors.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:url_launcher/url_launcher.dart';
-
 
 class Excercise extends StatelessWidget {
   const Excercise({Key? key}) : super(key: key);

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mobile_app/exercise.dart';
 import 'package:mobile_app/home.dart';
 import 'package:mobile_app/main.dart';
 import 'package:mobile_app/help.dart';
@@ -683,7 +684,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             child: Center(
                               child: TextButton(
                                 child: Text(
-                                  "Help",
+                                  "Excercise",
                                   style: TextStyle(
                                       fontWeight: FontWeight.w800,
                                       color: Colors.indigo.shade300),
@@ -692,7 +693,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => const Help()));
+                                          builder: (context) =>
+                                              const Excercise()));
                                 },
                               ),
                             ),
