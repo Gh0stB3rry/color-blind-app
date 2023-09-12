@@ -12,6 +12,7 @@ import 'package:mobile_app/main.dart';
 import 'package:mobile_app/help.dart';
 import 'package:mobile_app/profile.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'groups.dart';
 import 'journal.dart';
@@ -578,8 +579,13 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void _addCollegeMarkers(college) {
+  void _addCollegeMarkers(college) async {
     if (college == "Lehigh") {
+      await FirebaseFirestore.instance
+          .collection("locations")
+          .doc("WxvETSn4QSafEChiz5sy")
+          .get()
+          .then((snapshot) => print(snapshot.data()?["college"]));
       _add(40.60958556811076, -75.37811001464506, "Lehigh Bookstore", false);
       _add(40.60895596054946, -75.37787503466733,
           "Fairchild-Martindale Library", false);
