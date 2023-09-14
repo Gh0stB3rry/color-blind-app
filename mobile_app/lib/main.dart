@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app/help.dart';
 import 'package:mobile_app/home.dart';
 import 'package:mobile_app/password.dart';
 import 'package:mobile_app/signup.dart';
@@ -140,7 +141,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const Home()),
+                          MaterialPageRoute(builder: (context) => const Help()),
                         );
                       },
                     )),

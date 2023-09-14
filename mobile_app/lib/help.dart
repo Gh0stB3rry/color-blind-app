@@ -37,7 +37,7 @@ class Help extends StatelessWidget {
 
   Widget _buildProfileDialog(BuildContext context) {
     return AlertDialog(
-      title: const Text('Journaling'),
+      title: const Text('Profile'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,18 +113,26 @@ class Help extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          SizedBox(width: 10),
+                          SizedBox(width: 90),
+                          Text(
+                            "Help",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 20,
+                                color: Colors.indigo.shade300),
+                          ),
+                          SizedBox(width: 50),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.lightGreen.shade300,
-                              minimumSize: Size(64, 64),
+                              minimumSize: Size(128, 64),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(50.0),
                                   side: BorderSide(
                                       color: Colors.lightGreen.shade300)),
                             ),
                             child: Icon(
-                              Icons.home,
+                              Icons.arrow_forward,
                               size: 30.0,
                             ),
                             onPressed: () {
@@ -135,14 +143,6 @@ class Help extends StatelessWidget {
                               );
                             },
                           ),
-                          SizedBox(width: 80),
-                          Text(
-                            "Help",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 20,
-                                color: Colors.indigo.shade300),
-                          )
                         ],
                       ),
                       SizedBox(height: 10),
