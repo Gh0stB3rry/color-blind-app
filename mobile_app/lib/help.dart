@@ -111,17 +111,8 @@ class Help extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          SizedBox(width: 90),
-                          Text(
-                            "Help",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 20,
-                                color: Colors.indigo.shade300),
-                          ),
-                          SizedBox(width: 50),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.lightGreen.shade300,
@@ -149,14 +140,20 @@ class Help extends StatelessWidget {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          const Text(
-                            '\nThis is our app where we want to make mental health accessible to everyone!\n\nENJOY!',
-                            style: TextStyle(fontSize: 20),
+                          Center(
+                            child: const Text(
+                              '\nThis app contains many features aimed towards supporting college students with mental health.\n\nHere, you can find explanations of these features so you can decide which best suit your needs.\n\nWhen you\'re ready, click the arrow up top to begin!',
+                              style: TextStyle(fontSize: 16),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
                           ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.indigo.shade300),
-                            child: Text('How to Journal',
+                            child: Text('Journaling',
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500, fontSize: 12)),
                             onPressed: () {
@@ -185,6 +182,34 @@ class Help extends StatelessWidget {
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.indigo.shade300),
                             child: Text('Profile Editing',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500, fontSize: 12)),
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) =>
+                                    _buildProfileDialog(context),
+                              );
+                            },
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.indigo.shade300),
+                            child: Text('Friend Groups',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500, fontSize: 12)),
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) =>
+                                    _buildProfileDialog(context),
+                              );
+                            },
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.indigo.shade300),
+                            child: Text('Mindfulness Excercises',
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500, fontSize: 12)),
                             onPressed: () {
