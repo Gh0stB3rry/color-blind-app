@@ -690,7 +690,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             child: Center(
                               child: TextButton(
                                 child: Text(
-                                  "Dailies",
+                                  "Activities",
                                   style: TextStyle(
                                       fontWeight: FontWeight.w800,
                                       color: Colors.indigo.shade300),

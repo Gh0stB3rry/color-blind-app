@@ -11,7 +11,7 @@ import 'exercise.dart';
 
 class Dailies extends StatelessWidget {
   const Dailies({Key? key}) : super(key: key);
-  static const String _title = 'Excercise';
+  static const String _title = 'Daily Activities';
 
   @override
   Widget build(BuildContext context) {
@@ -73,16 +73,17 @@ class Dailies extends StatelessWidget {
                           )
                         ],
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 80),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
+                                fixedSize: Size(350, 200),
                                 backgroundColor: Colors.indigo.shade300),
                             child: Text('Exercise',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.w500, fontSize: 12)),
+                                    fontWeight: FontWeight.w500, fontSize: 40)),
                             onPressed: () {
                               Navigator.push(
                                 context,
@@ -91,12 +92,14 @@ class Dailies extends StatelessWidget {
                               );
                             },
                           ),
+                          SizedBox(height: 20),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
+                                fixedSize: Size(350, 200),
                                 backgroundColor: Colors.indigo.shade300),
                             child: Text('Meditation',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.w500, fontSize: 12)),
+                                    fontWeight: FontWeight.w500, fontSize: 40)),
                             onPressed: () {
                               Navigator.push(
                                 context,

@@ -138,7 +138,7 @@ class Meditation extends StatelessWidget {
                           ),
                           SizedBox(width: 80),
                           Text(
-                            "Help",
+                            "Meditation",
                             style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 20,
