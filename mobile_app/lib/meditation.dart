@@ -69,7 +69,7 @@ class Meditation extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-              "Start by closing your eyes and picturing a huge blackboard. The blackboard can be as big as you are.\n 2. Now in your imagination, take the chalk and write down the number 100 on the board as large as you can write it.\n3. Then erase the number away as slowly as you can, making sure that all of the chalk is removed from the blackboard.\n4. Write the number 99 next, then erasing it very slowly.\n5. Continue counting down until you fall asleep or reach zero when the task begins again.",
+              "1.Start by closing your eyes and picturing a huge blackboard. The blackboard can be as big as you are.\n 2. Now in your imagination, take the chalk and write down the number 100 on the board as large as you can write it.\n3. Then erase the number away as slowly as you can, making sure that all of the chalk is removed from the blackboard.\n4. Write the number 99 next, then erasing it very slowly.\n5. Continue counting down until you fall asleep or reach zero when the task begins again.",
               style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14))
         ],
       ),
@@ -157,7 +157,7 @@ class Meditation extends StatelessWidget {
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.indigo.shade300),
-                            child: Text('he Body Scan Meditation',
+                            child: Text('The Body Scan Meditation',
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500, fontSize: 12)),
                             onPressed: () {
