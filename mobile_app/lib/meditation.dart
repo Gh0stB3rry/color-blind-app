@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app/dailies.dart';
 import 'package:mobile_app/home.dart';
 import 'package:mobile_app/main.dart';
 import 'package:flutter/src/material/colors.dart';
@@ -124,14 +125,14 @@ class Meditation extends StatelessWidget {
                                       color: Colors.lightGreen.shade300)),
                             ),
                             child: Icon(
-                              Icons.home,
+                              Icons.arrow_back,
                               size: 30.0,
                             ),
                             onPressed: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const Home()),
+                                    builder: (context) => const Dailies()),
                               );
                             },
                           ),
