@@ -18,7 +18,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'groups.dart';
 import 'journal.dart';
 
-const List<String> collegeList = <String>['None', 'Lehigh'];
+const List<String> collegeList = <String>[
+  'None',
+  'Lehigh University',
+  'Colgate University',
+  'Bucknell University'
+];
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -581,7 +586,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _addCollegeMarkers(college) async {
-    if (college == "Lehigh") {
+    if (college == "Lehigh University") {
       await FirebaseFirestore.instance
           .collection("locations")
           .doc("WxvETSn4QSafEChiz5sy")
