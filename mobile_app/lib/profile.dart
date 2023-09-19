@@ -57,15 +57,7 @@ class Profile extends StatelessWidget {
                           );
                         },
                       ),
-                      CircleAvatar(
-                        backgroundColor: Colors.white70,
-                        minRadius: 60.0,
-                        child: CircleAvatar(
-                          radius: 50.0,
-                          backgroundImage: NetworkImage(
-                              'https://media.licdn.com/dms/image/C4E03AQHV-3X6k9bGAA/profile-displayphoto-shrink_400_400/0/1652210364998?e=1681948800&v=beta&t=Js0jSYlDsFBn5NkfRAmCJEN3ZHs1gqzDCc0Nfj4_42E'),
-                        ),
-                      ),
+                      SizedBox(width: 30),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.lightGreen.shade300,
