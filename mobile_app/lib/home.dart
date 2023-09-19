@@ -684,7 +684,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             child: Center(
                               child: TextButton(
                                 child: Text(
-                                  "Excercise",
+                                  "Daily Activities",
                                   style: TextStyle(
                                       fontWeight: FontWeight.w800,
                                       color: Colors.indigo.shade300),
