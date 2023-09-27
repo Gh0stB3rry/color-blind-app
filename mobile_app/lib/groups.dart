@@ -38,18 +38,23 @@ class _MyHomePageState extends State<MyHomePage> {
   TextEditingController descController = TextEditingController();
   var _groupList = [
     [
-      "test",
+      "First group :)",
       "Public",
-      "ishan@gmail.com",
+      "leh3003@wellcoach.org",
       "my first group, seeing how it works"
     ],
     [
       "Bookstores!!",
       "Public",
-      "ishan@gmail.com",
+      "mat202@wellcoach.org",
       "A group for all who love bookstores!!"
     ],
-    ["Libraries are cool", "Public", "kayla@gmail.com", "I like books. Do you?"]
+    [
+      "Libraries enjoyers",
+      "Public",
+      "lem111@wellcoach.org",
+      "I like books. Do you?"
+    ]
   ];
   var _groupEntry = [false, false, false];
   var _pubpriv = false;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app/achievements.dart';
 import 'package:mobile_app/editprofile.dart';
 import 'package:mobile_app/home.dart';
 
@@ -57,7 +58,29 @@ class Profile extends StatelessWidget {
                           );
                         },
                       ),
-                      SizedBox(width: 30),
+                      SizedBox(width: 10),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.lightGreen.shade300,
+                          minimumSize: Size(64, 64),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50.0),
+                              side: BorderSide(
+                                  color: Colors.lightGreen.shade300)),
+                        ),
+                        child: Icon(
+                          Icons.priority_high_rounded,
+                          size: 30.0,
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Achievements()),
+                          );
+                        },
+                      ),
+                      SizedBox(width: 10),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.lightGreen.shade300,
@@ -85,7 +108,7 @@ class Profile extends StatelessWidget {
                     height: 10,
                   ),
                   Text(
-                    'Kayla Kraft',
+                    'Lehigh Matt',
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
@@ -145,7 +168,7 @@ class Profile extends StatelessWidget {
                       ),
                     ),
                     subtitle: Text(
-                      'kak524@lehigh.edu',
+                      'leh3003@wellcoach.org',
                       style: TextStyle(
                         fontSize: 18,
                       ),
@@ -162,7 +185,7 @@ class Profile extends StatelessWidget {
                       ),
                     ),
                     subtitle: Text(
-                      '(917)-484-0064',
+                      '(000)-000-0000',
                       style: TextStyle(
                         fontSize: 18,
                       ),
