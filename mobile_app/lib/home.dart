@@ -492,7 +492,9 @@ class _MyHomePageState extends State<MyHomePage> {
       accuracy: 0,
       altitude: 0,
       speedAccuracy: 0,
-      heading: 0);
+      heading: 0,
+      altitudeAccuracy: 0,
+      headingAccuracy: 0);
   String dropdownValue = collegeList.first;
 
   late GoogleMapController mapController;
@@ -529,7 +531,9 @@ class _MyHomePageState extends State<MyHomePage> {
         accuracy: 0,
         altitude: 0,
         speedAccuracy: 0,
-        heading: 0);
+        heading: 0,
+        altitudeAccuracy: 0,
+        headingAccuracy: 0);
     _add(location.latitude, location.longitude, 'Your Location', true);
 
     setState(() {

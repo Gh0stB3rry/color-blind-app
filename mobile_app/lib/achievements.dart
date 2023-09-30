@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobile_app/dailies.dart';
 import 'package:mobile_app/home.dart';
 import 'package:mobile_app/main.dart';
@@ -9,18 +11,133 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:mobile_app/profile.dart';
 
 class Achievements extends StatelessWidget {
-  const Achievements({Key? key}) : super(key: key);
-  static const String _title = 'Achievements';
+  const Achievements({super.key});
 
-  Widget _buildProfileDialog(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Mobile App',
+      theme: ThemeData(
+        primarySwatch: Colors.indigo,
+      ),
+      home: MyHomePage(title: 'Home Page'),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key, required this.title});
+
+  final String title;
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  IconData icon = Icons.timer;
+  bool claimed = false;
+
+  func() async {
+    var time = DateTime.now().day;
+    var last = 0;
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc("q1oRdFJmWH0b5IyUusbF")
+        .get()
+        .then((snapshot) {
+      last = snapshot.data()?["day"];
+      if (time > last) {
+        claimed = false;
+        icon = Icons.timer;
+      } else {
+        claimed = true;
+        icon = Icons.check;
+      }
+    });
+  }
+
+  Widget _buildExerciseDialog(BuildContext context) {
     return AlertDialog(
-      title: const Text('Progressive muscle relaxation'),
+      title: const Text("Exercise Quest"),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text("Complete an exercise activity!\n\nReward 100 points",
+              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14))
+        ],
+      ),
+      actions: <Widget>[
+        ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          style:
+              ElevatedButton.styleFrom(backgroundColor: Colors.indigo.shade300),
+          child: const Text('Close'),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLocationDialog(BuildContext context) {
+    return AlertDialog(
+      title: const Text("Location Quest"),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text("Discover and comment on a new location!\n\nReward 200 points",
+              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14))
+        ],
+      ),
+      actions: <Widget>[
+        ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          style:
+              ElevatedButton.styleFrom(backgroundColor: Colors.indigo.shade300),
+          child: const Text('Close'),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildJournalDialog(BuildContext context) {
+    return AlertDialog(
+      title: const Text("Journal Quest"),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-              "Get into a comfortable position, either sitting or lying down.\2. Strive to tense and then release each large muscle or muscle group for about five seconds or so, then relax the muscles.\n3. Begin by taking a few deep breaths from the abdomen. Tense, hold, and relax each large muscle group, working your way up or down the body.\n4. Try and notice the contrast between a tensed state and a relaxed state inhaling as you tense the muscle and exhaling as you relax and let go.",
+              "Write a new entry in your journal for the day\n\nReward 100 points",
+              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14))
+        ],
+      ),
+      actions: <Widget>[
+        ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          style:
+              ElevatedButton.styleFrom(backgroundColor: Colors.indigo.shade300),
+          child: const Text('Close'),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMeditateDialog(BuildContext context) {
+    return AlertDialog(
+      title: const Text("Mindfulness Quest"),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text("Complete a mindfulness activity!\n\nReward 100 points",
               style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14))
         ],
       ),
@@ -39,193 +156,238 @@ class Achievements extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSwatch(
-            primarySwatch: Colors.indigo,
-          ),
-        ),
-        title: _title,
-        home: Scaffold(
-            appBar: AppBar(title: const Text(_title)),
-            body: Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("lib/assets/mountain.jpg"),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                child: Center(
-                    child: Padding(
-                  padding: const EdgeInsets.only(top: 30.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Row(
+    return SafeArea(
+        child: Scaffold(
+            appBar: AppBar(
+              title: Text('Achievements'),
+            ),
+            body: FutureBuilder(
+                future: func(),
+                builder: (context, snapshot) {
+                  return Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage("lib/assets/mountain.jpg"),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      child: Center(
+                          child: Padding(
+                        padding: const EdgeInsets.only(top: 30.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                SizedBox(width: 20),
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.lightGreen.shade300,
-                                    minimumSize: Size(64, 64),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(50.0),
-                                        side: BorderSide(
-                                            color: Colors.lightGreen.shade300)),
-                                  ),
-                                  child: Icon(
-                                    Icons.arrow_back,
-                                    size: 30.0,
-                                  ),
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const Profile()),
-                                    );
-                                  },
-                                ),
-                              ]),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.lightGreen.shade300,
-                                    minimumSize: Size(64, 64),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(50.0),
-                                        side: BorderSide(
-                                            color: Colors.lightGreen.shade300)),
-                                  ),
-                                  child: Icon(
-                                    Icons.timer,
-                                    size: 30.0,
-                                  ),
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) =>
-                                          _buildProfileDialog(context),
-                                    );
-                                  },
-                                ),
-                                SizedBox(width: 20),
-                              ]),
-                        ],
-                      ),
-                      SizedBox(height: 100),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.indigo.shade300,
-                                    minimumSize: Size(128, 64),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(50.0),
-                                        side: BorderSide(
-                                            color: Colors.indigo.shade300)),
-                                  ),
-                                  child: Icon(
-                                    Icons.accessibility_new_rounded,
-                                    size: 30.0,
-                                  ),
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) =>
-                                          _buildProfileDialog(context),
-                                    );
-                                  },
-                                ),
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.indigo.shade300,
-                                    minimumSize: Size(128, 64),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(50.0),
-                                        side: BorderSide(
-                                            color: Colors.indigo.shade300)),
-                                  ),
-                                  child: Icon(
-                                    Icons.add_business_outlined,
-                                    size: 30.0,
-                                  ),
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) =>
-                                          _buildProfileDialog(context),
-                                    );
-                                  },
-                                ),
-                              ]),
-                          SizedBox(height: 20),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.indigo.shade300,
-                                    minimumSize: Size(128, 64),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(50.0),
-                                        side: BorderSide(
-                                            color: Colors.indigo.shade300)),
-                                  ),
-                                  child: Icon(
-                                    Icons.add_comment_rounded,
-                                    size: 30.0,
-                                  ),
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) =>
-                                          _buildProfileDialog(context),
-                                    );
-                                  },
-                                ),
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.indigo.shade300,
-                                    minimumSize: Size(128, 64),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(50.0),
-                                        side: BorderSide(
-                                            color: Colors.indigo.shade300)),
-                                  ),
-                                  child: Icon(
-                                    Icons.battery_charging_full_rounded,
-                                    size: 30.0,
-                                  ),
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) =>
-                                          _buildProfileDialog(context),
-                                    );
-                                  },
-                                ),
-                              ]),
-                        ],
-                      ),
-                    ],
-                  ),
-                )))));
+                                Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      SizedBox(width: 20),
+                                      ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              Colors.lightGreen.shade300,
+                                          minimumSize: Size(64, 64),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(50.0),
+                                              side: BorderSide(
+                                                  color: Colors
+                                                      .lightGreen.shade300)),
+                                        ),
+                                        child: Icon(
+                                          Icons.arrow_back,
+                                          size: 30.0,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const Profile()),
+                                          );
+                                        },
+                                      ),
+                                    ]),
+                                Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              Colors.lightGreen.shade300,
+                                          minimumSize: Size(64, 64),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(50.0),
+                                              side: BorderSide(
+                                                  color: Colors
+                                                      .lightGreen.shade300)),
+                                        ),
+                                        child: Icon(
+                                          icon,
+                                          size: 30.0,
+                                        ),
+                                        onPressed: () async {
+                                          if (!claimed) {
+                                            var val;
+                                            await FirebaseFirestore.instance
+                                                .collection('users')
+                                                .doc("q1oRdFJmWH0b5IyUusbF")
+                                                .get()
+                                                .then((snapshot) => val =
+                                                    snapshot.data()?["points"]);
+                                            await FirebaseFirestore.instance
+                                                .collection('users')
+                                                .doc("q1oRdFJmWH0b5IyUusbF")
+                                                .update({"points": val + 10});
+                                            await FirebaseFirestore.instance
+                                                .collection('users')
+                                                .doc("q1oRdFJmWH0b5IyUusbF")
+                                                .update({
+                                              "day": DateTime.now().day
+                                            });
+                                            Fluttertoast.showToast(
+                                              msg:
+                                                  "Claimed your daily 10 points!",
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity
+                                                  .BOTTOM, // Also possible "TOP" and "CENTER"
+                                            );
+                                            setState(() {});
+                                          } else {
+                                            Fluttertoast.showToast(
+                                              msg: "Come back tomorrow!",
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity
+                                                  .BOTTOM, // Also possible "TOP" and "CENTER"
+                                            );
+                                          }
+                                        },
+                                      ),
+                                      SizedBox(width: 20),
+                                    ]),
+                              ],
+                            ),
+                            SizedBox(height: 100),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: <Widget>[
+                                      ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              Colors.indigo.shade300,
+                                          minimumSize: Size(128, 64),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(50.0),
+                                              side: BorderSide(
+                                                  color:
+                                                      Colors.indigo.shade300)),
+                                        ),
+                                        child: Icon(
+                                          Icons.accessibility_new_rounded,
+                                          size: 30.0,
+                                        ),
+                                        onPressed: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) =>
+                                                _buildExerciseDialog(context),
+                                          );
+                                        },
+                                      ),
+                                      ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              Colors.indigo.shade300,
+                                          minimumSize: Size(128, 64),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(50.0),
+                                              side: BorderSide(
+                                                  color:
+                                                      Colors.indigo.shade300)),
+                                        ),
+                                        child: Icon(
+                                          Icons.add_business_outlined,
+                                          size: 30.0,
+                                        ),
+                                        onPressed: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) =>
+                                                _buildLocationDialog(context),
+                                          );
+                                        },
+                                      ),
+                                    ]),
+                                SizedBox(height: 20),
+                                Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: <Widget>[
+                                      ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              Colors.indigo.shade300,
+                                          minimumSize: Size(128, 64),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(50.0),
+                                              side: BorderSide(
+                                                  color:
+                                                      Colors.indigo.shade300)),
+                                        ),
+                                        child: Icon(
+                                          Icons.add_comment_rounded,
+                                          size: 30.0,
+                                        ),
+                                        onPressed: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) =>
+                                                _buildJournalDialog(context),
+                                          );
+                                        },
+                                      ),
+                                      ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              Colors.indigo.shade300,
+                                          minimumSize: Size(128, 64),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(50.0),
+                                              side: BorderSide(
+                                                  color:
+                                                      Colors.indigo.shade300)),
+                                        ),
+                                        child: Icon(
+                                          Icons.battery_charging_full_rounded,
+                                          size: 30.0,
+                                        ),
+                                        onPressed: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) =>
+                                                _buildMeditateDialog(context),
+                                          );
+                                        },
+                                      ),
+                                    ]),
+                              ],
+                            ),
+                          ],
+                        ),
+                      )));
+                })));
   }
 }

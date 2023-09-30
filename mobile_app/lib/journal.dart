@@ -105,7 +105,9 @@ class _MyHomePageState extends State<MyHomePage> {
       accuracy: 0,
       altitude: 0,
       speedAccuracy: 0,
-      heading: 0);
+      heading: 0,
+      altitudeAccuracy: 0,
+      headingAccuracy: 0);
 
   Widget _buildPopupDialog(BuildContext context, index) {
     return AlertDialog(
