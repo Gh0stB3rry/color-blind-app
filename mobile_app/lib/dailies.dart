@@ -108,6 +108,22 @@ class Dailies extends StatelessWidget {
                               );
                             },
                           ),
+                          SizedBox(height: 20),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                fixedSize: Size(350, 200),
+                                backgroundColor: Colors.indigo.shade300),
+                            child: Text('Walking',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500, fontSize: 40)),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Meditation()),
+                              );
+                            },
+                          ),
                         ],
                       ),
                     ],
