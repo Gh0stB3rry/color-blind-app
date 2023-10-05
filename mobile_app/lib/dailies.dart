@@ -6,6 +6,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:mobile_app/meditation.dart';
+import 'package:mobile_app/walking.dart';
 
 import 'exercise.dart';
 
@@ -79,7 +80,7 @@ class Dailies extends StatelessWidget {
                         children: [
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                fixedSize: Size(350, 200),
+                                fixedSize: Size(350, 130),
                                 backgroundColor: Colors.indigo.shade300),
                             child: Text('Exercise',
                                 style: TextStyle(
@@ -95,7 +96,7 @@ class Dailies extends StatelessWidget {
                           SizedBox(height: 20),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                fixedSize: Size(350, 200),
+                                fixedSize: Size(350, 130),
                                 backgroundColor: Colors.indigo.shade300),
                             child: Text('Meditation',
                                 style: TextStyle(
@@ -111,7 +112,7 @@ class Dailies extends StatelessWidget {
                           SizedBox(height: 20),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                fixedSize: Size(350, 200),
+                                fixedSize: Size(350, 130),
                                 backgroundColor: Colors.indigo.shade300),
                             child: Text('Walking',
                                 style: TextStyle(
@@ -120,7 +121,7 @@ class Dailies extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const Meditation()),
+                                    builder: (context) => const Walking()),
                               );
                             },
                           ),

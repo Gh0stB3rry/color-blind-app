@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_app/achievements.dart';
 import 'package:mobile_app/editprofile.dart';
 import 'package:mobile_app/home.dart';
+import 'package:mobile_app/users.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key});
@@ -131,25 +132,24 @@ class Profile extends StatelessWidget {
                   Expanded(
                     child: Container(
                       color: Colors.deepOrange.shade300,
-                      child: ListTile(
-                        title: Text(
-                          '52837',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 30,
-                            color: Colors.white,
-                          ),
-                        ),
-                        subtitle: Text(
-                          'Friends',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white70,
-                          ),
-                        ),
-                      ),
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.deepOrange.shade300,
+                              shadowColor: null),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Users()),
+                            );
+                          },
+                          child: Text(
+                            "Friends",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
+                          )),
                     ),
                   ),
                 ],
