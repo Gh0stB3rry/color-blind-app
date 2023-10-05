@@ -102,6 +102,14 @@ class _MyHomePageState extends State<MyHomePage> {
                               );
                             },
                           ),
+                          SizedBox(width: 50),
+                          Text(
+                            "Friends/Other Users",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 20,
+                                color: Colors.indigo.shade300),
+                          )
                         ],
                       ),
                       SizedBox(height: 20),
