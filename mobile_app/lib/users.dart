@@ -9,6 +9,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobile_app/home.dart';
 import 'package:mobile_app/main.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mobile_app/profile.dart';
 
 class Users extends StatelessWidget {
   const Users({super.key});
@@ -35,18 +36,30 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  TextEditingController cmntController = TextEditingController();
-  TextEditingController descController = TextEditingController();
-  List<String> users = [];
+  var collection = FirebaseFirestore.instance.collection("users");
 
-  void _getAllUsers() async {
-    final QuerySnapshot<Map<String, dynamic>> temp =
-        await FirebaseFirestore.instance.collection("locations").get();
-    temp.docs.map((e) => users.add(e.data()["email"]));
+  late List<Map<String, dynamic>> items;
+
+  bool isLoaded = false;
+  _incrementCounter() async {
+    print("test");
+    List<Map<String, dynamic>> tempList = [];
+    var data = await collection.get();
+    data.docs.forEach((element) {
+      tempList.add(element.data());
+    });
+    setState(
+      () {
+        items = tempList;
+        isLoaded = true;
+      },
+    );
+    print("test2");
   }
 
   @override
   Widget build(BuildContext context) {
+    isLoaded ? print("done") : _incrementCounter();
     return MaterialApp(
         title: "Other Users",
         home: Scaffold(
@@ -78,27 +91,46 @@ class _MyHomePageState extends State<MyHomePage> {
                                       color: Colors.lightGreen.shade300)),
                             ),
                             child: Icon(
-                              Icons.home,
+                              Icons.arrow_back,
                               size: 30.0,
                             ),
                             onPressed: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const Home()),
+                                    builder: (context) => const Profile()),
                               );
                             },
                           ),
                         ],
                       ),
                       SizedBox(height: 20),
-                      Text(
-                        "Existing Groups",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 20,
-                            color: Colors.indigo.shade300),
-                      ),
+                      isLoaded
+                          ? ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              itemCount: items.length,
+                              itemBuilder: ((context, index) {
+                                return Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: ListTile(
+                                      shape: RoundedRectangleBorder(
+                                          side: const BorderSide(width: 2),
+                                          borderRadius:
+                                              BorderRadius.circular(20)),
+                                      leading: const CircleAvatar(
+                                          backgroundColor:
+                                              Color.fromRGBO(174, 213, 129, 1),
+                                          child: Icon(Icons.person)),
+                                      title: Row(children: [
+                                        Text(items[index]["email"].toString()),
+                                      ]),
+                                      subtitle: Text("Points:  " +
+                                          items[index]["points"].toString()),
+                                      trailing: Icon(Icons.more_vert),
+                                    ));
+                              }))
+                          : Text("no data"),
                       SizedBox(height: 20),
                     ],
                   ),
