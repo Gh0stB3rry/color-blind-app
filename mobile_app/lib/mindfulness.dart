@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app/dailies.dart';
 import 'package:mobile_app/home.dart';
 import 'package:mobile_app/main.dart';
 import 'package:flutter/src/material/colors.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:mobile_app/mindfulness.dart';
 
-class Help extends StatelessWidget {
-  const Help({Key? key}) : super(key: key);
-  static const String _title = 'Help';
+class Mindfulness extends StatelessWidget {
+  const Mindfulness({Key? key}) : super(key: key);
+  static const String _title = 'Mindfulness Activities';
 
   Widget _buildJournalDialog(BuildContext context) {
     return AlertDialog(
-      title: const Text('Journaling'),
+      title: const Text('Mindful Breathing:'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-              "If you want to leave a priviate message in the journal, click the journal button on the upper-left corner.\n\nThis will allow you to leave a priviate message or image. This records the date and your location as well!",
+              "Find a quiet place to sit or lie down.Close your eyes and begin to breathe normally.Pay attention to your breath, noting the rhythm and any sensations you feel.If your mind wanders, gently bring it back to your breath without being critical of yourself ",
               style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14))
         ],
       ),
@@ -38,13 +38,13 @@ class Help extends StatelessWidget {
 
   Widget _buildProfileDialog(BuildContext context) {
     return AlertDialog(
-      title: const Text('Profile'),
+      title: const Text('Mindful Eating:'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-              "To edit your profile, click on the \'profile\' button, and then the pencil button to make any changes to your personal interests!",
+              "Begin with a small piece of food, like a fruit or a chocolate piece.Look at the food closely, noticing its texture and color.Smell the food and think about its aroma.Slowly put it in your mouth, but resist the urge to chew immediately. Instead, notice the taste and texture in your mouth.Chew slowly, paying attention to the changing texture and flavors.Swallow mindfully and pause before taking another bite.",
               style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14))
         ],
       ),
@@ -63,13 +63,13 @@ class Help extends StatelessWidget {
 
   Widget _buildMapDialog(BuildContext context) {
     return AlertDialog(
-      title: const Text('Maps and Commenting'),
+      title: const Text('Mindful Listening:'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-              'If you want to record a message or image for others to see, click the drop down button on the home screen to find your college.\nAfter, find the location you want to blog about and click its icon.\nHere you can see other comments and add your own.',
+              "Find a quiet place to sit or lie down, or you can even choose an environment with natural sounds (e.g., a park or near a flowing stream).Close your eyes and take a few deep breaths to center yourself.Begin to focus on the sounds around you. It could be the chirping of birds, the rustling of leaves, distant conversations, or even the hum of an appliance. If your mind starts to wander, gently bring your attention back to the sounds.",
               style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14))
         ],
       ),
@@ -112,49 +112,52 @@ class Help extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
+                          SizedBox(width: 10),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.lightGreen.shade300,
-                              minimumSize: Size(128, 64),
+                              minimumSize: Size(64, 64),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(50.0),
                                   side: BorderSide(
                                       color: Colors.lightGreen.shade300)),
                             ),
                             child: Icon(
-                              Icons.arrow_forward,
+                              Icons.arrow_back,
                               size: 30.0,
                             ),
                             onPressed: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const Home()),
+                                    builder: (context) => const Dailies()),
                               );
                             },
                           ),
+                          SizedBox(width: 80),
+                          Text(
+                            "Mindfulness Activities",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 20,
+                                color: Colors.indigo.shade300),
+                          )
                         ],
                       ),
                       SizedBox(height: 10),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Center(
-                            child: const Text(
-                              '\nThis app contains many features aimed towards supporting college students with mental health.\n\nHere, you can find explanations of these features so you can decide which best suit your needs.\n\nWhen you\'re ready, click the arrow up top to begin!',
-                              style: TextStyle(fontSize: 16),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
+                          const Text(
+                            '\nPlease click on the button for some mindfulness activities!',
+                            style: TextStyle(fontSize: 20),
                           ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.indigo.shade300),
-                            child: Text('Journaling',
+                            child: Text('Mindful Breathing',
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500, fontSize: 12)),
                             onPressed: () {
@@ -168,7 +171,7 @@ class Help extends StatelessWidget {
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.indigo.shade300),
-                            child: Text('Maps and Commenting',
+                            child: Text('Mindful Eating',
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500, fontSize: 12)),
                             onPressed: () {
@@ -182,7 +185,7 @@ class Help extends StatelessWidget {
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.indigo.shade300),
-                            child: Text('Profile Editing',
+                            child: Text('Mindful Listening',
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500, fontSize: 12)),
                             onPressed: () {
@@ -190,34 +193,6 @@ class Help extends StatelessWidget {
                                 context: context,
                                 builder: (BuildContext context) =>
                                     _buildProfileDialog(context),
-                              );
-                            },
-                          ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.indigo.shade300),
-                            child: Text('Friend Groups',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500, fontSize: 12)),
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) =>
-                                    _buildProfileDialog(context),
-                              );
-                            },
-                          ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.indigo.shade300),
-                            child: Text('Mindfulness Excercises',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500, fontSize: 12)),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const Mindfulness()),
                               );
                             },
                           ),
