@@ -43,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
     var last = 0;
     await FirebaseFirestore.instance
         .collection('users')
-        .doc("q1oRdFJmWH0b5IyUusbF")
+        .doc("nbDNJV5x1dWMlwNTWjPl")
         .get()
         .then((snapshot) {
       last = snapshot.data()?["day"];
@@ -236,17 +236,17 @@ class _MyHomePageState extends State<MyHomePage> {
                                             var val;
                                             await FirebaseFirestore.instance
                                                 .collection('users')
-                                                .doc("q1oRdFJmWH0b5IyUusbF")
+                                                .doc("nbDNJV5x1dWMlwNTWjPl")
                                                 .get()
                                                 .then((snapshot) => val =
                                                     snapshot.data()?["points"]);
                                             await FirebaseFirestore.instance
                                                 .collection('users')
-                                                .doc("q1oRdFJmWH0b5IyUusbF")
+                                                .doc("nbDNJV5x1dWMlwNTWjPl")
                                                 .update({"points": val + 10});
                                             await FirebaseFirestore.instance
                                                 .collection('users')
-                                                .doc("q1oRdFJmWH0b5IyUusbF")
+                                                .doc("nbDNJV5x1dWMlwNTWjPl")
                                                 .update({
                                               "day": DateTime.now().day
                                             });

@@ -6,10 +6,48 @@ import 'package:flutter/src/material/colors.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 class Excercise extends StatelessWidget {
-  const Excercise({Key? key}) : super(key: key);
+  const Excercise({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Mobile App',
+      theme: ThemeData(
+        primarySwatch: Colors.indigo,
+      ),
+      home: MyHomePage(title: 'Home Page'),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key, required this.title});
+
+  final String title;
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+enum TtsState { playing, stopped, paused, continued }
+
+class _MyHomePageState extends State<MyHomePage> {
+  late FlutterTts flutterTts;
+  TtsState ttsState = TtsState.stopped;
   static const String _title = 'Excercise';
+
+  @override
+  initState() {
+    super.initState();
+    initTts();
+  }
+
+  initTts() {
+    flutterTts = FlutterTts();
+  }
 
   Widget _buildJournalDialog(BuildContext context) {
     return AlertDialog(
@@ -20,7 +58,11 @@ class Excercise extends StatelessWidget {
         children: <Widget>[
           Text(
               "1. Walk at a speed between 3.0 and 4.0 mph.\n\n2. Increase the incline every minute, starting at zero and ending at 15. This is the maximum incline you should go, but it's also okay to stop at an incline that's comfortable for you, which could be anywhere between seven and 10. \n\n3. Once you reach your maximum incline, go back down every minute until you reach zero. \n\n4. Cool down with a five- to eight-minute easy walk, followed by stretching.",
-              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14))
+              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14)),
+          IconButton(
+              icon: Icon(Icons.volume_up),
+              onPressed: () => _speak(
+                  "1. Walk at a speed between 3.0 and 4.0 mph. 2. Increase the incline every minute, starting at zero and ending at 15. This is the maximum incline you should go, but it's also okay to stop at an incline that's comfortable for you, which could be anywhere between seven and 10. 3. Once you reach your maximum incline, go back down every minute until you reach zero. 4. Cool down with a five- to eight-minute easy walk, followed by stretching.")),
         ],
       ),
       actions: <Widget>[
@@ -45,7 +87,11 @@ class Excercise extends StatelessWidget {
         children: <Widget>[
           Text(
               "1. Get on your hands and knees, with your neck in a neutral position. \n2. Keep your wrists directly under your shoulders and your knees directly under your hips. \n3. Inhaling into cow pose, arch your back so that your belly approaches the mat, lifting your chest and chin.\n4. Exhale into cat pose, drawing your navel in while rounding your back and letting gravity drop your head toward the floor.",
-              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14))
+              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14)),
+          IconButton(
+              icon: Icon(Icons.volume_up),
+              onPressed: () => _speak(
+                  "1. Get on your hands and knees, with your neck in a neutral position. 2. Keep your wrists directly under your shoulders and your knees directly under your hips. 3. Inhaling into cow pose, arch your back so that your belly approaches the mat, lifting your chest and chin. 4. Exhale into cat pose, drawing your navel in while rounding your back and letting gravity drop your head toward the floor.")),
         ],
       ),
       actions: <Widget>[
@@ -70,7 +116,11 @@ class Excercise extends StatelessWidget {
         children: <Widget>[
           Text(
               'Legs: dumbbell squats — 3 sets of 6–8 reps \n Shoulders: standing shoulder press — 3 sets of 6–8 reps \nLegs: dumbbell lunge — 2 sets of 8–10 reps per leg ',
-              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14))
+              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14)),
+          IconButton(
+              icon: Icon(Icons.volume_up),
+              onPressed: () => _speak(
+                  'Legs: dumbbell squats — 3 sets of 6–8 reps. Shoulders: standing shoulder press — 3 sets of 6–8 reps. Legs: dumbbell lunge — 2 sets of 8–10 reps per leg.')),
         ],
       ),
       actions: <Widget>[
@@ -84,6 +134,10 @@ class Excercise extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Future _speak(newVoiceText) async {
+    await flutterTts.speak(newVoiceText!);
   }
 
   @override

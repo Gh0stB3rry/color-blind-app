@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:mobile_app/dailies.dart';
 import 'package:mobile_app/home.dart';
 import 'package:mobile_app/main.dart';
@@ -8,8 +9,49 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 class Walking extends StatelessWidget {
-  const Walking({Key? key}) : super(key: key);
-  static const String _title = 'Walking';
+  const Walking({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Mobile App',
+      theme: ThemeData(
+        primarySwatch: Colors.indigo,
+      ),
+      home: MyHomePage(title: 'Home Page'),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key, required this.title});
+
+  final String title;
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+enum TtsState { playing, stopped, paused, continued }
+
+class _MyHomePageState extends State<MyHomePage> {
+  late FlutterTts flutterTts;
+  TtsState ttsState = TtsState.stopped;
+  static const String _title = 'Excercise';
+
+  @override
+  initState() {
+    super.initState();
+    initTts();
+  }
+
+  initTts() {
+    flutterTts = FlutterTts();
+  }
+
+  Future _speak(newVoiceText) async {
+    await flutterTts.speak(newVoiceText!);
+  }
 
   Widget _buildJournalDialog(BuildContext context) {
     return AlertDialog(
@@ -20,7 +62,11 @@ class Walking extends StatelessWidget {
         children: <Widget>[
           Text(
               " Focus on your feet. Feel the firm ground beneath you as each foot rolls from heel to toe. Try to hold awareness of your steps for 2 to 3 minutes.",
-              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14))
+              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14)),
+          IconButton(
+              icon: Icon(Icons.volume_up),
+              onPressed: () => _speak(
+                  " Focus on your feet. Feel the firm ground beneath you as each foot rolls from heel to toe. Try to hold awareness of your steps for 2 to 3 minutes.")),
         ],
       ),
       actions: <Widget>[
@@ -45,7 +91,11 @@ class Walking extends StatelessWidget {
         children: <Widget>[
           Text(
               "Changing the direction you walk—forward, backward, or sideways—keeps your mind alert, turns up your calorie burn, and activates some often-underused muscles, such as your outer and inner thighs. This routine is best done on a school track (most are ¼-mile around)..",
-              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14))
+              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14)),
+          IconButton(
+              icon: Icon(Icons.volume_up),
+              onPressed: () => _speak(
+                  "Changing the direction you walk—forward, backward, or sideways—keeps your mind alert, turns up your calorie burn, and activates some often-underused muscles, such as your outer and inner thighs. This routine is best done on a school track (most are ¼-mile around)..")),
         ],
       ),
       actions: <Widget>[
@@ -70,7 +120,11 @@ class Walking extends StatelessWidget {
         children: <Widget>[
           Text(
               "A dose of nature can boost your mood and energize you in just 5 minutes. If you exercise in a natural setting and go longer (a lunchtime stroll in a park or an all-day hike in the mountains), you can improve your memory and attention 20% more than you can by walking in an urban environment.",
-              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14))
+              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14)),
+          IconButton(
+              icon: Icon(Icons.volume_up),
+              onPressed: () => _speak(
+                  "A dose of nature can boost your mood and energize you in just 5 minutes. If you exercise in a natural setting and go longer (a lunchtime stroll in a park or an all-day hike in the mountains), you can improve your memory and attention 20% more than you can by walking in an urban environment.")),
         ],
       ),
       actions: <Widget>[

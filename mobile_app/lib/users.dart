@@ -39,22 +39,50 @@ class _MyHomePageState extends State<MyHomePage> {
   var collection = FirebaseFirestore.instance.collection("users");
 
   late List<Map<String, dynamic>> items;
+  late List<bool> friends;
 
   bool isLoaded = false;
+  bool load = false;
   _incrementCounter() async {
-    print("test");
+    List<String> friend = [];
+    List<bool> temp = [];
+    var fdata = await FirebaseFirestore.instance
+        .collection("users")
+        .doc("nbDNJV5x1dWMlwNTWjPl")
+        .collection("friends")
+        .get();
+    fdata.docs.forEach((element) {
+      friend.add(element.data()["email"]);
+    });
     List<Map<String, dynamic>> tempList = [];
     var data = await collection.get();
     data.docs.forEach((element) {
       tempList.add(element.data());
+      if (friend.contains(element.data()["email"].toString())) {
+        temp.add(true);
+      } else {
+        temp.add(false);
+      }
     });
     setState(
       () {
         items = tempList;
+        friends = temp;
         isLoaded = true;
+        load = true;
       },
     );
-    print("test2");
+  }
+
+  _addFriend(name) async {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc("nbDNJV5x1dWMlwNTWjPl")
+        .collection("friends")
+        .add({"email": name});
+    setState(() {
+      load = true;
+    });
   }
 
   @override
@@ -114,30 +142,62 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       SizedBox(height: 20),
                       isLoaded
-                          ? ListView.builder(
-                              scrollDirection: Axis.vertical,
-                              shrinkWrap: true,
-                              itemCount: items.length,
-                              itemBuilder: ((context, index) {
-                                return Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: ListTile(
-                                      shape: RoundedRectangleBorder(
-                                          side: const BorderSide(width: 2),
-                                          borderRadius:
-                                              BorderRadius.circular(20)),
-                                      leading: const CircleAvatar(
-                                          backgroundColor:
-                                              Color.fromRGBO(174, 213, 129, 1),
-                                          child: Icon(Icons.person)),
-                                      title: Row(children: [
-                                        Text(items[index]["email"].toString()),
-                                      ]),
-                                      subtitle: Text("Points:  " +
-                                          items[index]["points"].toString()),
-                                      trailing: Icon(Icons.more_vert),
-                                    ));
-                              }))
+                          ? load
+                              ? ListView.builder(
+                                  scrollDirection: Axis.vertical,
+                                  shrinkWrap: true,
+                                  itemCount: items.length,
+                                  itemBuilder: ((context, index) {
+                                    return Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: ListTile(
+                                          shape: RoundedRectangleBorder(
+                                              side: const BorderSide(width: 2),
+                                              borderRadius:
+                                                  BorderRadius.circular(20)),
+                                          leading: const CircleAvatar(
+                                              backgroundColor: Color.fromRGBO(
+                                                  174, 213, 129, 1),
+                                              child: Icon(Icons.person)),
+                                          title: Row(children: [
+                                            Text(items[index]["email"]
+                                                .toString()),
+                                          ]),
+                                          subtitle: Text("Points:  " +
+                                              items[index]["points"]
+                                                  .toString()),
+                                          trailing: friends[index]
+                                              ? Icon(Icons.check)
+                                              : ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    backgroundColor: Colors
+                                                        .lightGreen.shade300,
+                                                    minimumSize: Size(5, 5),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        50.0),
+                                                            side: BorderSide(
+                                                                color: Colors
+                                                                    .lightGreen
+                                                                    .shade300)),
+                                                  ),
+                                                  child: Icon(
+                                                    Icons.add,
+                                                  ),
+                                                  onPressed: () async {
+                                                    load = false;
+                                                    await _addFriend(
+                                                        items[index]["email"]
+                                                            .toString());
+                                                  },
+                                                ),
+                                        ));
+                                  }))
+                              : Text("no data")
                           : Text("no data"),
                       SizedBox(height: 20),
                     ],
