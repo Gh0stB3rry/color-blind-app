@@ -85,6 +85,42 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  Widget _buildJournalDialog(BuildContext context, String email, String phone,
+      String food, String vacation) {
+    return AlertDialog(
+      backgroundColor: Colors.indigo.shade100,
+      title: Text(email,
+          style: TextStyle(
+              fontWeight: FontWeight.w700,
+              fontSize: 20,
+              color: Colors.indigo.shade400)),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+              "Phone:  " +
+                  phone +
+                  "\n\nFavorite Food:  " +
+                  food +
+                  "\n\nDream Vacation:  " +
+                  vacation,
+              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14)),
+        ],
+      ),
+      actions: <Widget>[
+        ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          style:
+              ElevatedButton.styleFrom(backgroundColor: Colors.indigo.shade300),
+          child: const Text('Close'),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     isLoaded ? print("done") : _incrementCounter();
@@ -155,10 +191,41 @@ class _MyHomePageState extends State<MyHomePage> {
                                               side: const BorderSide(width: 2),
                                               borderRadius:
                                                   BorderRadius.circular(20)),
-                                          leading: const CircleAvatar(
-                                              backgroundColor: Color.fromRGBO(
-                                                  174, 213, 129, 1),
-                                              child: Icon(Icons.person)),
+                                          leading: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor:
+                                                  Colors.lightGreen.shade300,
+                                              minimumSize: Size(30, 30),
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          25.0),
+                                                  side: BorderSide(
+                                                      color: Colors.lightGreen
+                                                          .shade300)),
+                                            ),
+                                            child: Icon(
+                                              Icons.person,
+                                              size: 20.0,
+                                            ),
+                                            onPressed: () {
+                                              showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        _buildJournalDialog(
+                                                            context,
+                                                            items[index]
+                                                                ["email"],
+                                                            items[index]
+                                                                ["phone"],
+                                                            items[index]
+                                                                ["food"],
+                                                            items[index]
+                                                                ["vacation"]),
+                                              );
+                                            },
+                                          ),
                                           title: Row(children: [
                                             Text(items[index]["email"]
                                                 .toString()),
