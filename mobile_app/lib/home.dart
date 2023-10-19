@@ -79,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _buildDisplayDialog(BuildContext context, data) {
     return AlertDialog(
-      title: Text(data['user'].toString() + '\'s Comment'),
+      title: Text(data['user'].toString() + '\'s comment'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,

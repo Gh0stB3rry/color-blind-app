@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_app/help.dart';
 import 'package:mobile_app/home.dart';
 import 'package:mobile_app/main.dart';
 import 'package:flutter/src/material/colors.dart';
@@ -78,7 +80,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     controller: nameController,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'User Name',
+                      labelText: 'Email',
                     ),
                   ),
                 ),
@@ -97,7 +99,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => MyApp()),
+                      MaterialPageRoute(builder: (context) => Help()),
                     );
                   },
                   child: const Text(
@@ -115,6 +117,14 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                               email: nameController.text,
                               password: passwordController.text);
                           if (user != null) {
+                            FirebaseFirestore.instance.collection("users").add({
+                              'day': 0,
+                              'email': nameController.text.trim(),
+                              'food': '',
+                              'phone': '',
+                              'points': 0,
+                              'vacation': '',
+                            });
                             Navigator.push(
                               context,
                               MaterialPageRoute(
