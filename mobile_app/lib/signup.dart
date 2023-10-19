@@ -99,7 +99,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Help()),
+                      MaterialPageRoute(builder: (context) => MyApp()),
                     );
                   },
                   child: const Text(
@@ -128,7 +128,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const Home()),
+                                  builder: (context) => const Help()),
                             );
                           }
                         } catch (e) {
