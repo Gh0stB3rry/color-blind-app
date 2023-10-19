@@ -24,6 +24,7 @@ dependencies:
   equatable: ^2.0.3
   cloud_firestore: ^4.9.1
   fluttertoast: ^8.0.8
+  spotify: ^0.11.0
 
 dev_dependencies:
   flutter_test:
