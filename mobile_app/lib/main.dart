@@ -46,6 +46,17 @@ class MyStatefulWidget extends StatefulWidget {
 
 final _auth = FirebaseAuth.instance;
 
+Future<bool> userExists(name) async {
+  bool temp = false;
+  await FirebaseFirestore.instance
+      .collection('users')
+      .get()
+      .then((value) => value.docs.forEach((element) {
+            element == name ? temp = true : temp;
+          }));
+  return temp;
+}
+
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -144,8 +155,21 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                           email: nameController.text.trim(),
                           password: passwordController.text.trim(),
                         );
+                        bool exists =
+                            await userExists(nameController.text.trim());
 
                         if (user != null) {
+                          if (exists) {
+                          } else {
+                            FirebaseFirestore.instance.collection("users").add({
+                              'day': 0,
+                              'email': nameController.text.trim(),
+                              'food': '',
+                              'phone': '',
+                              'points': 0,
+                              'vacation': '',
+                            });
+                          }
                           Navigator.push(
                             context,
                             MaterialPageRoute(
