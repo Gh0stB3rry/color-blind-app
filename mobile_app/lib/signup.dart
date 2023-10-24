@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:mobile_app/help.dart';
 import 'package:mobile_app/home.dart';
 import 'package:mobile_app/main.dart';
 import 'package:flutter/src/material/colors.dart';
@@ -78,7 +81,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     controller: nameController,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'User Name',
+                      labelText: 'Email',
                     ),
                   ),
                 ),
@@ -109,19 +112,35 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                     child: ElevatedButton(
                       child: const Text('Submit'),
-                      onPressed: () {
+                      onPressed: () async {
                         try {
-                          final user = _auth.createUserWithEmailAndPassword(
-                              email: nameController.text,
-                              password: passwordController.text);
+                          final user =
+                              await _auth.createUserWithEmailAndPassword(
+                                  email: nameController.text,
+                                  password: passwordController.text);
                           if (user != null) {
+                            FirebaseFirestore.instance.collection("users").add({
+                              'day': 0,
+                              'email': nameController.text.trim(),
+                              'food': '',
+                              'phone': '',
+                              'points': 0,
+                              'vacation': '',
+                            });
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const Home()),
+                                  builder: (context) => const Help()),
                             );
                           }
                         } catch (e) {
+                          Fluttertoast.showToast(
+                            msg:
+                                "Please ensure your email is in the correct format (abc@123.com)",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity
+                                .BOTTOM, // Also possible "TOP" and "CENTER"
+                          );
                           print(e);
                         }
                       },

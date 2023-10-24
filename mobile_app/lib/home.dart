@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
@@ -51,12 +52,6 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-List<String> _lindermanList = [];
-List<String> _fmlList = [];
-List<String> _storeList = [];
-List<num> _lindermanFeelList = [];
-List<num> _fmlFeelList = [];
-List<num> _storeFeelList = [];
 num _lindermanFeel = -1;
 num _fmlFeel = -1;
 num _storeFeel = -1;
@@ -70,26 +65,20 @@ DateTime _lindermanTime = DateTime.parse("2000-01-01");
 DateTime _fmlTime = DateTime.parse("2000-01-01");
 DateTime _storeTime = DateTime.parse("2000-01-01");
 bool imgFlag = false;
+var auth = FirebaseAuth.instance.currentUser;
 
 class _MyHomePageState extends State<MyHomePage> {
   File? galleryFile;
   final picker = ImagePicker();
 
-  Widget _buildDisplayDialog(BuildContext context, index, locValue) {
+  Widget _buildDisplayDialog(BuildContext context, data) {
     return AlertDialog(
-      title: const Text('Comment'),
+      title: Text(data['user'].toString() + '\'s comment'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-              locValue == "Linderman Library"
-                  ? _lindermanList[index]
-                  : locValue == "Fairchild-Martindale Library"
-                      ? _fmlList[index]
-                      : locValue == "Lehigh Bookstore"
-                          ? _storeList[index]
-                          : "HI :D",
+          Text(data['data'],
               style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14))
         ],
       ),
@@ -106,103 +95,145 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  Future<List<Object?>> getComments(locValue) async {
+    CollectionReference _collectionRef = FirebaseFirestore.instance
+        .collection('comments')
+        .doc(locValue)
+        .collection("comments");
+
+    QuerySnapshot querySnapshot = await _collectionRef.get();
+
+    final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
+    return allData;
+  }
+
   Widget _buildPopupDialog(BuildContext context, locValue) {
     return AlertDialog(
       title: Text(locValue + " Comments"),
       content: Container(
           height: 400,
           width: 150,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: locValue == "Linderman Library"
-                    ? _lindermanList.length
-                    : locValue == "Fairchild-Martindale Library"
-                        ? _fmlList.length
-                        : locValue == "Lehigh Bookstore"
-                            ? _storeList.length
-                            : 1,
-                itemBuilder: (BuildContext context, int index) {
-                  return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: locValue == "Linderman Library"
-                                ? _lindermanFeelList[index] == 0
-                                    ? Colors.red
-                                    : _lindermanFeelList[index] == 1
-                                        ? Colors.yellow
-                                        : Colors.green
-                                : locValue == "Fairchild-Martindale Library"
-                                    ? _fmlFeelList[index] == 0
-                                        ? Colors.red
-                                        : _fmlFeelList[index] == 1
-                                            ? Colors.yellow
-                                            : Colors.green
-                                    : _storeFeelList[index] == 0
-                                        ? Colors.red
-                                        : _storeFeelList[index] == 1
-                                            ? Colors.yellow
-                                            : Colors.green,
-                            minimumSize: Size(10, 10),
-                            shape: CircleBorder(
-                                side: BorderSide(color: Colors.white54)),
-                          ),
-                          child: Text(""),
-                          onPressed: () {},
-                        ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.indigo.shade300),
-                          child: Text('Show Message',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500, fontSize: 12)),
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) =>
-                                  _buildDisplayDialog(context, index, locValue),
-                            );
+          child: FutureBuilder(
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  // If we got an error
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text(
+                        '${snapshot.error} occurred',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    );
+
+                    // if we got our data
+                  } else if (snapshot.hasData) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          (snapshot.data!.elementAt(index)
+                                                      as Map)['feel'] ==
+                                                  "b"
+                                              ? Colors.red
+                                              : (snapshot.data!.elementAt(index)
+                                                          as Map)['feel'] ==
+                                                      "n"
+                                                  ? Colors.yellow
+                                                  : Colors.green,
+                                      minimumSize: Size(10, 10),
+                                      shape: CircleBorder(
+                                          side: BorderSide(
+                                              color: Colors.white54)),
+                                    ),
+                                    child: Text(""),
+                                    onPressed: () {},
+                                  ),
+                                  Container(
+                                    child: Text(
+                                      (snapshot.data!.elementAt(index)
+                                          as Map)['user'],
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                    width: 90,
+                                  ),
+                                  SizedBox(width: 5),
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            Colors.indigo.shade300),
+                                    child: Text('Show Message',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 12)),
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                            _buildDisplayDialog(
+                                                context,
+                                                snapshot.data!
+                                                    .elementAt(index)),
+                                      );
+                                    },
+                                  ),
+                                  /*locValue == "Linderman Library"
+                                      ? _lindermanImgBoolList[index]
+                                          ? Container(
+                                              height: 150,
+                                              width: 100,
+                                              padding: const EdgeInsets.only(
+                                                  bottom: 8),
+                                              child: Image?.file(
+                                                  _lindermanImgList[index]!),
+                                            )
+                                          : SizedBox(width: 100)
+                                      : locValue ==
+                                              "Fairchild-Martindale Library"
+                                          ? _fmlImgBoolList[index]
+                                              ? Container(
+                                                  height: 150,
+                                                  width: 100,
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          bottom: 8),
+                                                  child: Image?.file(
+                                                      _fmlImgList[index]!),
+                                                )
+                                              : SizedBox(width: 100)
+                                          : _storeImgBoolList[index]
+                                              ? Container(
+                                                  height: 150,
+                                                  width: 100,
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          bottom: 8),
+                                                  child: Image?.file(
+                                                      _storeImgList[index]!),
+                                                )
+                                              : SizedBox(width: 100)*/
+                                ]);
                           },
                         ),
-                        locValue == "Linderman Library"
-                            ? _lindermanImgBoolList[index]
-                                ? Container(
-                                    height: 150,
-                                    width: 100,
-                                    padding: const EdgeInsets.only(bottom: 8),
-                                    child:
-                                        Image?.file(_lindermanImgList[index]!),
-                                  )
-                                : SizedBox(width: 100)
-                            : locValue == "Fairchild-Martindale Library"
-                                ? _fmlImgBoolList[index]
-                                    ? Container(
-                                        height: 150,
-                                        width: 100,
-                                        padding:
-                                            const EdgeInsets.only(bottom: 8),
-                                        child: Image?.file(_fmlImgList[index]!),
-                                      )
-                                    : SizedBox(width: 100)
-                                : _storeImgBoolList[index]
-                                    ? Container(
-                                        height: 150,
-                                        width: 100,
-                                        padding:
-                                            const EdgeInsets.only(bottom: 8),
-                                        child:
-                                            Image?.file(_storeImgList[index]!),
-                                      )
-                                    : SizedBox(width: 100)
-                      ]);
-                },
-              ),
-            ],
-          )),
+                      ],
+                    );
+                  }
+                }
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+              future: getComments(locValue))),
       actions: <Widget>[
         ElevatedButton(
           onPressed: () {
@@ -311,163 +342,32 @@ class _MyHomePageState extends State<MyHomePage> {
               ElevatedButton.styleFrom(backgroundColor: Colors.indigo.shade300),
           onPressed: () {
             String a = cmntController.text.toLowerCase();
-            setState(() {
-              if (locValue == "Linderman Library") {
-                setState(() {
-                  _lindermanList.add(cmntController.text);
-                  _lindermanTime = DateTime.now();
-                  if (a.contains("good") ||
+            FirebaseFirestore.instance
+                .collection("comments")
+                .doc(locValue)
+                .collection("comments")
+                .add({
+              'data': cmntController.text,
+              'user': auth!.email,
+              (a.contains("good") ||
                       a.contains("great") ||
                       a.contains("fun") ||
                       a.contains("incredible") ||
                       a.contains("enjoyed") ||
                       a.contains("positive") ||
-                      a.contains("beautiful")) {
-                    _lindermanFeel = 0;
-                    _lindermanFeelList.add(2);
-                    for (var i = 0; i < _lindermanFeelList.length; i++) {
-                      _lindermanFeel += _lindermanFeelList[i];
-                    }
-                    _lindermanFeel = _lindermanFeel / _lindermanFeelList.length;
-                  } else if (a.contains("bad") ||
+                      a.contains("beautiful"))
+                  ? 'feel'
+                  : 'g': (a.contains("bad") ||
                       a.contains("awful") ||
                       a.contains("sad") ||
                       a.contains("disgusting") ||
                       a.contains("boring") ||
                       a.contains("ugly") ||
-                      a.contains("uncomfortable")) {
-                    _lindermanFeel = 0;
-                    _lindermanFeelList.add(0);
-                    for (var i = 0; i < _lindermanFeelList.length; i++) {
-                      _lindermanFeel += _lindermanFeelList[i];
-                    }
-                    _lindermanFeel = _lindermanFeel / _lindermanFeelList.length;
-                  } else {
-                    _lindermanFeel = 0;
-                    _lindermanFeelList.add(1);
-                    for (var i = 0; i < _lindermanFeelList.length; i++) {
-                      _lindermanFeel += _lindermanFeelList[i];
-                    }
-                    _lindermanFeel = _lindermanFeel / _lindermanFeelList.length;
-                  }
-                  if (imgFlag) {
-                    _lindermanImgList.add(galleryFile!);
-                    _lindermanImgBoolList.add(true);
-                    imgFlag = false;
-                  } else {
-                    _lindermanImgList.add(null);
-                    _lindermanImgBoolList.add(false);
-                  }
-                  galleryFile = null;
-                  cmntController.clear();
-                });
-              } else if (locValue == "Fairchild-Martindale Library") {
-                setState(() {
-                  _fmlList.add(cmntController.text);
-                  _fmlTime = DateTime.now();
-                  if (a.contains("good") ||
-                      a.contains("great") ||
-                      a.contains("fun") ||
-                      a.contains("incredible") ||
-                      a.contains("enjoyed") ||
-                      a.contains("positive") ||
-                      a.contains("beautiful")) {
-                    _fmlFeel = 0;
-                    _fmlFeelList.add(2);
-                    for (var i = 0; i < _fmlFeelList.length; i++) {
-                      _fmlFeel += _fmlFeelList[i];
-                    }
-                    _fmlFeel = _fmlFeel / _fmlFeelList.length;
-                  } else if (a.contains("bad") ||
-                      a.contains("awful") ||
-                      a.contains("sad") ||
-                      a.contains("disgusting") ||
-                      a.contains("boring") ||
-                      a.contains("ugly") ||
-                      a.contains("uncomfortable")) {
-                    _fmlFeel = 0;
-                    _fmlFeelList.add(0);
-                    for (var i = 0; i < _fmlFeelList.length; i++) {
-                      _fmlFeel += _fmlFeelList[i];
-                    }
-                    _fmlFeel = _fmlFeel / _fmlFeelList.length;
-                  } else {
-                    _fmlFeel = 0;
-                    _fmlFeelList.add(1);
-                    for (var i = 0; i < _fmlFeelList.length; i++) {
-                      _fmlFeel += _fmlFeelList[i];
-                    }
-                    _fmlFeel = _fmlFeel / _fmlFeelList.length;
-                  }
-                  if (imgFlag) {
-                    _fmlImgList.add(galleryFile!);
-                    _fmlImgBoolList.add(true);
-                    imgFlag = false;
-                  } else {
-                    _fmlImgList.add(null);
-                    _fmlImgBoolList.add(false);
-                  }
-                  galleryFile = null;
-                  cmntController.clear();
-                });
-              } else {
-                setState(() {
-                  _storeList.add(cmntController.text);
-                  _storeTime = DateTime.now();
-                  if (a.contains("good") ||
-                      a.contains("great") ||
-                      a.contains("fun") ||
-                      a.contains("incredible") ||
-                      a.contains("enjoyed") ||
-                      a.contains("positive") ||
-                      a.contains("beautiful")) {
-                    _storeFeel = 0;
-                    _storeFeelList.add(2);
-                    for (var i = 0; i < _storeFeelList.length; i++) {
-                      _storeFeel += _storeFeelList[i];
-                    }
-                    _storeFeel = _storeFeel / _storeFeelList.length;
-                  } else if (a.contains("bad") ||
-                      a.contains("awful") ||
-                      a.contains("sad") ||
-                      a.contains("disgusting") ||
-                      a.contains("boring") ||
-                      a.contains("ugly") ||
-                      a.contains("uncomfortable")) {
-                    _storeFeel = 0;
-                    _storeFeelList.add(0);
-                    for (var i = 0; i < _storeFeelList.length; i++) {
-                      _storeFeel += _storeFeelList[i];
-                    }
-                    _storeFeel = _storeFeel / _storeFeelList.length;
-                  } else {
-                    _storeFeel = 0;
-                    _storeFeelList.add(1);
-                    for (var i = 0; i < _storeFeelList.length; i++) {
-                      _storeFeel += _storeFeelList[i];
-                    }
-                    _storeFeel = _storeFeel / _storeFeelList.length;
-                  }
-                  if (imgFlag) {
-                    _storeImgList.add(galleryFile!);
-                    _storeImgBoolList.add(true);
-                    imgFlag = false;
-                  } else {
-                    _storeImgList.add(null);
-                    _storeImgBoolList.add(false);
-                  }
-                  galleryFile = null;
-                  cmntController.clear();
-                });
-              }
-              markers.clear();
-              _add(40.60958556811076, -75.37811001464506, "Lehigh Bookstore",
-                  false);
-              _add(40.60895596054946, -75.37787503466733,
-                  "Fairchild-Martindale Library", false);
-              _add(40.60661885328797, -75.3773548234956, "Linderman Library",
-                  false);
+                      a.contains("uncomfortable"))
+                  ? 'feel'
+                  : 'b'
             });
+            setState(() {});
           },
           child: const Text('Add Entry'),
         ),
