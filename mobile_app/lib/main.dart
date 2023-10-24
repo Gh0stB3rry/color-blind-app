@@ -8,10 +8,38 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  if (await Permission.location.serviceStatus.isEnabled) {
+    var status = Permission.location.status;
+    print(status);
+    if (await status.isGranted) {
+    } else if (await status.isDenied) {
+      Map<Permission, PermissionStatus> state = await [
+        Permission.location,
+      ].request();
+      print(state);
+      if (await Permission.location.isPermanentlyDenied) {
+        openAppSettings();
+      }
+    }
+  } else {
+    var status = Permission.location.status;
+    print(status);
+    if (await status.isGranted) {
+    } else if (await status.isDenied) {
+      Map<Permission, PermissionStatus> state = await [
+        Permission.location,
+      ].request();
+      print(state);
+      if (await Permission.location.isPermanentlyDenied) {
+        openAppSettings();
+      }
+    }
+  }
   runApp(MyApp());
 }
 

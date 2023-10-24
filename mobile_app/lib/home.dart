@@ -421,9 +421,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
   void _displayCurrentLocation() async {
-    /*final location = await Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);*/
-    final location = Position(
+    final location = await Geolocator.getCurrentPosition();
+    /*final location = Position(
         latitude: 40.6049,
         longitude: -75.3775,
         speed: 0,
@@ -433,7 +432,7 @@ class _MyHomePageState extends State<MyHomePage> {
         speedAccuracy: 0,
         heading: 0,
         altitudeAccuracy: 0,
-        headingAccuracy: 0);
+        headingAccuracy: 0);*/
     _add(location.latitude, location.longitude, 'Your Location', true);
 
     setState(() {
@@ -697,6 +696,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               dropdownValue = value!;
                             });
                             _addCollegeMarkers(value!);
+                            _displayCurrentLocation();
                           },
                         ),
                         SizedBox(
