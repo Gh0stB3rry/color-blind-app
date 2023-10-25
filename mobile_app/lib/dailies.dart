@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:mobile_app/meditation.dart';
 import 'package:mobile_app/walking.dart';
+import 'package:mobile_app/music.dart';
 
 import 'exercise.dart';
 
@@ -122,6 +123,21 @@ class Dailies extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => const Walking()),
+                              );
+                            },
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                fixedSize: Size(350, 130),
+                                backgroundColor: Colors.indigo.shade300),
+                            child: Text('Music',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500, fontSize: 40)),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Music()),
                               );
                             },
                           ),

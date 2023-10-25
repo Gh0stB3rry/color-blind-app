@@ -1,4 +1,4 @@
-/*import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:mobile_app/dailies.dart';
 import 'package:mobile_app/home.dart';
@@ -9,8 +9,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class Meditation extends StatelessWidget {
-  const Meditation({super.key});
+class Music extends StatelessWidget {
+  const Music({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -55,11 +55,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
     _launchURL() async {
-    Uri _url = Uri.parse('www.youtube.com/watch?v=5qap5aO4i9A');
-    if (await launchUrl(_url)) {
-      await launchUrl(_url);
+    Uri url = Uri.parse('www.youtube.com/watch?v=5qap5aO4i9A');
+    if (await launchUrl(url)) {
+      await launchUrl(url);
     } else {
-      throw 'Could not launch $_url';
+      throw 'Could not launch $url';
     }
   }
 
@@ -267,4 +267,3 @@ class _MyHomePageState extends State<MyHomePage> {
                 )))));
   }
 }
-*/
