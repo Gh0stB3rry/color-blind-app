@@ -81,7 +81,7 @@ class Dailies extends StatelessWidget {
                         children: [
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                fixedSize: Size(350, 130),
+                                fixedSize: Size(300, 100),
                                 backgroundColor: Colors.indigo.shade300),
                             child: Text('Exercise',
                                 style: TextStyle(
@@ -97,7 +97,7 @@ class Dailies extends StatelessWidget {
                           SizedBox(height: 20),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                fixedSize: Size(350, 130),
+                                fixedSize: Size(300, 100),
                                 backgroundColor: Colors.indigo.shade300),
                             child: Text('Meditation',
                                 style: TextStyle(
@@ -113,7 +113,7 @@ class Dailies extends StatelessWidget {
                           SizedBox(height: 20),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                fixedSize: Size(350, 130),
+                                fixedSize: Size(300, 100),
                                 backgroundColor: Colors.indigo.shade300),
                             child: Text('Walking',
                                 style: TextStyle(
@@ -129,7 +129,7 @@ class Dailies extends StatelessWidget {
                           SizedBox(height: 20),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                fixedSize: Size(350, 130),
+                                fixedSize: Size(300, 100),
                                 backgroundColor: Colors.indigo.shade300),
                             child: Text('Music',
                                 style: TextStyle(

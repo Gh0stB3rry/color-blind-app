@@ -55,26 +55,28 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   _launchHappyURL() async {
-    final Uri url = Uri.parse('https://open.spotify.com/album/0OFW8PO6Iwc2AaBFRxoxJ3?si=2emT9oGWS4i0sDtZWHwhUw');
+    final Uri url = Uri.parse(
+        'https://open.spotify.com/album/0OFW8PO6Iwc2AaBFRxoxJ3?si=2emT9oGWS4i0sDtZWHwhUw');
     if (!await launchUrl(url)) {
       throw Exception('Could not launch $url');
     }
   }
 
-    _launchWorkURL() async {
-    final Uri url = Uri.parse('https://open.spotify.com/album/4r7eg6fXx8Y3HAA8SMKNv7?si=Du7FJPvbQB6CFBIoMqZS0w');
+  _launchWorkURL() async {
+    final Uri url = Uri.parse(
+        'https://open.spotify.com/album/4r7eg6fXx8Y3HAA8SMKNv7?si=Du7FJPvbQB6CFBIoMqZS0w');
     if (!await launchUrl(url)) {
       throw Exception('Could not launch $url');
     }
   }
 
-      _launchFocusURL() async {
-    final Uri url = Uri.parse('https://open.spotify.com/playlist/37i9dQZF1DWZZbwlv3Vmtr?si=3903674dd0a44028');
+  _launchFocusURL() async {
+    final Uri url = Uri.parse(
+        'https://open.spotify.com/playlist/37i9dQZF1DWZZbwlv3Vmtr?si=3903674dd0a44028');
     if (!await launchUrl(url)) {
       throw Exception('Could not launch $url');
     }
   }
-
 
   Widget _buildJournalDialog(BuildContext context) {
     return AlertDialog(
@@ -83,9 +85,16 @@ class _MyHomePageState extends State<MyHomePage> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text("Link",
-              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14)),
-          IconButton(icon: Icon(Icons.music_note), onPressed: _launchHappyURL())
+          Row(
+            children: [
+              Text("Link: "),
+              IconButton(
+                  icon: Icon(Icons.volume_up, color: Colors.blue),
+                  onPressed: () {
+                    _launchHappyURL();
+                  })
+            ],
+          )
         ],
       ),
       actions: <Widget>[
@@ -105,13 +114,20 @@ class _MyHomePageState extends State<MyHomePage> {
     return AlertDialog(
       title: const Text('Workout Music'),
       content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          IconButton(
-              icon: Icon(Icons.volume_up),
-              onPressed: _launchWorkURL())
-      ]),
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Row(
+              children: [
+                Text("Link: "),
+                IconButton(
+                    icon: Icon(Icons.volume_up, color: Colors.blue),
+                    onPressed: () {
+                      _launchWorkURL();
+                    })
+              ],
+            )
+          ]),
       actions: <Widget>[
         ElevatedButton(
           onPressed: () {
@@ -132,10 +148,16 @@ class _MyHomePageState extends State<MyHomePage> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-         
-          IconButton(
-              icon: Icon(Icons.volume_up),
-              onPressed: _launchFocusURL())
+          Row(
+            children: [
+              Text("Link: "),
+              IconButton(
+                  icon: Icon(Icons.volume_up, color: Colors.blue),
+                  onPressed: () {
+                    _launchFocusURL();
+                  })
+            ],
+          )
         ],
       ),
       actions: <Widget>[
