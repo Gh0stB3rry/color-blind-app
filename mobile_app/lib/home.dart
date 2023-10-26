@@ -314,60 +314,80 @@ class _MyHomePageState extends State<MyHomePage> {
   TextEditingController cmntController = TextEditingController();
 
   Widget _buildCommentDialog(BuildContext context, locValue) {
+    String? selectedTone; // To store the selected tone
+
     return AlertDialog(
       title: const Text('Add a Comment'),
       content: Container(
-          height: 300,
+          height: 370, // Adjusted the height to fit the new widget
           width: 150,
-          child: Column(children: <Widget>[
-            TextField(
-              controller: cmntController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Comment Entry',
+          child: Column(
+            children: <Widget>[
+              TextField(
+                controller: cmntController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Comment Entry',
+                ),
               ),
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.indigo.shade300),
-              child: const Text('Select Image'),
-              onPressed: () {
-                _showPicker(context: context);
-              },
-            ),
-          ])),
+              SizedBox(height: 10), // Spacing
+              DropdownButton<String>(
+                value: selectedTone,
+                hint: Text('Select Comment Tone'),
+                items: <String>[
+                  'Positive',
+                  'Negative',
+                  'Neutral', // Added Neutral option
+                ].map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    selectedTone = newValue;
+                  });
+                },
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.indigo.shade300),
+                child: const Text('Select Image'),
+                onPressed: () {
+                  _showPicker(context: context);
+                },
+              ),
+            ],
+          )),
       actions: <Widget>[
         ElevatedButton(
           style:
               ElevatedButton.styleFrom(backgroundColor: Colors.indigo.shade300),
           onPressed: () {
-            String a = cmntController.text.toLowerCase();
-            FirebaseFirestore.instance
-                .collection("comments")
-                .doc(locValue)
-                .collection("comments")
-                .add({
-              'data': cmntController.text,
-              'user': auth!.email,
-              (a.contains("good") ||
-                      a.contains("great") ||
-                      a.contains("fun") ||
-                      a.contains("incredible") ||
-                      a.contains("enjoyed") ||
-                      a.contains("positive") ||
-                      a.contains("beautiful"))
-                  ? 'feel'
-                  : 'g': (a.contains("bad") ||
-                      a.contains("awful") ||
-                      a.contains("sad") ||
-                      a.contains("disgusting") ||
-                      a.contains("boring") ||
-                      a.contains("ugly") ||
-                      a.contains("uncomfortable"))
-                  ? 'feel'
-                  : 'b'
-            });
-            setState(() {});
+            if (selectedTone != null) {
+              String feelValue;
+              if (selectedTone == 'Positive') {
+                feelValue = 'g';
+              } else if (selectedTone == 'Negative') {
+                feelValue = 'b';
+              } else {
+                feelValue = 'n'; // Value for Neutral
+              }
+
+              FirebaseFirestore.instance
+                  .collection("comments")
+                  .doc(locValue)
+                  .collection("comments")
+                  .add({
+                'data': cmntController.text,
+                'user': auth!.email,
+                'feel': feelValue,
+              });
+              setState(() {});
+            } else {
+              // Handle case when no tone is selected (Maybe show a snackbar or alert)
+            }
           },
           child: const Text('Add Entry'),
         ),
