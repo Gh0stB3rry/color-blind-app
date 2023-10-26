@@ -110,6 +110,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _buildPopupDialog(BuildContext context, locValue) {
     return AlertDialog(
       title: Text(locValue + " Comments"),
+      scrollable: true,
+      contentPadding: EdgeInsets.all(1),
       content: Container(
           height: 400,
           width: 150,
@@ -134,60 +136,81 @@ class _MyHomePageState extends State<MyHomePage> {
                           shrinkWrap: true,
                           itemCount: snapshot.data!.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                            List<bool> _likes =
+                                List.filled(snapshot.data!.length, false);
+                            return Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor:
-                                          (snapshot.data!.elementAt(index)
-                                                      as Map)['feel'] ==
-                                                  "b"
-                                              ? Colors.red
-                                              : (snapshot.data!.elementAt(index)
-                                                          as Map)['feel'] ==
-                                                      "n"
-                                                  ? Colors.yellow
-                                                  : Colors.green,
-                                      minimumSize: Size(10, 10),
-                                      shape: CircleBorder(
-                                          side: BorderSide(
-                                              color: Colors.white54)),
-                                    ),
-                                    child: Text(""),
-                                    onPressed: () {},
-                                  ),
-                                  Container(
-                                    child: Text(
-                                      (snapshot.data!.elementAt(index)
-                                          as Map)['user'],
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(fontSize: 12),
-                                    ),
-                                    width: 90,
-                                  ),
-                                  SizedBox(width: 5),
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor:
-                                            Colors.indigo.shade300),
-                                    child: Text('Show Message',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 12)),
-                                    onPressed: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) =>
-                                            _buildDisplayDialog(
-                                                context,
-                                                snapshot.data!
-                                                    .elementAt(index)),
-                                      );
-                                    },
-                                  ),
-                                  /*locValue == "Linderman Library"
+                                  Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: (snapshot.data!
+                                                            .elementAt(index)
+                                                        as Map)['feel'] ==
+                                                    "b"
+                                                ? Colors.red
+                                                : (snapshot.data!.elementAt(
+                                                                index)
+                                                            as Map)['feel'] ==
+                                                        "n"
+                                                    ? Colors.yellow
+                                                    : Colors.green,
+                                            minimumSize: Size(10, 10),
+                                            shape: CircleBorder(
+                                                side: BorderSide(
+                                                    color: Colors.white54)),
+                                          ),
+                                          child: Text(""),
+                                          onPressed: () {},
+                                        ),
+                                        IconButton(
+                                          icon: _likes[index]
+                                              ? Icon(Icons.thumb_up_alt,
+                                                  size: 16)
+                                              : Icon(Icons.thumb_up_alt,
+                                                  color: Colors.blue, size: 16),
+                                          onPressed: () {
+                                            setState(() {
+                                              _likes[index] = !_likes[index];
+                                            });
+                                            print(_likes[index]);
+                                          },
+                                        ),
+                                        Text(""),
+                                        Container(
+                                          child: Text(
+                                            (snapshot.data!.elementAt(index)
+                                                as Map)['user'],
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(fontSize: 12),
+                                          ),
+                                          width: 90,
+                                        ),
+                                        SizedBox(width: 5),
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor:
+                                                  Colors.indigo.shade300),
+                                          child: Text('Show Message',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 12)),
+                                          onPressed: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) =>
+                                                  _buildDisplayDialog(
+                                                      context,
+                                                      snapshot.data!
+                                                          .elementAt(index)),
+                                            );
+                                          },
+                                        ),
+                                        /*locValue == "Linderman Library"
                                       ? _lindermanImgBoolList[index]
                                           ? Container(
                                               height: 150,
@@ -222,6 +245,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                       _storeImgList[index]!),
                                                 )
                                               : SizedBox(width: 100)*/
+                                      ]),
                                 ]);
                           },
                         ),
