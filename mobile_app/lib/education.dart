@@ -50,28 +50,29 @@ class _MyHomePageState extends State<MyHomePage> {
     flutterTts = FlutterTts();
   }
 
-
   _launchNMIURL() async {
-    final Uri url = Uri.parse('https://www.nimh.nih.gov/health/publications/fact-sheets');
+    final Uri url =
+        Uri.parse('https://www.nimh.nih.gov/health/publications/fact-sheets');
     if (!await launchUrl(url)) {
       throw Exception('Could not launch $url');
     }
   }
 
-    _launchMHFAURL() async {
-    final Uri url = Uri.parse('https://www.mentalhealthfirstaid.org/mental-health-resources/');
+  _launchMHFAURL() async {
+    final Uri url = Uri.parse(
+        'https://www.mentalhealthfirstaid.org/mental-health-resources/');
     if (!await launchUrl(url)) {
       throw Exception('Could not launch $url');
     }
   }
 
-      _launchNAMIURL() async {
-    final Uri url = Uri.parse('https://www.nami.org/Support-Education/Mental-Health-Education');
+  _launchNAMIURL() async {
+    final Uri url = Uri.parse(
+        'https://www.nami.org/Support-Education/Mental-Health-Education');
     if (!await launchUrl(url)) {
       throw Exception('Could not launch $url');
     }
   }
-
 
   Widget _buildJournalDialog(BuildContext context) {
     return AlertDialog(
@@ -82,7 +83,11 @@ class _MyHomePageState extends State<MyHomePage> {
         children: <Widget>[
           Text("Link",
               style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14)),
-          IconButton(icon: Icon(Icons.music_note), onPressed: _launchNMIURL())
+          IconButton(
+              icon: Icon(Icons.music_note),
+              onPressed: () {
+                _launchNMIURL();
+              })
         ],
       ),
       actions: <Widget>[
@@ -102,13 +107,15 @@ class _MyHomePageState extends State<MyHomePage> {
     return AlertDialog(
       title: const Text('Mental Health First Aid'),
       content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          IconButton(
-              icon: Icon(Icons.volume_up),
-              onPressed: _launchMHFAURL())
-      ]),
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            IconButton(
+                icon: Icon(Icons.volume_up),
+                onPressed: () {
+                  _launchMHFAURL();
+                })
+          ]),
       actions: <Widget>[
         ElevatedButton(
           onPressed: () {
@@ -129,10 +136,11 @@ class _MyHomePageState extends State<MyHomePage> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-         
           IconButton(
               icon: Icon(Icons.volume_up),
-              onPressed: _launchNAMIURL())
+              onPressed: () {
+                _launchNAMIURL();
+              })
         ],
       ),
       actions: <Widget>[
