@@ -174,8 +174,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                               : Icon(Icons.thumb_up_alt,
                                                   color: Colors.blue, size: 16),
                                           onPressed: () {
+                                            _likes[index] = !_likes[index];
                                             setState(() {
-                                              _likes[index] = !_likes[index];
+                                              _likes[index];
                                             });
                                             print(_likes[index]);
                                           },

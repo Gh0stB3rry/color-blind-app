@@ -38,7 +38,7 @@ enum TtsState { playing, stopped, paused, continued }
 class _MyHomePageState extends State<MyHomePage> {
   late FlutterTts flutterTts;
   TtsState ttsState = TtsState.stopped;
-  static const String _title = 'Excercise';
+  static const String _title = 'Music';
 
   @override
   initState() {
@@ -265,7 +265,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) =>
-                                    _buildMapDialog(context),
+                                    _buildProfileDialog(context),
                               );
                             },
                           ),
@@ -279,7 +279,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) =>
-                                    _buildProfileDialog(context),
+                                    _buildMapDialog(context),
                               );
                             },
                           ),
