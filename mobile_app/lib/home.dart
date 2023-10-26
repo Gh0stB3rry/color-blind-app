@@ -412,6 +412,7 @@ class _MyHomePageState extends State<MyHomePage> {
               });
               setState(() {
                 selectedTone = null;
+                cmntController.clear();
               });
             } else {
               // Handle case when no tone is selected (Maybe show a snackbar or alert)
@@ -424,6 +425,7 @@ class _MyHomePageState extends State<MyHomePage> {
             galleryFile = null;
             setState(() {
               selectedTone = null;
+              cmntController.clear();
             });
             Navigator.of(context).pop();
           },
