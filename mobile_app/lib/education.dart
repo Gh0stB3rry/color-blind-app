@@ -50,28 +50,29 @@ class _MyHomePageState extends State<MyHomePage> {
     flutterTts = FlutterTts();
   }
 
-
   _launchNMIURL() async {
-    final Uri url = Uri.parse('https://www.nimh.nih.gov/health/publications/fact-sheets');
+    final Uri url =
+        Uri.parse('https://www.nimh.nih.gov/health/publications/fact-sheets');
     if (!await launchUrl(url)) {
       throw Exception('Could not launch $url');
     }
   }
 
-    _launchMHFAURL() async {
-    final Uri url = Uri.parse('https://www.mentalhealthfirstaid.org/mental-health-resources/');
+  _launchMHFAURL() async {
+    final Uri url = Uri.parse(
+        'https://www.mentalhealthfirstaid.org/mental-health-resources/');
     if (!await launchUrl(url)) {
       throw Exception('Could not launch $url');
     }
   }
 
-      _launchNAMIURL() async {
-    final Uri url = Uri.parse('https://www.nami.org/Support-Education/Mental-Health-Education');
+  _launchNAMIURL() async {
+    final Uri url = Uri.parse(
+        'https://www.nami.org/Support-Education/Mental-Health-Education');
     if (!await launchUrl(url)) {
       throw Exception('Could not launch $url');
     }
   }
-
 
   Widget _buildJournalDialog(BuildContext context) {
     return AlertDialog(
@@ -102,13 +103,11 @@ class _MyHomePageState extends State<MyHomePage> {
     return AlertDialog(
       title: const Text('Mental Health First Aid'),
       content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          IconButton(
-              icon: Icon(Icons.volume_up),
-              onPressed: _launchMHFAURL())
-      ]),
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            IconButton(icon: Icon(Icons.volume_up), onPressed: _launchMHFAURL())
+          ]),
       actions: <Widget>[
         ElevatedButton(
           onPressed: () {
@@ -129,10 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-         
-          IconButton(
-              icon: Icon(Icons.volume_up),
-              onPressed: _launchNAMIURL())
+          IconButton(icon: Icon(Icons.volume_up), onPressed: _launchNAMIURL())
         ],
       ),
       actions: <Widget>[
@@ -200,7 +196,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                           SizedBox(width: 80),
                           Text(
-                            "Music",
+                            "Mental Health Educational Resources",
                             style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 20,
@@ -213,7 +209,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           const Text(
-                            '\nHere are some music playlists that you can listen to while you do your daily activties.\n NOTE: This helps if you have a Spotify account.',
+                            '\nHere are some mental health links just in case you need them!',
                             style: TextStyle(fontSize: 20),
                           ),
                           ElevatedButton(
