@@ -54,12 +54,24 @@ class _MyHomePageState extends State<MyHomePage> {
     await flutterTts.speak(newVoiceText!);
   }
 
-    _launchURL() async {
-    Uri url = Uri.parse('www.youtube.com/watch?v=5qap5aO4i9A');
-    if (await launchUrl(url)) {
-      await launchUrl(url);
-    } else {
-      throw 'Could not launch $url';
+  _launchHappyURL() async {
+    final Uri url = Uri.parse('https://open.spotify.com/album/0OFW8PO6Iwc2AaBFRxoxJ3?si=2emT9oGWS4i0sDtZWHwhUw');
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
+    _launchWorkURL() async {
+    final Uri url = Uri.parse('https://open.spotify.com/album/4r7eg6fXx8Y3HAA8SMKNv7?si=Du7FJPvbQB6CFBIoMqZS0w');
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
+      _launchFocusURL() async {
+    final Uri url = Uri.parse('https://open.spotify.com/playlist/37i9dQZF1DWZZbwlv3Vmtr?si=3903674dd0a44028');
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
     }
   }
 
@@ -71,12 +83,9 @@ class _MyHomePageState extends State<MyHomePage> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-              "Link",
+          Text("Link",
               style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14)),
-          IconButton(
-              icon: Icon(Icons.volume_up),
-              onPressed: () => _launchURL())
+          IconButton(icon: Icon(Icons.music_note), onPressed: _launchHappyURL())
         ],
       ),
       actions: <Widget>[
@@ -94,20 +103,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _buildProfileDialog(BuildContext context) {
     return AlertDialog(
-      title: const Text('Progressive muscle relaxation'),
+      title: const Text('Workout Music'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-              "Get into a comfortable position, either sitting or lying down.\n 2. Strive to tense and then release each large muscle or muscle group for about five seconds or so, then relax the muscles.\n3. Begin by taking a few deep breaths from the abdomen. Tense, hold, and relax each large muscle group, working your way up or down the body.\n4. Try and notice the contrast between a tensed state and a relaxed state inhaling as you tense the muscle and exhaling as you relax and let go.",
-              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14)),
           IconButton(
               icon: Icon(Icons.volume_up),
-              onPressed: () => _speak(
-                  "Get into a comfortable position, either sitting or lying down. 2. Strive to tense and then release each large muscle or muscle group for about five seconds or so, then relax the muscles. 3. Begin by taking a few deep breaths from the abdomen. Tense, hold, and relax each large muscle group, working your way up or down the body. 4. Try and notice the contrast between a tensed state and a relaxed state inhaling as you tense the muscle and exhaling as you relax and let go.")),
-        ],
-      ),
+              onPressed: _launchWorkURL())
+      ]),
       actions: <Widget>[
         ElevatedButton(
           onPressed: () {
@@ -128,13 +132,10 @@ class _MyHomePageState extends State<MyHomePage> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-              "1.Start by closing your eyes and picturing a huge blackboard. The blackboard can be as big as you are.\n 2. Now in your imagination, take the chalk and write down the number 100 on the board as large as you can write it.\n3. Then erase the number away as slowly as you can, making sure that all of the chalk is removed from the blackboard.\n4. Write the number 99 next, then erasing it very slowly.\n5. Continue counting down until you fall asleep or reach zero when the task begins again.",
-              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14)),
+         
           IconButton(
               icon: Icon(Icons.volume_up),
-              onPressed: () => _speak(
-                  "1.Start by closing your eyes and picturing a huge blackboard. The blackboard can be as big as you are. 2. Now in your imagination, take the chalk and write down the number 100 on the board as large as you can write it. 3. Then erase the number away as slowly as you can, making sure that all of the chalk is removed from the blackboard. 4. Write the number 99 next, then erasing it very slowly. 5. Continue counting down until you fall asleep or reach zero when the task begins again.")),
+              onPressed: _launchFocusURL())
         ],
       ),
       actions: <Widget>[
@@ -215,13 +216,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           const Text(
-                            '\nPlease click on the button for some exercise ideas!',
+                            '\nHere are some music playlists that you can listen to while you do your daily activties.\n NOTE: This helps if you have a Spotify account.',
                             style: TextStyle(fontSize: 20),
                           ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.indigo.shade300),
-                            child: Text('The Body Scan Meditation',
+                            child: Text('Low-Fi Beats',
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500, fontSize: 12)),
                             onPressed: () {
@@ -235,7 +236,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.indigo.shade300),
-                            child: Text('The Blackboard technique',
+                            child: Text('Workout Music',
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500, fontSize: 12)),
                             onPressed: () {
@@ -249,7 +250,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.indigo.shade300),
-                            child: Text('Progressive muscle relaxation',
+                            child: Text('Focus Music',
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500, fontSize: 12)),
                             onPressed: () {
