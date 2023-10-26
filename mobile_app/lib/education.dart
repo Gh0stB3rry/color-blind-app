@@ -208,7 +208,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                           SizedBox(width: 80),
                           Text(
-                            "Music",
+                            "Mental Health Educational Resources",
                             style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 20,
@@ -221,7 +221,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           const Text(
-                            '\nHere are some music playlists that you can listen to while you do your daily activties.\n NOTE: This helps if you have a Spotify account.',
+                            '\nHere are some mental health links just in case you need them!',
                             style: TextStyle(fontSize: 20),
                           ),
                           ElevatedButton(
