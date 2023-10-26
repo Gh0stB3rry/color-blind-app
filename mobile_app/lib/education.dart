@@ -206,9 +206,9 @@ class _MyHomePageState extends State<MyHomePage> {
                               );
                             },
                           ),
-                          SizedBox(width: 80),
+                          SizedBox(width: 40),
                           Text(
-                            "Mental Health Educational Resources",
+                            "Educational Resources",
                             style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 20,
