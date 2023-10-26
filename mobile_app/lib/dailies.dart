@@ -126,6 +126,7 @@ class Dailies extends StatelessWidget {
                               );
                             },
                           ),
+                          SizedBox(height: 20),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 fixedSize: Size(350, 130),

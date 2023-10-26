@@ -78,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _buildJournalDialog(BuildContext context) {
     return AlertDialog(
-      title: const Text('Low-Fi Beats for Relaxation'),
+      title: const Text('Happy Music'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -127,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _buildMapDialog(BuildContext context) {
     return AlertDialog(
-      title: const Text('The blackboard technique'),
+      title: const Text('Focus Music'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -203,7 +203,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                           SizedBox(width: 80),
                           Text(
-                            "Meditation",
+                            "Music",
                             style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 20,
@@ -222,7 +222,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.indigo.shade300),
-                            child: Text('Low-Fi Beats',
+                            child: Text('Happy Music',
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500, fontSize: 12)),
                             onPressed: () {

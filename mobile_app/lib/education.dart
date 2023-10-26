@@ -1,28 +1,88 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
+import 'package:mobile_app/dailies.dart';
 import 'package:mobile_app/home.dart';
 import 'package:mobile_app/main.dart';
 import 'package:flutter/src/material/colors.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:mobile_app/mindfulness.dart';
-import 'package:mobile_app/education.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+class Education extends StatelessWidget {
+  const Education({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Mobile App',
+      theme: ThemeData(
+        primarySwatch: Colors.indigo,
+      ),
+      home: MyHomePage(title: 'Home Page'),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key, required this.title});
+
+  final String title;
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+enum TtsState { playing, stopped, paused, continued }
+
+class _MyHomePageState extends State<MyHomePage> {
+  late FlutterTts flutterTts;
+  TtsState ttsState = TtsState.stopped;
+  static const String _title = 'Education';
+
+  @override
+  initState() {
+    super.initState();
+    initTts();
+  }
+
+  initTts() {
+    flutterTts = FlutterTts();
+  }
 
 
-class Help extends StatelessWidget {
-  const Help({Key? key}) : super(key: key);
-  static const String _title = 'Help';
+  _launchNMIURL() async {
+    final Uri url = Uri.parse('https://www.nimh.nih.gov/health/publications/fact-sheets');
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
+    _launchMHFAURL() async {
+    final Uri url = Uri.parse('https://www.mentalhealthfirstaid.org/mental-health-resources/');
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
+      _launchNAMIURL() async {
+    final Uri url = Uri.parse('https://www.nami.org/Support-Education/Mental-Health-Education');
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
 
   Widget _buildJournalDialog(BuildContext context) {
     return AlertDialog(
-      title: const Text('Journaling'),
+      title: const Text('National Mental Health Institute'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-              "If you want to leave a priviate message in the journal, click the journal button on the upper-left corner.\n\nThis will allow you to leave a priviate message or image. This records the date and your location as well!",
-              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14))
+          Text("Link",
+              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14)),
+          IconButton(icon: Icon(Icons.music_note), onPressed: _launchNMIURL())
         ],
       ),
       actions: <Widget>[
@@ -40,16 +100,15 @@ class Help extends StatelessWidget {
 
   Widget _buildProfileDialog(BuildContext context) {
     return AlertDialog(
-      title: const Text('Profile'),
+      title: const Text('Mental Health First Aid'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-              "To edit your profile, click on the \'profile\' button, and then the pencil button to make any changes to your personal interests!",
-              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14))
-        ],
-      ),
+          IconButton(
+              icon: Icon(Icons.volume_up),
+              onPressed: _launchMHFAURL())
+      ]),
       actions: <Widget>[
         ElevatedButton(
           onPressed: () {
@@ -65,14 +124,15 @@ class Help extends StatelessWidget {
 
   Widget _buildMapDialog(BuildContext context) {
     return AlertDialog(
-      title: const Text('Maps and Commenting'),
+      title: const Text('NAMI'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-              'If you want to record a message or image for others to see, click the drop down button on the home screen to find your college.\nAfter, find the location you want to blog about and click its icon.\nHere you can see other comments and add your own.',
-              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14))
+         
+          IconButton(
+              icon: Icon(Icons.volume_up),
+              onPressed: _launchNAMIURL())
         ],
       ),
       actions: <Widget>[
@@ -103,7 +163,7 @@ class Help extends StatelessWidget {
             body: Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage("lib/assets/mountain.jpg"),
+                    image: AssetImage("lib/assets/pastel.png"),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -114,49 +174,52 @@ class Help extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
+                          SizedBox(width: 10),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.lightGreen.shade300,
-                              minimumSize: Size(128, 64),
+                              minimumSize: Size(64, 64),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(50.0),
                                   side: BorderSide(
                                       color: Colors.lightGreen.shade300)),
                             ),
                             child: Icon(
-                              Icons.arrow_forward,
+                              Icons.arrow_back,
                               size: 30.0,
                             ),
                             onPressed: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const Home()),
+                                    builder: (context) => const Dailies()),
                               );
                             },
                           ),
+                          SizedBox(width: 80),
+                          Text(
+                            "Music",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 20,
+                                color: Colors.indigo.shade300),
+                          )
                         ],
                       ),
                       SizedBox(height: 10),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Center(
-                            child: const Text(
-                              '\nThis app contains many features aimed towards supporting college students with mental health.\n\nHere, you can find explanations of these features so you can decide which best suit your needs.\n\nWhen you\'re ready, click the arrow up top to begin!',
-                              style: TextStyle(fontSize: 16),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
+                          const Text(
+                            '\nHere are some music playlists that you can listen to while you do your daily activties.\n NOTE: This helps if you have a Spotify account.',
+                            style: TextStyle(fontSize: 20),
                           ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.indigo.shade300),
-                            child: Text('Journaling',
+                            child: Text('National Mental Health Institute',
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500, fontSize: 12)),
                             onPressed: () {
@@ -170,7 +233,7 @@ class Help extends StatelessWidget {
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.indigo.shade300),
-                            child: Text('Maps and Commenting',
+                            child: Text('Mental Health First Aid',
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500, fontSize: 12)),
                             onPressed: () {
@@ -184,7 +247,7 @@ class Help extends StatelessWidget {
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.indigo.shade300),
-                            child: Text('Profile Editing',
+                            child: Text('NAMI',
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500, fontSize: 12)),
                             onPressed: () {
@@ -192,47 +255,6 @@ class Help extends StatelessWidget {
                                 context: context,
                                 builder: (BuildContext context) =>
                                     _buildProfileDialog(context),
-                              );
-                            },
-                          ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.indigo.shade300),
-                            child: Text('Friend Groups',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500, fontSize: 12)),
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) =>
-                                    _buildProfileDialog(context),
-                              );
-                            },
-                          ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.indigo.shade300),
-                            child: Text('Mindfulness Excercises',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500, fontSize: 12)),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const Mindfulness()),
-                              );
-                            },
-                          ),
-                           ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.indigo.shade300),
-                            child: Text('Mental Health Resouces',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500, fontSize: 12)),
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) => const Education(),
                               );
                             },
                           ),
