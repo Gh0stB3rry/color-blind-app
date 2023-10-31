@@ -174,8 +174,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                               : Icon(Icons.thumb_up_alt,
                                                   color: Colors.blue, size: 16),
                                           onPressed: () {
+                                            _likes[index] = !_likes[index];
                                             setState(() {
-                                              _likes[index] = !_likes[index];
+                                              _likes[index];
                                             });
                                             print(_likes[index]);
                                           },
@@ -336,9 +337,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   TextEditingController cmntController = TextEditingController();
+  String? selectedTone;
 
   Widget _buildCommentDialog(BuildContext context, locValue) {
-    String? selectedTone; // To store the selected tone
+    // To store the selected tone
 
     return AlertDialog(
       title: const Text('Add a Comment'),
@@ -355,7 +357,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               SizedBox(height: 10), // Spacing
-              DropdownButton<String>(
+              DropdownButtonFormField<String>(
                 value: selectedTone,
                 hint: Text('Select Comment Tone'),
                 items: <String>[
@@ -369,8 +371,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   );
                 }).toList(),
                 onChanged: (String? newValue) {
+                  selectedTone = newValue;
                   setState(() {
-                    selectedTone = newValue;
+                    selectedTone;
                   });
                 },
               ),
@@ -408,7 +411,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 'user': auth!.email,
                 'feel': feelValue,
               });
-              setState(() {});
+              setState(() {
+                selectedTone = null;
+                cmntController.clear();
+              });
             } else {
               // Handle case when no tone is selected (Maybe show a snackbar or alert)
             }
@@ -418,6 +424,10 @@ class _MyHomePageState extends State<MyHomePage> {
         ElevatedButton(
           onPressed: () {
             galleryFile = null;
+            setState(() {
+              selectedTone = null;
+              cmntController.clear();
+            });
             Navigator.of(context).pop();
           },
           style:

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:mobile_app/dailies.dart';
+import 'package:mobile_app/help.dart';
 import 'package:mobile_app/home.dart';
 import 'package:mobile_app/main.dart';
 import 'package:flutter/src/material/colors.dart';
@@ -92,7 +93,11 @@ class _MyHomePageState extends State<MyHomePage> {
         children: <Widget>[
           Text("Link",
               style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14)),
-          IconButton(icon: Icon(Icons.article), onPressed: _launchNMIURL())
+          IconButton(
+              icon: Icon(Icons.article),
+              onPressed: () {
+                _launchNMIURL();
+              })
         ],
       ),
       actions: <Widget>[
@@ -115,7 +120,11 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            IconButton(icon: Icon(Icons.article), onPressed: _launchMHFAURL())
+             IconButton(
+              icon: Icon(Icons.article),
+              onPressed: () {
+                _launchMHFAURL();
+              })
           ]),
       actions: <Widget>[
         ElevatedButton(
@@ -137,7 +146,11 @@ class _MyHomePageState extends State<MyHomePage> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          IconButton(icon: Icon(Icons.article), onPressed: _launchNAMIURL())
+          IconButton(
+              icon: Icon(Icons.article),
+              onPressed: () {
+                _launchNAMIURL();
+              })
         ],
       ),
       actions: <Widget>[
@@ -154,14 +167,18 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
 
-    Widget _buildLehighDialog(BuildContext context) {
+  Widget _buildLehighDialog(BuildContext context) {
     return AlertDialog(
-      title: const Text('Lehigh Conseling Services'),
+      title: const Text('NAMI'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          IconButton(icon: Icon(Icons.article), onPressed: _launchLehighURL())
+          IconButton(
+              icon: Icon(Icons.article),
+              onPressed: () {
+                _launchLehighURL();
+              })
         ],
       ),
       actions: <Widget>[
@@ -223,13 +240,13 @@ class _MyHomePageState extends State<MyHomePage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const Dailies()),
+                                    builder: (context) => const Help()),
                               );
                             },
                           ),
-                          SizedBox(width: 80),
+                          SizedBox(width: 40),
                           Text(
-                            "Mental Health Educational Resources",
+                            "Educational Resources",
                             style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 20,
