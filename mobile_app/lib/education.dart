@@ -169,7 +169,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _buildLehighDialog(BuildContext context) {
     return AlertDialog(
-      title: const Text('NAMI'),
+      title: const Text('Lehigh Counseling Services'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
