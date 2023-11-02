@@ -119,7 +119,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                                   email: nameController.text,
                                   password: passwordController.text);
                           if (user != null) {
-                            FirebaseFirestore.instance.collection("users").add({
+                            FirebaseFirestore.instance
+                                .collection("users")
+                                .doc(FirebaseAuth.instance.currentUser?.email)
+                                .set({
                               'day': 0,
                               'email': nameController.text.trim(),
                               'food': '',

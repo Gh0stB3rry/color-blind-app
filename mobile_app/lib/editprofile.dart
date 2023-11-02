@@ -122,30 +122,6 @@ class _MyEditProfileState extends State<MyEditProfile> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
-                      CircleAvatar(
-                        backgroundColor: Colors.white70,
-                        minRadius: 60.0,
-                        child: tempFile == null
-                            ? IconButton(
-                                onPressed: () {
-                                  _showPicker(context: context);
-                                },
-                                icon: Icon(
-                                  Icons.edit,
-                                  size: 30.0,
-                                ))
-                            : CircleAvatar(
-                                radius: 30.0,
-                                backgroundImage: FileImage(tempFile!),
-                                child: IconButton(
-                                    onPressed: () {
-                                      _showPicker(context: context);
-                                    },
-                                    icon: Icon(
-                                      Icons.edit,
-                                      size: 30.0,
-                                    ))),
-                      ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.lightGreen.shade300,
@@ -188,7 +164,7 @@ class _MyEditProfileState extends State<MyEditProfile> {
                     ],
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 30,
                   ),
                   Text(
                     user!,
