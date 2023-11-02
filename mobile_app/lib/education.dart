@@ -75,6 +75,15 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+   _launchLehighURL() async {
+    final Uri url = Uri.parse(
+        'https://studentaffairs.lehigh.edu/content/counseling-psychological-services-ucps');
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
+
   Widget _buildJournalDialog(BuildContext context) {
     return AlertDialog(
       title: const Text('National Mental Health Institute'),
@@ -85,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Text("Link",
               style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14)),
           IconButton(
-              icon: Icon(Icons.music_note),
+              icon: Icon(Icons.article),
               onPressed: () {
                 _launchNMIURL();
               })
@@ -111,11 +120,11 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            IconButton(
-                icon: Icon(Icons.volume_up),
-                onPressed: () {
-                  _launchMHFAURL();
-                })
+             IconButton(
+              icon: Icon(Icons.article),
+              onPressed: () {
+                _launchMHFAURL();
+              })
           ]),
       actions: <Widget>[
         ElevatedButton(
@@ -138,9 +147,37 @@ class _MyHomePageState extends State<MyHomePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           IconButton(
-              icon: Icon(Icons.volume_up),
+              icon: Icon(Icons.article),
               onPressed: () {
                 _launchNAMIURL();
+              })
+        ],
+      ),
+      actions: <Widget>[
+        ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          style:
+              ElevatedButton.styleFrom(backgroundColor: Colors.indigo.shade300),
+          child: const Text('Close'),
+        ),
+      ],
+    );
+  }
+
+
+  Widget _buildLehighDialog(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Lehigh Counseling Services'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          IconButton(
+              icon: Icon(Icons.article),
+              onPressed: () {
+                _launchLehighURL();
               })
         ],
       ),
@@ -264,6 +301,20 @@ class _MyHomePageState extends State<MyHomePage> {
                                 context: context,
                                 builder: (BuildContext context) =>
                                     _buildProfileDialog(context),
+                              );
+                            },
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.indigo.shade300),
+                            child: Text('Lehigh Counseling Services',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500, fontSize: 12)),
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) =>
+                                    _buildLehighDialog(context),
                               );
                             },
                           ),
