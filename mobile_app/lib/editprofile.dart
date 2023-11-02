@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_app/home.dart';
 import 'package:mobile_app/profile.dart';
@@ -26,19 +28,14 @@ class MyEditProfile extends StatefulWidget {
   State<MyEditProfile> createState() => _MyEditProfileState();
 }
 
+var user = FirebaseAuth.instance.currentUser!.email;
+
 class _MyEditProfileState extends State<MyEditProfile> {
-  TextEditingController nameController =
-      TextEditingController(text: 'Kayla Kraft');
-  TextEditingController profController =
-      TextEditingController(text: 'Mental Health Enthusiast');
-  TextEditingController foodController =
-      TextEditingController(text: 'West Coast Oysters');
-  TextEditingController vacController =
-      TextEditingController(text: 'Swiss Alps');
-  TextEditingController phoneController =
-      TextEditingController(text: '(917)-484-0064');
-  TextEditingController emailController =
-      TextEditingController(text: 'kak524@lehigh.edu');
+  TextEditingController nameController = TextEditingController(text: '');
+  TextEditingController foodController = TextEditingController(text: '');
+  TextEditingController vacController = TextEditingController(text: '');
+  TextEditingController phoneController = TextEditingController(text: '');
+  TextEditingController emailController = TextEditingController(text: '');
   final picker = ImagePicker();
 
   File? tempFile;
@@ -162,7 +159,25 @@ class _MyEditProfileState extends State<MyEditProfile> {
                           Icons.check,
                           size: 30.0,
                         ),
-                        onPressed: () {
+                        onPressed: () async {
+                          phoneController.text != ''
+                              ? await FirebaseFirestore.instance
+                                  .collection('users')
+                                  .doc(user)
+                                  .update({'phone': phoneController.text})
+                              : '';
+                          foodController.text != ''
+                              ? await FirebaseFirestore.instance
+                                  .collection('users')
+                                  .doc(user)
+                                  .update({'food': foodController.text})
+                              : '';
+                          vacController.text != ''
+                              ? await FirebaseFirestore.instance
+                                  .collection('users')
+                                  .doc(user)
+                                  .update({'vacation': vacController.text})
+                              : '';
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -175,16 +190,8 @@ class _MyEditProfileState extends State<MyEditProfile> {
                   SizedBox(
                     height: 10,
                   ),
-                  TextField(
-                    controller: nameController,
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  TextField(
-                    controller: profController,
+                  Text(
+                    user!,
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
@@ -200,25 +207,7 @@ class _MyEditProfileState extends State<MyEditProfile> {
                   Expanded(
                     child: Container(
                       color: Colors.deepOrange.shade300,
-                      child: ListTile(
-                        title: Text(
-                          '52837',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 30,
-                            color: Colors.white,
-                          ),
-                        ),
-                        subtitle: Text(
-                          'Friends',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white70,
-                          ),
-                        ),
-                      ),
+                      child: ListTile(),
                     ),
                   ),
                 ],
@@ -227,23 +216,6 @@ class _MyEditProfileState extends State<MyEditProfile> {
             Container(
               child: Column(
                 children: <Widget>[
-                  ListTile(
-                    title: Text(
-                      'Email',
-                      style: TextStyle(
-                        color: Colors.deepOrange,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: TextField(
-                      controller: emailController,
-                      style: TextStyle(
-                        fontSize: 15,
-                      ),
-                    ),
-                  ),
-                  Divider(),
                   ListTile(
                     title: Text(
                       'Phone Number',
