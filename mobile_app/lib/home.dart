@@ -20,12 +20,25 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'groups.dart';
 import 'journal.dart';
 
-const List<String> collegeList = <String>[
-  'None',
-  'Lehigh University',
-  'Colgate University',
-  'Bucknell University'
-];
+List<String> collegeList = [];
+//trying to fetch all the colleges names first and store in an array
+Future<List<String>> fetchCollegeList() async {
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  QuerySnapshot querySnapshot = await firestore.collection('locations').get();
+
+  for (var doc in querySnapshot.docs) {
+    String college = doc['College'];
+    collegeList.add(college);
+  }
+  return collegeList;
+}
+
+// const List<String> collegeList = <String>[
+//   'None',
+//   'Lehigh University',
+//   'Colgate University',
+//   'Bucknell University'
+// ];
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -70,6 +83,16 @@ var auth = FirebaseAuth.instance.currentUser;
 class _MyHomePageState extends State<MyHomePage> {
   File? galleryFile;
   final picker = ImagePicker();
+  @override
+  void initState() {
+    super.initState();
+    fetchCollegeList().then((college) {
+      setState(() {
+        // Assuming you have a state variable to hold college names
+        collegeList = college;
+      });
+    });
+  }
 
   Widget _buildDisplayDialog(BuildContext context, data) {
     return AlertDialog(
