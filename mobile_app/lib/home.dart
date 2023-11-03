@@ -83,12 +83,12 @@ var auth = FirebaseAuth.instance.currentUser;
 class _MyHomePageState extends State<MyHomePage> {
   File? galleryFile;
   final picker = ImagePicker();
+  //calls each time the app is opened
   @override
   void initState() {
     super.initState();
     fetchCollegeList().then((college) {
       setState(() {
-        // Assuming you have a state variable to hold college names
         collegeList = college;
       });
     });
