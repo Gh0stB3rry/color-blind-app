@@ -512,14 +512,26 @@ class _MyHomePageState extends State<MyHomePage> {
         heading: 0,
         altitudeAccuracy: 0,
         headingAccuracy: 0);*/
-    _add(location.latitude, location.longitude, 'Your Location', true);
+    _add(location.latitude, location.longitude, 'Your Location', true, -1);
 
     setState(() {
       _location = location;
     });
   }
 
-  void _add(lat, lng, id, yourLoc) {
+  BitmapDescriptor getMarkerColor(double feelValue) {
+    if (feelValue >= 0 && feelValue <= 0.7) {
+      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed);
+    } else if (feelValue <= 1.3) {
+      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueYellow);
+    } else if (feelValue <= 2) {
+      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen);
+    } else {
+      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange);
+    }
+  }
+
+  void _add(double lat, double lng, String id, bool yourLoc, double feelValue) {
     String markerIdVal = id;
     final MarkerId markerId = MarkerId(markerIdVal);
 
@@ -527,59 +539,43 @@ class _MyHomePageState extends State<MyHomePage> {
       markerId: markerId,
       position: LatLng(lat, lng),
       infoWindow: InfoWindow(title: markerIdVal),
-      icon: BitmapDescriptor.defaultMarkerWithHue((yourLoc)
-          ? BitmapDescriptor.hueBlue
-          : markerIdVal == "Linderman Library"
-              ? _lindermanFeel <= 0.7 && _lindermanFeel >= 0
-                  ? BitmapDescriptor.hueRed
-                  : _lindermanFeel <= 1.3 && _lindermanFeel >= 0
-                      ? BitmapDescriptor.hueYellow
-                      : _lindermanFeel <= 2 && _lindermanFeel >= 0
-                          ? BitmapDescriptor.hueGreen
-                          : BitmapDescriptor.hueOrange
-              : markerIdVal == "Fairchild-Martindale Library"
-                  ? _fmlFeel <= 0.5 && _fmlFeel >= 0
-                      ? BitmapDescriptor.hueRed
-                      : _fmlFeel <= 1.2 && _fmlFeel >= 0
-                          ? BitmapDescriptor.hueYellow
-                          : _fmlFeel <= 2 && _fmlFeel >= 0
-                              ? BitmapDescriptor.hueGreen
-                              : BitmapDescriptor.hueOrange
-                  : markerIdVal == "Lehigh Bookstore"
-                      ? _storeFeel <= 0.5 && _storeFeel >= 0
-                          ? BitmapDescriptor.hueRed
-                          : _storeFeel <= 1.2 && _storeFeel >= 0
-                              ? BitmapDescriptor.hueYellow
-                              : _storeFeel <= 2 && _storeFeel >= 0
-                                  ? BitmapDescriptor.hueGreen
-                                  : BitmapDescriptor.hueOrange
-                      : BitmapDescriptor.hueOrange),
-      onTap: () => {
+      //calls function above to get color for map
+      icon: getMarkerColor(feelValue),
+      onTap: () {
         showDialog(
           context: context,
           builder: (BuildContext context) =>
               _buildPopupDialog(context, markerIdVal),
-        )
+        );
       },
     );
 
+    // The marker is added to the map
     setState(() {
       markers[markerId] = marker;
     });
   }
 
-  void _addCollegeMarkers(college) async {
-    if (college == "Lehigh University") {
-      await FirebaseFirestore.instance
-          .collection("locations")
-          .doc("WxvETSn4QSafEChiz5sy")
-          .get()
-          .then((snapshot) => print(snapshot.data()?["college"]));
-      _add(40.60958556811076, -75.37811001464506, "Lehigh Bookstore", false);
-      _add(40.60895596054946, -75.37787503466733,
-          "Fairchild-Martindale Library", false);
-      _add(40.60661885328797, -75.3773548234956, "Linderman Library", false);
-    }
+  void _addCollegeMarkers(String collegeName) async {
+    FirebaseFirestore.instance
+        .collection("locations")
+        .where("College", isEqualTo: collegeName)
+        .get()
+        .then((querySnapshot) {
+      for (var doc in querySnapshot.docs) {
+        var data = doc.data() as Map<String, dynamic>;
+        var location = data['location'] as List<dynamic>;
+        var name = data['name'] as String;
+
+        //adds location for each "name" aka "building"
+        double lat = location[0];
+        double lng = location[1];
+
+        _add(lat, lng, name, false,-1);
+      }
+    }).catchError((error) {
+      print("Error getting documents: $error");
+    });
   }
 
   void _onMapCreated(GoogleMapController controller) {
