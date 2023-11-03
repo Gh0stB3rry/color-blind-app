@@ -28,7 +28,9 @@ Future<List<String>> fetchCollegeList() async {
 
   for (var doc in querySnapshot.docs) {
     String college = doc['College'];
-    collegeList.add(college);
+    if (!collegeList.contains(college)) {
+      collegeList.add(college);
+    }
   }
   return collegeList;
 }
