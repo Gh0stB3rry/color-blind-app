@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobile_app/dailies.dart';
@@ -16,6 +17,7 @@ import 'package:mobile_app/help.dart';
 import 'package:mobile_app/profile.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:profanity_filter/profanity_filter.dart';
 
 import 'groups.dart';
 import 'journal.dart';
@@ -392,31 +394,43 @@ class _MyHomePageState extends State<MyHomePage> {
           style:
               ElevatedButton.styleFrom(backgroundColor: Colors.indigo.shade300),
           onPressed: () {
-            if (selectedTone != null) {
-              String feelValue;
-              if (selectedTone == 'Positive') {
-                feelValue = 'g';
-              } else if (selectedTone == 'Negative') {
-                feelValue = 'b';
-              } else {
-                feelValue = 'n'; // Value for Neutral
-              }
-
-              FirebaseFirestore.instance
-                  .collection("comments")
-                  .doc(locValue)
-                  .collection("comments")
-                  .add({
-                'data': cmntController.text,
-                'user': auth!.email,
-                'feel': feelValue,
-              });
-              setState(() {
-                selectedTone = null;
-                cmntController.clear();
-              });
+            final filter = ProfanityFilter();
+            bool hasProfanity = filter.hasProfanity(cmntController.text);
+            if (hasProfanity) {
+              Fluttertoast.showToast(
+                msg: "Please refrain from using bad language",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity:
+                    ToastGravity.BOTTOM, // Also possible "TOP" and "CENTER"
+              );
             } else {
-              // Handle case when no tone is selected (Maybe show a snackbar or alert)
+              if (selectedTone != null) {
+                String feelValue;
+                if (selectedTone == 'Positive') {
+                  feelValue = 'g';
+                } else if (selectedTone == 'Negative') {
+                  feelValue = 'b';
+                } else {
+                  feelValue = 'n'; // Value for Neutral
+                }
+
+                FirebaseFirestore.instance
+                    .collection("comments")
+                    .doc(locValue)
+                    .collection("comments")
+                    .add({
+                  'data': cmntController.text,
+                  'user': auth!.email,
+                  'feel': feelValue,
+                });
+                setState(() {
+                  selectedTone = null;
+                  cmntController.clear();
+                });
+                Navigator.of(context).pop();
+              } else {
+                // Handle case when no tone is selected (Maybe show a snackbar or alert)
+              }
             }
           },
           child: const Text('Add Entry'),
