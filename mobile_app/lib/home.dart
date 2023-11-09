@@ -780,7 +780,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             child: GoogleMap(
                               onMapCreated: _onMapCreated,
                               initialCameraPosition: CameraPosition(
-                                target: _center,
+                                target: _center,,,
                                 zoom: 11.0,
                               ),
                               markers: Set<Marker>.of(markers.values),
