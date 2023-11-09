@@ -23,17 +23,19 @@ import 'groups.dart';
 import 'journal.dart';
 
 List<String> collegeList = [];
+String dropdownValue = '';
 //trying to fetch all the colleges names first and store in an array
 Future<List<String>> fetchCollegeList() async {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   QuerySnapshot querySnapshot = await firestore.collection('locations').get();
 
   for (var doc in querySnapshot.docs) {
-    String college = doc['College'];
+    String college = doc['college'];
     if (!collegeList.contains(college)) {
       collegeList.add(college);
     }
   }
+  dropdownValue = collegeList.first;
   return collegeList;
 }
 
@@ -131,6 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
     QuerySnapshot querySnapshot = await _collectionRef.get();
 
     final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
+    //filter this list to check that time property >8 hours
     return allData;
   }
 
@@ -423,12 +426,13 @@ class _MyHomePageState extends State<MyHomePage> {
             bool hasProfanity = filter.hasProfanity(cmntController.text);
             if (hasProfanity) {
               Fluttertoast.showToast(
-                msg: "Please refrain from using bad language",
+                msg: "Please refrain from using profanity",
                 toastLength: Toast.LENGTH_SHORT,
                 gravity:
                     ToastGravity.BOTTOM, // Also possible "TOP" and "CENTER"
               );
-            } else {
+            } //SUICIDAL MESSAGES FILTER HERE
+            else {
               if (selectedTone != null) {
                 String feelValue;
                 if (selectedTone == 'Positive') {
@@ -447,6 +451,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   'data': cmntController.text,
                   'user': auth!.email,
                   'feel': feelValue,
+                  //'time': current time
                 });
                 setState(() {
                   selectedTone = null;
@@ -488,7 +493,6 @@ class _MyHomePageState extends State<MyHomePage> {
       heading: 0,
       altitudeAccuracy: 0,
       headingAccuracy: 0);
-  String dropdownValue = collegeList.first;
 
   late GoogleMapController mapController;
   //this is the function to load custom map style json
@@ -573,7 +577,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _addCollegeMarkers(String collegeName) async {
     FirebaseFirestore.instance
         .collection("locations")
-        .where("College", isEqualTo: collegeName)
+        .where("college", isEqualTo: collegeName)
         .get()
         .then((querySnapshot) {
       for (var doc in querySnapshot.docs) {
@@ -585,7 +589,7 @@ class _MyHomePageState extends State<MyHomePage> {
         double lat = location[0];
         double lng = location[1];
 
-        _add(lat, lng, name, false,-1);
+        _add(lat, lng, name, false, -1);
       }
     }).catchError((error) {
       print("Error getting documents: $error");
