@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobile_app/dailies.dart';
@@ -16,22 +17,25 @@ import 'package:mobile_app/help.dart';
 import 'package:mobile_app/profile.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:profanity_filter/profanity_filter.dart';
 
 import 'groups.dart';
 import 'journal.dart';
 
 List<String> collegeList = [];
+String dropdownValue = '';
 //trying to fetch all the colleges names first and store in an array
 Future<List<String>> fetchCollegeList() async {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   QuerySnapshot querySnapshot = await firestore.collection('locations').get();
 
   for (var doc in querySnapshot.docs) {
-    String college = doc['College'];
+    String college = doc['college'];
     if (!collegeList.contains(college)) {
       collegeList.add(college);
     }
   }
+  dropdownValue = collegeList.first;
   return collegeList;
 }
 
@@ -129,6 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
     QuerySnapshot querySnapshot = await _collectionRef.get();
 
     final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
+    //filter this list to check that time property >8 hours
     return allData;
   }
 
@@ -417,31 +422,45 @@ class _MyHomePageState extends State<MyHomePage> {
           style:
               ElevatedButton.styleFrom(backgroundColor: Colors.indigo.shade300),
           onPressed: () {
-            if (selectedTone != null) {
-              String feelValue;
-              if (selectedTone == 'Positive') {
-                feelValue = 'g';
-              } else if (selectedTone == 'Negative') {
-                feelValue = 'b';
-              } else {
-                feelValue = 'n'; // Value for Neutral
-              }
+            final filter = ProfanityFilter();
+            bool hasProfanity = filter.hasProfanity(cmntController.text);
+            if (hasProfanity) {
+              Fluttertoast.showToast(
+                msg: "Please refrain from using profanity",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity:
+                    ToastGravity.BOTTOM, // Also possible "TOP" and "CENTER"
+              );
+            } //SUICIDAL MESSAGES FILTER HERE
+            else {
+              if (selectedTone != null) {
+                String feelValue;
+                if (selectedTone == 'Positive') {
+                  feelValue = 'g';
+                } else if (selectedTone == 'Negative') {
+                  feelValue = 'b';
+                } else {
+                  feelValue = 'n'; // Value for Neutral
+                }
 
-              FirebaseFirestore.instance
-                  .collection("comments")
-                  .doc(locValue)
-                  .collection("comments")
-                  .add({
-                'data': cmntController.text,
-                'user': auth!.email,
-                'feel': feelValue,
-              });
-              setState(() {
-                selectedTone = null;
-                cmntController.clear();
-              });
-            } else {
-              // Handle case when no tone is selected (Maybe show a snackbar or alert)
+                FirebaseFirestore.instance
+                    .collection("comments")
+                    .doc(locValue)
+                    .collection("comments")
+                    .add({
+                  'data': cmntController.text,
+                  'user': auth!.email,
+                  'feel': feelValue,
+                  //'time': current time
+                });
+                setState(() {
+                  selectedTone = null;
+                  cmntController.clear();
+                });
+                Navigator.of(context).pop();
+              } else {
+                // Handle case when no tone is selected (Maybe show a snackbar or alert)
+              }
             }
           },
           child: const Text('Add Entry'),
@@ -474,7 +493,6 @@ class _MyHomePageState extends State<MyHomePage> {
       heading: 0,
       altitudeAccuracy: 0,
       headingAccuracy: 0);
-  String dropdownValue = collegeList.first;
 
   late GoogleMapController mapController;
   //this is the function to load custom map style json
@@ -559,7 +577,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _addCollegeMarkers(String collegeName) async {
     FirebaseFirestore.instance
         .collection("locations")
-        .where("College", isEqualTo: collegeName)
+        .where("college", isEqualTo: collegeName)
         .get()
         .then((querySnapshot) {
       for (var doc in querySnapshot.docs) {
@@ -571,7 +589,7 @@ class _MyHomePageState extends State<MyHomePage> {
         double lat = location[0];
         double lng = location[1];
 
-        _add(lat, lng, name, false,-1);
+        _add(lat, lng, name, false, -1);
       }
     }).catchError((error) {
       print("Error getting documents: $error");
