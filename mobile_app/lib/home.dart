@@ -500,7 +500,6 @@ class _MyHomePageState extends State<MyHomePage> {
     getJsonFile("lib/assets/map_style.json")
         .then((value) => setMapStyle(value, mapController));
   }
-
   //helper function
   void setMapStyle(String mapStyle, GoogleMapController mapController) {
     mapController.setMapStyle(mapStyle);
