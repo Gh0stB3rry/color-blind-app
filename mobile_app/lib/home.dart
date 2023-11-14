@@ -124,35 +124,34 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-Future<List<Object?>> getComments(locValue) async {
-  CollectionReference collectionRef = FirebaseFirestore.instance
-      .collection('comments')
-      .doc(locValue)
-      .collection("comments");
+  Future<List<Object?>> getComments(locValue) async {
+    CollectionReference collectionRef = FirebaseFirestore.instance
+        .collection('comments')
+        .doc(locValue)
+        .collection("comments");
 
-  QuerySnapshot querySnapshot = await collectionRef.get();
+    QuerySnapshot querySnapshot = await collectionRef.get();
 
-  DateTime now = DateTime.now();
-  final allData = querySnapshot.docs.map((doc) {
-    var data = doc.data();
-    if (data != null) {
-      // Explicitly cast data to Map<String, dynamic>
-      Map<String, dynamic> dataMap = data as Map<String, dynamic>;
-      DateTime? visibleTime = (dataMap['visibleTime'] as Timestamp?)?.toDate();
-      if (visibleTime != null && now.isAfter(visibleTime)) {
-        return dataMap;
-      }
-    }
-    return null;
-  }).where((data) => data != null).toList();
+    DateTime now = DateTime.now();
+    final allData = querySnapshot.docs
+        .map((doc) {
+          var data = doc.data();
+          if (data != null) {
+            // Explicitly cast data to Map<String, dynamic>
+            Map<String, dynamic> dataMap = data as Map<String, dynamic>;
+            DateTime? visibleTime =
+                (dataMap['visibleTime'] as Timestamp?)?.toDate();
+            if (visibleTime != null && now.isAfter(visibleTime)) {
+              return dataMap;
+            }
+          }
+          return null;
+        })
+        .where((data) => data != null)
+        .toList();
 
-  return allData;
-}
-
-
-
-
-
+    return allData;
+  }
 
   Widget _buildPopupDialog(BuildContext context, locValue) {
     return AlertDialog(
@@ -459,18 +458,24 @@ Future<List<Object?>> getComments(locValue) async {
                 } else {
                   feelValue = 'n'; // Value for Neutral
                 }
-                 // Generating a random delay between 8 and 24 hours
-  int delayInHours = Random().nextInt(17) + 8; // Generates a number between 0 and 16, then adds 8
-  DateTime postTime = DateTime.now();
-  DateTime visibleTime = postTime.add(Duration(hours: delayInHours));
+                // Generating a random delay between 8 and 24 hours
+                int delayInHours = Random().nextInt(17) +
+                    8; // Generates a number between 0 and 16, then adds 8
+                DateTime postTime = DateTime.now();
+                DateTime visibleTime =
+                    postTime.add(Duration(hours: delayInHours));
 
-                FirebaseFirestore.instance.collection("comments").doc(locValue).collection("comments").add({
-    'data': cmntController.text,
-    'user': auth!.email,
-    'feel': feelValue,
-    'postTime': postTime,
-    'visibleTime': visibleTime
-  });
+                FirebaseFirestore.instance
+                    .collection("comments")
+                    .doc(locValue)
+                    .collection("comments")
+                    .add({
+                  'data': cmntController.text,
+                  'user': auth!.email,
+                  'feel': feelValue,
+                  'postTime': postTime,
+                  'visibleTime': visibleTime
+                });
                 setState(() {
                   selectedTone = null;
                   cmntController.clear();
@@ -518,6 +523,7 @@ Future<List<Object?>> getComments(locValue) async {
     getJsonFile("lib/assets/map_style.json")
         .then((value) => setMapStyle(value, mapController));
   }
+
   //helper function
   void setMapStyle(String mapStyle, GoogleMapController mapController) {
     mapController.setMapStyle(mapStyle);
@@ -815,7 +821,7 @@ Future<List<Object?>> getComments(locValue) async {
                             child: GoogleMap(
                               onMapCreated: _onMapCreated,
                               initialCameraPosition: CameraPosition(
-                                target: _center,,,
+                                target: _center,
                                 zoom: 11.0,
                               ),
                               markers: Set<Marker>.of(markers.values),
