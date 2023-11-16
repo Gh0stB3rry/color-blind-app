@@ -18,9 +18,42 @@ import 'package:mobile_app/profile.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:profanity_filter/profanity_filter.dart';
+import 'package:flutter_nsfw/flutter_nsfw.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'groups.dart';
 import 'journal.dart';
+
+class NSFWDetector {
+  NSFWDetector(this.modelPath, this.enableLog, this.isOpenGPU, this.numThreads);
+
+  final String modelPath;
+  final bool enableLog;
+  final bool isOpenGPU;
+  final int numThreads;
+
+  bool isInitialized = false;
+
+  Future<dynamic> detectInPhoto(String photoPath) async {
+    if (!isInitialized) {
+      /*Directory appDocDir = await getApplicationDocumentsDirectory();
+      String appDocPath = appDocDir.path;
+      var file = File(appDocPath + "/nsfw.tflite");
+      if (!file.existsSync()) {
+        var data = await rootBundle.load("assets/nsfw.tflite");
+        final buffer = data.buffer;
+        await file.writeAsBytes(
+            buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
+      }
+      await FlutterNsfw.initNsfw(
+        "./assets/nsfw.tflite",
+      );
+      isInitialized = true;*/
+    }
+
+    return FlutterNsfw.getPhotoNSFWScore(photoPath);
+  }
+}
 
 List<String> collegeList = [];
 String dropdownValue = '';
@@ -142,7 +175,9 @@ class _MyHomePageState extends State<MyHomePage> {
             DateTime? visibleTime =
                 (dataMap['visibleTime'] as Timestamp?)?.toDate();
             if (visibleTime != null && now.isAfter(visibleTime)) {
-              return dataMap;
+              if (dataMap['feel'] == 'g') {
+                return dataMap;
+              }
             }
           }
           return null;
@@ -152,6 +187,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return allData;
   }
+
+  bool _isNSFW = false;
 
   Widget _buildPopupDialog(BuildContext context, locValue) {
     return AlertDialog(
@@ -367,19 +404,22 @@ class _MyHomePageState extends State<MyHomePage> {
   ) async {
     final pickedFile = await picker.pickImage(source: img);
     XFile? xfilePick = pickedFile;
-    setState(
-      () {
-        if (xfilePick != null) {
-          setState(() {
-            galleryFile = File(pickedFile!.path);
-            imgFlag = true;
-          });
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(// is this context <<<
-              const SnackBar(content: Text('Nothing is selected')));
-        }
-      },
-    );
+    if (xfilePick != null) {
+      String imgPath = xfilePick.path;
+      bool _isNSFW = await detectNSFWImage(imgPath);
+      if (_isNSFW) {
+        Fluttertoast.showToast(
+          msg: "Picture marked as NSFW, please try again",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM, // Also possible "TOP" and "CENTER"
+        );
+      } else {
+        setState(() {
+          galleryFile = File(pickedFile!.path);
+          imgFlag = true;
+        });
+      }
+    } else {}
   }
 
   TextEditingController cmntController = TextEditingController();
@@ -637,6 +677,20 @@ class _MyHomePageState extends State<MyHomePage> {
     Icons.person
   ];
   int current = 0;
+
+  NSFWDetector _nsfwDetector =
+      NSFWDetector('assets/model/nsfw.tflite', true, true, 2);
+
+  Future<dynamic> detectNSFWImage(String photo) async {
+    //final nsfwStatus = await _nsfwDetector.detectInPhoto(photo);
+    //print(nsfwStatus);
+    final nsfwStatus = 0.9;
+    if (nsfwStatus > 0.80) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
