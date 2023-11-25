@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_nude_detector/flutter_nude_detector.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -18,42 +19,10 @@ import 'package:mobile_app/profile.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:profanity_filter/profanity_filter.dart';
-import 'package:flutter_nsfw/flutter_nsfw.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'groups.dart';
 import 'journal.dart';
-
-class NSFWDetector {
-  NSFWDetector(this.modelPath, this.enableLog, this.isOpenGPU, this.numThreads);
-
-  final String modelPath;
-  final bool enableLog;
-  final bool isOpenGPU;
-  final int numThreads;
-
-  bool isInitialized = false;
-
-  Future<dynamic> detectInPhoto(String photoPath) async {
-    if (!isInitialized) {
-      /*Directory appDocDir = await getApplicationDocumentsDirectory();
-      String appDocPath = appDocDir.path;
-      var file = File(appDocPath + "/nsfw.tflite");
-      if (!file.existsSync()) {
-        var data = await rootBundle.load("assets/nsfw.tflite");
-        final buffer = data.buffer;
-        await file.writeAsBytes(
-            buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
-      }
-      await FlutterNsfw.initNsfw(
-        "./assets/nsfw.tflite",
-      );
-      isInitialized = true;*/
-    }
-
-    return FlutterNsfw.getPhotoNSFWScore(photoPath);
-  }
-}
 
 List<String> collegeList = [];
 String dropdownValue = '';
@@ -406,8 +375,8 @@ class _MyHomePageState extends State<MyHomePage> {
     XFile? xfilePick = pickedFile;
     if (xfilePick != null) {
       String imgPath = xfilePick.path;
-      bool _isNSFW = await detectNSFWImage(imgPath);
-      if (_isNSFW) {
+      bool isNSFW = await FlutterNudeDetector.detect(path: imgPath);
+      if (isNSFW) {
         Fluttertoast.showToast(
           msg: "Picture marked as NSFW, please try again",
           toastLength: Toast.LENGTH_SHORT,
@@ -677,9 +646,6 @@ class _MyHomePageState extends State<MyHomePage> {
     Icons.person
   ];
   int current = 0;
-
-  NSFWDetector _nsfwDetector =
-      NSFWDetector('assets/model/nsfw.tflite', true, true, 2);
 
   Future<dynamic> detectNSFWImage(String photo) async {
     //final nsfwStatus = await _nsfwDetector.detectInPhoto(photo);

@@ -28,7 +28,7 @@ dependencies:
   url_launcher:
   permission_handler:
   profanity_filter: ^2.0.0
-  flutter_nsfw: ^0.0.7
+  flutter_nude_detector:
   path_provider: ^2.1.1
 
 dev_dependencies:
@@ -45,4 +45,4 @@ flutter:
   - lib/assets/tree.jpg
   - lib/assets/mountain.jpg
   - lib/assets/pastel.png
-  - lib/assets/nsfw.tflite
+  - lib/assets/ml_models/nude.tflite
