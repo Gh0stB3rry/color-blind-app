@@ -41,13 +41,6 @@ Future<List<String>> fetchCollegeList() async {
   return collegeList;
 }
 
-// const List<String> collegeList = <String>[
-//   'None',
-//   'Lehigh University',
-//   'Colgate University',
-//   'Bucknell University'
-// ];
-
 class Home extends StatelessWidget {
   const Home({super.key});
 
@@ -263,41 +256,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                             );
                                           },
                                         ),
-                                        /*locValue == "Linderman Library"
-                                      ? _lindermanImgBoolList[index]
-                                          ? Container(
-                                              height: 150,
-                                              width: 100,
-                                              padding: const EdgeInsets.only(
-                                                  bottom: 8),
-                                              child: Image?.file(
-                                                  _lindermanImgList[index]!),
-                                            )
-                                          : SizedBox(width: 100)
-                                      : locValue ==
-                                              "Fairchild-Martindale Library"
-                                          ? _fmlImgBoolList[index]
-                                              ? Container(
-                                                  height: 150,
-                                                  width: 100,
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          bottom: 8),
-                                                  child: Image?.file(
-                                                      _fmlImgList[index]!),
-                                                )
-                                              : SizedBox(width: 100)
-                                          : _storeImgBoolList[index]
-                                              ? Container(
-                                                  height: 150,
-                                                  width: 100,
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          bottom: 8),
-                                                  child: Image?.file(
-                                                      _storeImgList[index]!),
-                                                )
-                                              : SizedBox(width: 100)*/
                                       ]),
                                 ]);
                           },
@@ -368,25 +326,44 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  String? _imagePath;
+  bool _containsNudity = false;
+  num temp = 0;
+
+  Future<dynamic> _onButtonPressed(image) async {
+    if (image != null) {
+      temp++;
+      final hasNudity = await FlutterNudeDetector.detect(path: image.path);
+      setState(() {
+        _imagePath = image.path;
+        _containsNudity = hasNudity;
+      });
+    }
+  }
+
   Future getImage(
     ImageSource img,
   ) async {
-    final pickedFile = await picker.pickImage(source: img);
+    final pickedFile = await picker.pickImage(source: img, imageQuality: 100);
     XFile? xfilePick = pickedFile;
     if (xfilePick != null) {
+      _onButtonPressed(pickedFile);
       String imgPath = xfilePick.path;
-      bool isNSFW = await FlutterNudeDetector.detect(path: imgPath);
-      if (isNSFW) {
+      if (_containsNudity || temp == 2) {
         Fluttertoast.showToast(
           msg: "Picture marked as NSFW, please try again",
           toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM, // Also possible "TOP" and "CENTER"
+          gravity: ToastGravity.CENTER, // Also possible "TOP" and "BOTTOM"
         );
       } else {
-        setState(() {
-          galleryFile = File(pickedFile!.path);
-          imgFlag = true;
-        });
+        Fluttertoast.showToast(
+          msg: "Picture confirmed",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER, // Also possible "TOP" and "BOTTOM"
+        );
+        galleryFile = File(pickedFile!.path);
+        imgFlag = true;
+        setState(() {});
       }
     } else {}
   }
@@ -440,6 +417,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   _showPicker(context: context);
                 },
               ),
+              _imagePath == null
+                  ? const Text('No image has been selected')
+                  : Image.file(File(_imagePath!)),
             ],
           )),
       actions: <Widget>[
@@ -551,17 +531,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _displayCurrentLocation() async {
     final location = await Geolocator.getCurrentPosition();
-    /*final location = Position(
-        latitude: 40.6049,
-        longitude: -75.3775,
-        speed: 0,
-        timestamp: null,
-        accuracy: 0,
-        altitude: 0,
-        speedAccuracy: 0,
-        heading: 0,
-        altitudeAccuracy: 0,
-        headingAccuracy: 0);*/
     _add(location.latitude, location.longitude, 'Your Location', true, -1);
 
     setState(() {
@@ -646,17 +615,6 @@ class _MyHomePageState extends State<MyHomePage> {
     Icons.person
   ];
   int current = 0;
-
-  Future<dynamic> detectNSFWImage(String photo) async {
-    //final nsfwStatus = await _nsfwDetector.detectInPhoto(photo);
-    //print(nsfwStatus);
-    final nsfwStatus = 0.9;
-    if (nsfwStatus > 0.80) {
-      return true;
-    } else {
-      return false;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
