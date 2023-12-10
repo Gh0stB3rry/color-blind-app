@@ -204,7 +204,6 @@ class _MyHomePageState extends State<MyHomePage> {
         theme: ThemeData(
           colorScheme: ColorScheme.fromSwatch(
             primarySwatch: Colors.indigo,
-            // and so on for every text style
           ),
         ),
         title: _title,
