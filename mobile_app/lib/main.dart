@@ -10,6 +10,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+//the function that initially runs when the app is opened
+//initializes Firebase connection and ensures permissions are granted
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -74,6 +76,7 @@ class MyStatefulWidget extends StatefulWidget {
 
 final _auth = FirebaseAuth.instance;
 
+//Displays the login page
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();

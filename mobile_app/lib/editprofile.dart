@@ -36,63 +36,10 @@ class _MyEditProfileState extends State<MyEditProfile> {
   TextEditingController vacController = TextEditingController(text: '');
   TextEditingController phoneController = TextEditingController(text: '');
   TextEditingController emailController = TextEditingController(text: '');
-  final picker = ImagePicker();
-
-  File? tempFile;
-
-  void _showPicker({
-    required BuildContext context,
-  }) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return SafeArea(
-          child: Wrap(
-            children: <Widget>[
-              ListTile(
-                leading: const Icon(Icons.photo_library),
-                title: const Text('Photo Library'),
-                onTap: () {
-                  getImage(ImageSource.gallery);
-                  Navigator.of(context).pop();
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.photo_camera),
-                title: const Text('Camera'),
-                onTap: () {
-                  getImage(ImageSource.camera);
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  Future getImage(
-    ImageSource img,
-  ) async {
-    final pickedFile = await picker.pickImage(source: img);
-    XFile? xfilePick = pickedFile;
-    setState(
-      () {
-        if (xfilePick != null) {
-          setState(() {
-            tempFile = File(pickedFile!.path);
-          });
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(// is this context <<<
-              const SnackBar(content: Text('Nothing is selected')));
-        }
-      },
-    );
-  }
 
   var userFire = FirebaseAuth.instance.currentUser;
 
+  //retrieves data from Firebase regarding profile info
   Future<List<Object?>> func() async {
     QuerySnapshot snap = await FirebaseFirestore.instance
         .collection('users')
@@ -105,7 +52,7 @@ class _MyEditProfileState extends State<MyEditProfile> {
     return allData;
   }
 
-  // This widget is the root of your application.
+  //Displays the edit profile page
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

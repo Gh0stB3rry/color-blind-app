@@ -15,6 +15,7 @@ class Dailies extends StatelessWidget {
   const Dailies({Key? key}) : super(key: key);
   static const String _title = 'Daily Activities';
 
+  //displays the navigation page between the daily activities
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

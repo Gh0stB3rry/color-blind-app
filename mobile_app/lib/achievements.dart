@@ -38,6 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
   IconData icon = Icons.timer;
   bool claimed = false;
 
+  //collects firebase data regarding user's last daily login claim
   func() async {
     var time = DateTime.now().day;
     var last = 0;
@@ -57,6 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  //displays an achievement goal
   Widget _buildExerciseDialog(BuildContext context) {
     return AlertDialog(
       title: const Text("Exercise Quest"),
@@ -81,6 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  //displays an achievement goal
   Widget _buildLocationDialog(BuildContext context) {
     return AlertDialog(
       title: const Text("Location Quest"),
@@ -105,6 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  //displays an achievement goal
   Widget _buildJournalDialog(BuildContext context) {
     return AlertDialog(
       title: const Text("Journal Quest"),
@@ -130,6 +134,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  //displays an achievement goal
   Widget _buildMeditateDialog(BuildContext context) {
     return AlertDialog(
       title: const Text("Mindfulness Quest"),
@@ -154,6 +159,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  //displays the achievements page
   @override
   Widget build(BuildContext context) {
     return SafeArea(

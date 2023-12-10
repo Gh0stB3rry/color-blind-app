@@ -51,6 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
     flutterTts = FlutterTts();
   }
 
+  //functions for launching mental health urls
   _launchNMIURL() async {
     final Uri url =
         Uri.parse('https://www.nimh.nih.gov/health/publications/fact-sheets');
@@ -75,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-   _launchLehighURL() async {
+  _launchLehighURL() async {
     final Uri url = Uri.parse(
         'https://studentaffairs.lehigh.edu/content/counseling-psychological-services-ucps');
     if (!await launchUrl(url)) {
@@ -83,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-
+  //displays one resource
   Widget _buildJournalDialog(BuildContext context) {
     return AlertDialog(
       title: const Text('National Mental Health Institute'),
@@ -113,6 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  //displays one resource
   Widget _buildProfileDialog(BuildContext context) {
     return AlertDialog(
       title: const Text('Mental Health First Aid'),
@@ -120,11 +122,11 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-             IconButton(
-              icon: Icon(Icons.article),
-              onPressed: () {
-                _launchMHFAURL();
-              })
+            IconButton(
+                icon: Icon(Icons.article),
+                onPressed: () {
+                  _launchMHFAURL();
+                })
           ]),
       actions: <Widget>[
         ElevatedButton(
@@ -139,6 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  //displays one resource
   Widget _buildMapDialog(BuildContext context) {
     return AlertDialog(
       title: const Text('NAMI'),
@@ -166,7 +169,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-
+  //displays one resource
   Widget _buildLehighDialog(BuildContext context) {
     return AlertDialog(
       title: const Text('Lehigh Counseling Services'),
@@ -194,6 +197,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  //displays education page
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
