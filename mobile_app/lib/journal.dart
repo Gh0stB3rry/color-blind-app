@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -99,14 +101,14 @@ class _MyHomePageState extends State<MyHomePage> {
   DateTime now = DateTime.now();
   final location = Geolocator.getCurrentPosition();
 
-  Widget _buildPopupDialog(BuildContext context, index) {
+  Widget _buildPopupDialog(BuildContext context, data) {
     return AlertDialog(
       title: const Text('Journal Entry'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(_journalList[index],
+          Text(data['value'].toString(),
               style: TextStyle(fontWeight: FontWeight.w500, fontSize: 12))
         ],
       ),
@@ -128,6 +130,17 @@ class _MyHomePageState extends State<MyHomePage> {
     return location;
   }
 
+  var userFire = FirebaseAuth.instance.currentUser;
+
+  Future<List<Object?>> func() async {
+    QuerySnapshot snap = await FirebaseFirestore.instance
+        .collection('journals')
+        .where('user', isEqualTo: userFire!.email)
+        .get();
+    final allData = snap.docs.map((doc) => doc.data()).toList();
+    return allData;
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -142,7 +155,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               child: FutureBuilder(
-                  future: getLocation(),
+                  future: func(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
                       // If we got an error
@@ -214,9 +227,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 "/" +
                                                 now.day.toString() +
                                                 "/" +
-                                                now.year.toString() +
-                                                "\n" +
-                                                snapshot.data.toString(),
+                                                now.year.toString(),
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: 16),
@@ -231,7 +242,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           labelText: 'Journal Entry',
                                         ),
                                       ),
-                                      ElevatedButton(
+                                      /*ElevatedButton(
                                         style: ElevatedButton.styleFrom(
                                             backgroundColor:
                                                 Colors.indigo.shade300),
@@ -239,7 +250,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                         onPressed: () {
                                           _showPicker(context: context);
                                         },
-                                      ),
+                                      ),*/
                                       SizedBox(
                                         height:
                                             galleryFile == null ? 0.0 : 200.0,
@@ -257,6 +268,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 Colors.indigo.shade300),
                                         onPressed: () {
                                           setState(() {
+                                            FirebaseFirestore.instance
+                                                .collection("journals")
+                                                .add({
+                                              'user':
+                                                  userFire?.email.toString(),
+                                              'value': cmntController.text
+                                                  .toString(),
+                                              'date': now
+                                            });
                                             _journalList
                                                 .add(cmntController.text);
                                             if (imgFlag) {
@@ -279,7 +299,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                         height: 200.0,
                                         child: ListView.builder(
                                           shrinkWrap: true,
-                                          itemCount: _journalList.length,
+                                          itemCount: snapshot.data!.length,
                                           itemBuilder: (BuildContext context,
                                               int index) {
                                             return Row(
@@ -288,10 +308,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                         .spaceEvenly,
                                                 children: [
                                                   Container(
-                                                      height:
-                                                          _imgBoolList[index]
-                                                              ? 150
-                                                              : 50,
+                                                      height: 50,
                                                       width: 250,
                                                       alignment:
                                                           Alignment.center,
@@ -306,24 +323,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                                                       .center,
                                                               children: [
                                                                 Text(
-                                                                    now.month
+                                                                    (snapshot.data!.elementAt(index) as Map)['date'].toDate().month.toString() +
+                                                                        "/" +
+                                                                        (snapshot.data!.elementAt(index) as Map)['date']
+                                                                            .toDate()
+                                                                            .day
                                                                             .toString() +
                                                                         "/" +
-                                                                        now.day
-                                                                            .toString() +
-                                                                        "/" +
-                                                                        now.year
-                                                                            .toString(),
-                                                                    style: TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .w500,
-                                                                        fontSize:
-                                                                            12)),
-                                                                Text(
-                                                                    "at " +
-                                                                        snapshot
-                                                                            .data
+                                                                        (snapshot.data!.elementAt(index) as Map)['date']
+                                                                            .toDate()
+                                                                            .year
                                                                             .toString(),
                                                                     style: TextStyle(
                                                                         fontWeight:
@@ -355,23 +364,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                                                           context) =>
                                                                       _buildPopupDialog(
                                                                           context,
-                                                                          index),
+                                                                          snapshot
+                                                                              .data!
+                                                                              .elementAt(index)),
                                                                 );
                                                               },
                                                             ),
                                                           ])),
-                                                  _imgBoolList[index]
-                                                      ? Container(
-                                                          height: 150,
-                                                          width: 130,
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  bottom: 8),
-                                                          child: Image?.file(
-                                                              _ImgList[index]!),
-                                                        )
-                                                      : SizedBox(width: 130)
                                                 ]);
                                           },
                                         ),
