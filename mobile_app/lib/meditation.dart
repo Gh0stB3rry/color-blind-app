@@ -47,10 +47,23 @@ class _MyHomePageState extends State<MyHomePage> {
 
   initTts() {
     flutterTts = FlutterTts();
+
+    // Start handler, mostly for changing state to playing
+    flutterTts.setCompletionHandler(() {
+      setState(() {
+        ttsState = TtsState.stopped;
+      });
+    });
   }
 
   Future _speak(newVoiceText) async {
-    await flutterTts.speak(newVoiceText!);
+    var result = await flutterTts.speak(newVoiceText!);
+    if (result == 1) setState(() => ttsState = TtsState.playing);
+  }
+
+  Future _stop() async {
+    var result = await flutterTts.stop();
+    if (result == 1) setState(() => ttsState = TtsState.stopped);
   }
 
   Widget _buildJournalDialog(BuildContext context) {
@@ -65,13 +78,23 @@ class _MyHomePageState extends State<MyHomePage> {
               style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14)),
           IconButton(
               icon: Icon(Icons.volume_up),
-              onPressed: () => _speak(
-                  "1. Get into a comfortable position. You can sit or lie down. 2. Close your eyes for a deeper practice. 3. Starting with your feet and toes, tune into and pay attention to any sensations you feel, like pain or discomfort. You may also notice sensations like tingling, stinging, aching or throbbing. 4.  Take a nice deep breath in through your nose, exhaling through the mouth, releasing the uncomfortable sensation. Allow that area of your body to release, loosen up, and soften. 5. Work your way up the body, paying attention to how you feel as you focus on the legs, the hips, the back, the stomach, the chest, the neck and shoulders, the arms and hands, and finally the face.")),
+              onPressed: () {
+                if (ttsState == TtsState.stopped) {
+                  _speak(
+                      "1. Get into a comfortable position. You can sit or lie down. 2. Close your eyes for a deeper practice. 3. Starting with your feet and toes, tune into and pay attention to any sensations you feel, like pain or discomfort. You may also notice sensations like tingling, stinging, aching or throbbing. 4.  Take a nice deep breath in through your nose, exhaling through the mouth, releasing the uncomfortable sensation. Allow that area of your body to release, loosen up, and soften. 5. Work your way up the body, paying attention to how you feel as you focus on the legs, the hips, the back, the stomach, the chest, the neck and shoulders, the arms and hands, and finally the face.");
+                } else {
+                  _stop();
+                }
+                setState(() {});
+              }),
         ],
       ),
       actions: <Widget>[
         ElevatedButton(
           onPressed: () {
+            if (ttsState == TtsState.playing) {
+              _stop();
+            }
             Navigator.of(context).pop();
           },
           style:
@@ -94,13 +117,23 @@ class _MyHomePageState extends State<MyHomePage> {
               style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14)),
           IconButton(
               icon: Icon(Icons.volume_up),
-              onPressed: () => _speak(
-                  "Get into a comfortable position, either sitting or lying down. 2. Strive to tense and then release each large muscle or muscle group for about five seconds or so, then relax the muscles. 3. Begin by taking a few deep breaths from the abdomen. Tense, hold, and relax each large muscle group, working your way up or down the body. 4. Try and notice the contrast between a tensed state and a relaxed state inhaling as you tense the muscle and exhaling as you relax and let go.")),
+              onPressed: () {
+                if (ttsState == TtsState.stopped) {
+                  _speak(
+                      "Get into a comfortable position, either sitting or lying down. 2. Strive to tense and then release each large muscle or muscle group for about five seconds or so, then relax the muscles. 3. Begin by taking a few deep breaths from the abdomen. Tense, hold, and relax each large muscle group, working your way up or down the body. 4. Try and notice the contrast between a tensed state and a relaxed state inhaling as you tense the muscle and exhaling as you relax and let go.");
+                } else {
+                  _stop();
+                }
+                setState(() {});
+              }),
         ],
       ),
       actions: <Widget>[
         ElevatedButton(
           onPressed: () {
+            if (ttsState == TtsState.playing) {
+              _stop();
+            }
             Navigator.of(context).pop();
           },
           style:
@@ -122,14 +155,25 @@ class _MyHomePageState extends State<MyHomePage> {
               "1.Start by closing your eyes and picturing a huge blackboard. The blackboard can be as big as you are.\n 2. Now in your imagination, take the chalk and write down the number 100 on the board as large as you can write it.\n3. Then erase the number away as slowly as you can, making sure that all of the chalk is removed from the blackboard.\n4. Write the number 99 next, then erasing it very slowly.\n5. Continue counting down until you fall asleep or reach zero when the task begins again.",
               style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14)),
           IconButton(
-              icon: Icon(Icons.volume_up),
-              onPressed: () => _speak(
-                  "1.Start by closing your eyes and picturing a huge blackboard. The blackboard can be as big as you are. 2. Now in your imagination, take the chalk and write down the number 100 on the board as large as you can write it. 3. Then erase the number away as slowly as you can, making sure that all of the chalk is removed from the blackboard. 4. Write the number 99 next, then erasing it very slowly. 5. Continue counting down until you fall asleep or reach zero when the task begins again.")),
+            icon: Icon(Icons.volume_up),
+            onPressed: () {
+              if (ttsState == TtsState.stopped) {
+                _speak(
+                    "1.Start by closing your eyes and picturing a huge blackboard. The blackboard can be as big as you are. 2. Now in your imagination, take the chalk and write down the number 100 on the board as large as you can write it. 3. Then erase the number away as slowly as you can, making sure that all of the chalk is removed from the blackboard. 4. Write the number 99 next, then erasing it very slowly. 5. Continue counting down until you fall asleep or reach zero when the task begins again.");
+              } else {
+                _stop();
+              }
+              setState(() {});
+            },
+          ),
         ],
       ),
       actions: <Widget>[
         ElevatedButton(
           onPressed: () {
+            if (ttsState == TtsState.playing) {
+              _stop();
+            }
             Navigator.of(context).pop();
           },
           style:

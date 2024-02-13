@@ -47,10 +47,23 @@ class _MyHomePageState extends State<MyHomePage> {
 
   initTts() {
     flutterTts = FlutterTts();
+
+    // Start handler, mostly for changing state to playing
+    flutterTts.setCompletionHandler(() {
+      setState(() {
+        ttsState = TtsState.stopped;
+      });
+    });
   }
 
   Future _speak(newVoiceText) async {
-    await flutterTts.speak(newVoiceText!);
+    var result = await flutterTts.speak(newVoiceText!);
+    if (result == 1) setState(() => ttsState = TtsState.playing);
+  }
+
+  Future _stop() async {
+    var result = await flutterTts.stop();
+    if (result == 1) setState(() => ttsState = TtsState.stopped);
   }
 
   Widget _buildJournalDialog(BuildContext context) {
@@ -65,13 +78,23 @@ class _MyHomePageState extends State<MyHomePage> {
               style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14)),
           IconButton(
               icon: Icon(Icons.volume_up),
-              onPressed: () => _speak(
-                  " Focus on your feet. Feel the firm ground beneath you as each foot rolls from heel to toe. Try to hold awareness of your steps for 2 to 3 minutes.")),
+              onPressed: () {
+                if (ttsState == TtsState.stopped) {
+                  _speak("Focus on your feet. Feel the firm ground beneath you as each foot rolls from heel to toe. Try to hold awareness of your steps for 2 to 3 minutes."
+                      );
+                } else {
+                  _stop();
+                }
+                setState(() {});
+              }),
         ],
       ),
       actions: <Widget>[
         ElevatedButton(
           onPressed: () {
+            if (ttsState == TtsState.playing) {
+              _stop();
+            }
             Navigator.of(context).pop();
           },
           style:
@@ -94,13 +117,24 @@ class _MyHomePageState extends State<MyHomePage> {
               style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14)),
           IconButton(
               icon: Icon(Icons.volume_up),
-              onPressed: () => _speak(
-                  "Changing the direction you walk—forward, backward, or sideways—keeps your mind alert, turns up your calorie burn, and activates some often-underused muscles, such as your outer and inner thighs. This routine is best done on a school track (most are ¼-mile around)..")),
+              onPressed: () {
+                if (ttsState == TtsState.stopped) {
+                  _speak("Changing the direction you walk—forward, backward, or sideways—keeps your mind alert, turns up your calorie burn, and activates some often-underused muscles, such as your outer and inner thighs. This routine is best done on a school track (most are ¼-mile around)"
+                      );
+                } else {
+                  _stop();
+                }
+                setState(() {});
+              }),
+
         ],
       ),
       actions: <Widget>[
         ElevatedButton(
-          onPressed: () {
+          onPressed:() {
+            if (ttsState == TtsState.playing) {
+              _stop();
+            }
             Navigator.of(context).pop();
           },
           style:
@@ -123,13 +157,23 @@ class _MyHomePageState extends State<MyHomePage> {
               style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14)),
           IconButton(
               icon: Icon(Icons.volume_up),
-              onPressed: () => _speak(
-                  "A dose of nature can boost your mood and energize you in just 5 minutes. If you exercise in a natural setting and go longer (a lunchtime stroll in a park or an all-day hike in the mountains), you can improve your memory and attention 20% more than you can by walking in an urban environment.")),
+              onPressed: () {
+                if (ttsState == TtsState.stopped) {
+                  _speak("A dose of nature can boost your mood and energize you in just 5 minutes. If you exercise in a natural setting and go longer (a lunchtime stroll in a park or an all-day hike in the mountains), you can improve your memory and attention 20% more than you can by walking in an urban environment."
+                      );
+                } else {
+                  _stop();
+                }
+                setState(() {});
+              }),
         ],
       ),
       actions: <Widget>[
         ElevatedButton(
           onPressed: () {
+            if (ttsState == TtsState.playing) {
+              _stop();
+            }
             Navigator.of(context).pop();
           },
           style:

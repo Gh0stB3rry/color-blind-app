@@ -47,6 +47,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   initTts() {
     flutterTts = FlutterTts();
+
+    // Start handler, mostly for changing state to playing
+    flutterTts.setCompletionHandler(() {
+      setState(() {
+        ttsState = TtsState.stopped;
+      });
+    });
   }
 
   Widget _buildJournalDialog(BuildContext context) {
@@ -60,14 +67,26 @@ class _MyHomePageState extends State<MyHomePage> {
               "1. Walk at a speed between 3.0 and 4.0 mph.\n\n2. Increase the incline every minute, starting at zero and ending at 15. This is the maximum incline you should go, but it's also okay to stop at an incline that's comfortable for you, which could be anywhere between seven and 10. \n\n3. Once you reach your maximum incline, go back down every minute until you reach zero. \n\n4. Cool down with a five- to eight-minute easy walk, followed by stretching.",
               style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14)),
           IconButton(
-              icon: Icon(Icons.volume_up),
-              onPressed: () => _speak(
-                  "1. Walk at a speed between 3.0 and 4.0 mph. 2. Increase the incline every minute, starting at zero and ending at 15. This is the maximum incline you should go, but it's also okay to stop at an incline that's comfortable for you, which could be anywhere between seven and 10. 3. Once you reach your maximum incline, go back down every minute until you reach zero. 4. Cool down with a five- to eight-minute easy walk, followed by stretching.")),
+            icon: Icon(Icons.volume_up), //todo: Cancel icon shows when ttsState is playing
+            onPressed: () {
+              if (ttsState == TtsState.stopped) {
+                _speak(
+                  "1. Walk at a speed between 3.0 and 4.0 mph. 2. Increase the incline every minute, starting at zero and ending at 15. This is the maximum incline you should go, but it's also okay to stop at an incline that's comfortable for you, which could be anywhere between seven and 10. 3. Once you reach your maximum incline, go back down every minute until you reach zero. 4. Cool down with a five- to eight-minute easy walk, followed by stretching.",
+                );
+              } else {
+                _stop();
+              }
+              setState(() {});
+            },
+          ),
         ],
       ),
       actions: <Widget>[
         ElevatedButton(
           onPressed: () {
+            if (ttsState == TtsState.playing) {
+              _stop();
+            }
             Navigator.of(context).pop();
           },
           style:
@@ -90,13 +109,24 @@ class _MyHomePageState extends State<MyHomePage> {
               style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14)),
           IconButton(
               icon: Icon(Icons.volume_up),
-              onPressed: () => _speak(
-                  "1. Get on your hands and knees, with your neck in a neutral position. 2. Keep your wrists directly under your shoulders and your knees directly under your hips. 3. Inhaling into cow pose, arch your back so that your belly approaches the mat, lifting your chest and chin. 4. Exhale into cat pose, drawing your navel in while rounding your back and letting gravity drop your head toward the floor.")),
+              onPressed: () {
+              if (ttsState == TtsState.stopped) {
+                _speak(
+                  "1. Get on your hands and knees, with your neck in a neutral position. 2. Keep your wrists directly under your shoulders and your knees directly under your hips. 3. Inhaling into cow pose, arch your back so that your belly approaches the mat, lifting your chest and chin. 4. Exhale into cat pose, drawing your navel in while rounding your back and letting gravity drop your head toward the floor.",
+                );
+              } else {
+                _stop();
+              }
+              setState(() {});
+              },)
         ],
       ),
       actions: <Widget>[
         ElevatedButton(
           onPressed: () {
+            if (ttsState == TtsState.playing) {
+              _stop();
+            }
             Navigator.of(context).pop();
           },
           style:
@@ -119,13 +149,24 @@ class _MyHomePageState extends State<MyHomePage> {
               style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14)),
           IconButton(
               icon: Icon(Icons.volume_up),
-              onPressed: () => _speak(
-                  'Legs: dumbbell squats — 3 sets of 6–8 reps. Shoulders: standing shoulder press — 3 sets of 6–8 reps. Legs: dumbbell lunge — 2 sets of 8–10 reps per leg.')),
+              onPressed: () {
+              if (ttsState == TtsState.stopped) {
+                _speak(
+                  "Legs: dumbbell squats — 3 sets of 6–8 reps. Shoulders: standing shoulder press — 3 sets of 6–8 reps. Legs: dumbbell lunge — 2 sets of 8–10 reps per leg.",
+                );
+              } else {
+                _stop();
+              }
+              setState(() {});
+              },)
         ],
       ),
       actions: <Widget>[
         ElevatedButton(
           onPressed: () {
+            if (ttsState == TtsState.playing) {
+              _stop();
+            }
             Navigator.of(context).pop();
           },
           style:
@@ -137,7 +178,13 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future _speak(newVoiceText) async {
-    await flutterTts.speak(newVoiceText!);
+    var result = await flutterTts.speak(newVoiceText!);
+    if (result == 1) setState(() => ttsState = TtsState.playing);
+  }
+
+  Future _stop() async {
+    var result = await flutterTts.stop();
+    if (result == 1) setState(() => ttsState = TtsState.stopped);
   }
 
   @override
