@@ -31,7 +31,7 @@ class Dailies extends StatelessWidget {
             body: Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage("lib/assets/mountain.jpg"),
+                    image: AssetImage("lib/assets/pastel.png"),
                     fit: BoxFit.cover,
                   ),
                 ),

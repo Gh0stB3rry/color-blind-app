@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_app/achievements.dart';
 import 'package:mobile_app/editprofile.dart';
 import 'package:mobile_app/home.dart';
 import 'package:mobile_app/users.dart';
+import 'package:mobile_app/main.dart'; //added for project 1
 
 class Profile extends StatelessWidget {
   const Profile({super.key});
@@ -32,8 +34,15 @@ class MyHomePage extends StatefulWidget {
 
 var user = FirebaseAuth.instance.currentUser;
 
+void signout() async{
+   //user!.signOut();
+  await FirebaseAuth.instance.signOut();
+}
+
+
 class _MyHomePageState extends State<MyHomePage> {
   Future<List<Object?>> func() async {
+    
     print(user!.email);
     QuerySnapshot snap = await FirebaseFirestore.instance
         .collection('users')
@@ -42,6 +51,15 @@ class _MyHomePageState extends State<MyHomePage> {
     final allData = snap.docs.map((doc) => doc.data()).toList();
     return allData;
   }
+
+
+  //function sign out added to actually sign email out
+  //Project 1
+  Future<void> signOutEmail() async{
+    await FirebaseAuth.instance.signOut();
+  }
+  
+
 
   // This widget is the root of your application.
   @override
@@ -71,6 +89,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
                       // if we got our data
                     } else if (snapshot.hasData) {
+                      print("Look at this data");
+                      print(snapshot);
                       print(snapshot.data!);
                       return ListView(
                         children: <Widget>[
@@ -187,12 +207,46 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ),
                                 ),
                                 Text(
-                                  'Mental Health Enthusist',
+                                  'Color Blind Profile',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 25,
                                   ),
                                 ),
+
+                                //Sign out button
+                                //Project 1 Week 2
+                                SizedBox(width: 10),
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.lightGreen.shade300,
+                                    minimumSize: Size(64, 64),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(50.0),
+                                        side: BorderSide(
+                                            color: Colors.lightGreen.shade300)),
+                                  ),
+                                  child: Icon(
+                                    Icons.logout,
+                                    size: 30.0,
+                                  ),
+                                  onPressed: () {
+                                    signout();
+                                    Navigator.push(
+                                      context,                                      
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              //change this
+                                              //user1 = user.signOut(),
+                                              
+                                              const MyApp()),
+                                            
+                                    );
+                                  },
+                                ),
+
+                                ///
                               ],
                             ),
                           ),
@@ -251,7 +305,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Divider(),
                                 ListTile(
                                   title: Text(
-                                    'Phone Number',
+                                    'Type of Color Blindness',
                                     style: TextStyle(
                                       color: Colors.deepOrange,
                                       fontSize: 20,
@@ -260,14 +314,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ),
                                   subtitle: Text(
                                     (snapshot.data!.elementAt(0)
-                                            as Map)['phone']
+                                            as Map)['colorBlindType']
                                         .toString(),
                                     style: TextStyle(
                                       fontSize: 18,
                                     ),
                                   ),
                                 ),
+                                
                                 Divider(),
+                                /*
                                 ListTile(
                                   title: Text(
                                     'Favorite Food',
@@ -304,6 +360,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     ),
                                   ),
                                 )
+                                */
                               ],
                             ),
                           )

@@ -19,17 +19,19 @@ dependencies:
   google_maps_flutter: ^2.2.4
   animated_text_kit: ^4.2.2
   google_fonts: ^2.3.2
-  image_picker:
+  image_picker: ^1.1.2
   firebase_auth: ^4.4.0
   equatable: ^2.0.3
   cloud_firestore: ^4.9.1
   fluttertoast: ^8.0.8
   spotify: ^0.11.0
-  url_launcher:
+  url_launcher: ^6.3.1 
   permission_handler:
   profanity_filter: ^2.0.0
   flutter_nude_detector:
   path_provider: ^2.1.1
+  color_blindness: ^0.2.0
+  
 
 dev_dependencies:
   flutter_test:
@@ -46,3 +48,15 @@ flutter:
   - lib/assets/mountain.jpg
   - lib/assets/pastel.png
   - lib/assets/ml_models/nude.tflite
+  - lib/colorImages/redGreen47.png
+  - lib/colorImages/redGreen19.png
+  - lib/colorImages/redGreen51.png
+  - lib/colorImages/redGreen92.png
+  - lib/colorImages/redGreen69.png
+  - lib/colorImages/redGreen98.png
+  - lib/colorImages/redGreen8.png
+  - lib/colorImages/redGreen42.png
+  - lib/colorImages/redGreen75.png
+  - lib/colorImages/redGreen37.png
+  - lib/colorImages/redGreen28.png
+  - lib/colorImages/redGreen25.png

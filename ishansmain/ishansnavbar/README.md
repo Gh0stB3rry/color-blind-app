@@ -1,3 +1,0 @@
-# CAPSTONE-Chuah-Mobile-App
-
-:)

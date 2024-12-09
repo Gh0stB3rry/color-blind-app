@@ -6,7 +6,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 
 class Password extends StatelessWidget {
   const Password({Key? key}) : super(key: key);
-  static const String _title = 'Mental Health App';
+  static const String _title = 'Color Blind App';
 
   @override
   Widget build(BuildContext context) {

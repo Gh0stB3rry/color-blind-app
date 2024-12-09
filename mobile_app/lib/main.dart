@@ -45,9 +45,18 @@ void main() async {
   runApp(MyApp());
 }
 
+
+// signout function
+void signout() async{
+  await FirebaseAuth.instance.signOut();
+}
+
+
+
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-  static const String _title = 'Mental Health App';
+  static const String _title = 'Color Blind App';
 
   @override
   Widget build(BuildContext context) {
@@ -72,11 +81,20 @@ class MyStatefulWidget extends StatefulWidget {
 
   @override
   State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
+
+  
 }
 
-final _auth = FirebaseAuth.instance;
+var _auth = FirebaseAuth.instance;
+
+
 
 //Displays the login page
+
+
+//create your own google-services.json using firebase and replace it under android/app, an example is provided
+//https://firebase.google.com/docs/android/setup
+
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -86,7 +104,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     return Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("lib/assets/beach.jpg"),
+            image: AssetImage("lib/assets/pastel.png"),
             fit: BoxFit.cover,
           ),
         ),
@@ -171,16 +189,20 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     child: const Text('Login'),
                     onPressed: () async {
                       try {
+                        print("The current auth");
+                        print(_auth);
+
                         final user = await _auth.signInWithEmailAndPassword(
                           email: nameController.text.trim(),
                           password: passwordController.text.trim(),
+                          
                         );
 
                         if (user != null) {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const Help()),
+                                builder: (context) => const Home()),
                           );
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -197,10 +219,14 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                                   Text('An error occurred. Please try again.')),
                         );
                       }
+
+                      
                     },
                   ),
                 ),
               ],
             )));
+          
+
   }
 }

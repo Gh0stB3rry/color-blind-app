@@ -10,9 +10,11 @@ import 'package:flutter_nude_detector/flutter_nude_detector.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mobile_app/colorTest.dart';
 import 'package:mobile_app/dailies.dart';
 import 'package:mobile_app/exercise.dart';
 import 'package:mobile_app/home.dart';
+import 'package:mobile_app/imageChanger.dart';
 import 'package:mobile_app/main.dart';
 import 'package:mobile_app/help.dart';
 import 'package:mobile_app/profile.dart';
@@ -24,12 +26,16 @@ import 'package:path_provider/path_provider.dart';
 import 'groups.dart';
 import 'journal.dart';
 
+//List<String> collegeList = [];
 List<String> collegeList = [];
 String dropdownValue = '';
 //trying to fetch all the colleges names first and store in an array
 Future<List<String>> fetchCollegeList() async {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   QuerySnapshot querySnapshot = await firestore.collection('locations').get();
+
+  //snapshot for users
+  //QuerySnapshot userSnapshot = await firestore.collection('users').get();
 
   for (var doc in querySnapshot.docs) {
     String college = doc['college'];
@@ -38,6 +44,8 @@ Future<List<String>> fetchCollegeList() async {
     }
   }
   dropdownValue = collegeList.first;
+  //print("Look at this query snapshot");
+  //print(querySnapshot);
   return collegeList;
 }
 
@@ -81,6 +89,7 @@ DateTime _storeTime = DateTime.parse("2000-01-01");
 bool imgFlag = false;
 var auth = FirebaseAuth.instance.currentUser;
 
+
 class _MyHomePageState extends State<MyHomePage> {
   File? galleryFile;
   final picker = ImagePicker();
@@ -96,6 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _buildDisplayDialog(BuildContext context, data) {
+    
     return AlertDialog(
       title: Text(data['user'].toString() + '\'s comment'),
       content: Column(
@@ -124,9 +134,9 @@ class _MyHomePageState extends State<MyHomePage> {
         .collection('comments')
         .doc(locValue)
         .collection("comments");
+        
 
     QuerySnapshot querySnapshot = await collectionRef.get();
-
     DateTime now = DateTime.now();
     final allData = querySnapshot.docs
         .map((doc) {
@@ -141,12 +151,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 return dataMap;
               }
             }
+           
           }
           return null;
         })
         .where((data) => data != null)
         .toList();
-
+    print("This is the auth");
+    print(auth);
     return allData;
   }
 
@@ -161,12 +173,14 @@ class _MyHomePageState extends State<MyHomePage> {
           height: 400,
           width: 150,
           child: FutureBuilder(
+            future: getComments(locValue),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
                   // If we got an error
                   if (snapshot.hasError) {
+                   
                     return Center(
-                      child: Text(
+                      child: Text( 
                         '${snapshot.error} occurred',
                         style: TextStyle(fontSize: 18),
                       ),
@@ -174,6 +188,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
                     // if we got our data
                   } else if (snapshot.hasData) {
+                    print("Now this data");
+                    print(snapshot);
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -244,7 +260,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           child: Text('Show Message',
                                               style: TextStyle(
                                                   fontWeight: FontWeight.w500,
-                                                  fontSize: 12)),
+                                                  fontSize: 6)),
                                           onPressed: () {
                                             showDialog(
                                               context: context,
@@ -268,7 +284,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: CircularProgressIndicator(),
                 );
               },
-              future: getComments(locValue))),
+              )),//future: getComments(locValue)
       actions: <Widget>[
         ElevatedButton(
           onPressed: () {
@@ -428,6 +444,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ElevatedButton.styleFrom(backgroundColor: Colors.indigo.shade300),
           onPressed: () {
             final filter = ProfanityFilter();
+            // implement hasProfanity() in profanity_filter.dart
             bool hasProfanity = filter.hasProfanity(cmntController.text);
             if (hasProfanity) {
               Fluttertoast.showToast(
@@ -438,33 +455,52 @@ class _MyHomePageState extends State<MyHomePage> {
               );
             } //SUICIDAL MESSAGES FILTER HERE
             else {
+              
+              // add code to set feelValue to g b n, 'Positive'='g', 'Negative'='b', 'Neutral'='n'
               if (selectedTone != null) {
                 String feelValue;
-                if (selectedTone == 'Positive') {
-                  feelValue = 'g';
-                } else if (selectedTone == 'Negative') {
-                  feelValue = 'b';
+              
+                // your codes begin here
+                
+                
+                if (selectedTone == "Positive"){
+                  feelValue = "g";
+                } else if (selectedTone == "Negative"){
+                  feelValue = "b";
                 } else {
-                  feelValue = 'n'; // Value for Neutral
+                  feelValue = "n";
                 }
+                
+
+
+                // end
                 // Generating a random delay between 8 and 24 hours
-                int delayInHours = Random().nextInt(17) +
-                    8; // Generates a number between 0 and 16, then adds 8
+                int delayInHours = Random().nextInt(1) +
+                    1; // Generates a number between 0 and 16, then adds 8 //(17, 8)
                 DateTime postTime = DateTime.now();
                 DateTime visibleTime =
                     postTime.add(Duration(hours: delayInHours));
+                // use FirebaseFirestore.instance to store the comment entry (data, user, feelvalue, posttime, visibletime)
+                // your codes begin here
+                var comments = FirebaseFirestore.instance
+                  .collection('comments')
+                  .doc(locValue)
+                  .collection('comments');
+                  //.get();//.get();
+                  comments.add({
+                      'data':  cmntController.text.trim(),
+                      'user': auth?.email,
+                      'feel': feelValue,
+                      'postTime': postTime,
+                      'visibleTime': visibleTime
+                  });
+                  
 
-                FirebaseFirestore.instance
-                    .collection("comments")
-                    .doc(locValue)
-                    .collection("comments")
-                    .add({
-                  'data': cmntController.text,
-                  'user': auth!.email,
-                  'feel': feelValue,
-                  'postTime': postTime,
-                  'visibleTime': visibleTime
-                });
+                
+
+
+
+                // end
                 setState(() {
                   selectedTone = null;
                   cmntController.clear();
@@ -618,6 +654,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    double boxWidth = 130;
+    double boxHeight = 90;
     return MaterialApp(
         title: "Location",
         home: Scaffold(
@@ -635,7 +673,7 @@ class _MyHomePageState extends State<MyHomePage> {
             body: Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage("lib/assets/beach.jpg"),
+                    image: AssetImage("lib/assets/pastel.png"),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -645,15 +683,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Column(children: [
                   SizedBox(
                       width: double.infinity,
-                      height: 60,
-                      child: Row(
+                      height: 500,
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           AnimatedContainer(
                             duration: const Duration(milliseconds: 300),
                             margin: const EdgeInsets.all(5),
-                            width: 85,
-                            height: 45,
+                            width: boxWidth,
+                            height: boxHeight,
                             decoration: BoxDecoration(
                               color: Colors.white54,
                               borderRadius: BorderRadius.circular(10),
@@ -661,7 +699,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             child: Center(
                               child: TextButton(
                                 child: Text(
-                                  "Journal",
+                                  "Test",
                                   style: TextStyle(
                                       fontWeight: FontWeight.w800,
                                       color: Colors.indigo.shade300),
@@ -670,7 +708,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => Journal()));
+                                          builder: (context) => colorTest()));
                                 },
                               ),
                             ),
@@ -678,8 +716,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           AnimatedContainer(
                             duration: const Duration(milliseconds: 300),
                             margin: const EdgeInsets.all(5),
-                            width: 85,
-                            height: 45,
+                            width: boxWidth,
+                            height: boxHeight,
                             decoration: BoxDecoration(
                               color: Colors.white54,
                               borderRadius: BorderRadius.circular(10),
@@ -687,7 +725,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             child: Center(
                               child: TextButton(
                                 child: Text(
-                                  "Activities",
+                                  "Image",
                                   style: TextStyle(
                                       fontWeight: FontWeight.w800,
                                       color: Colors.indigo.shade300),
@@ -697,7 +735,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              const Dailies()));
+                                              const imageChanger()));
                                 },
                               ),
                             ),
@@ -705,8 +743,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           AnimatedContainer(
                             duration: const Duration(milliseconds: 300),
                             margin: const EdgeInsets.all(5),
-                            width: 85,
-                            height: 45,
+                            width: boxWidth,
+                            height: boxHeight,
                             decoration: BoxDecoration(
                               color: Colors.white54,
                               borderRadius: BorderRadius.circular(10),
@@ -714,7 +752,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             child: Center(
                               child: TextButton(
                                 child: Text(
-                                  "Groups",
+                                  "Resource",
                                   style: TextStyle(
                                       fontWeight: FontWeight.w800,
                                       color: Colors.indigo.shade300),
@@ -732,8 +770,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           AnimatedContainer(
                             duration: const Duration(milliseconds: 300),
                             margin: const EdgeInsets.all(5),
-                            width: 85,
-                            height: 45,
+                            width: boxWidth,
+                            height: boxHeight,
                             decoration: BoxDecoration(
                               color: Colors.white54,
                               borderRadius: BorderRadius.circular(10),
@@ -758,6 +796,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ],
                       )),
+                  /*
                   Text(
                     Random().nextInt(2) == 0
                         ? "\"You have an individual story to tell\""
@@ -767,11 +806,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         fontSize: 20,
                         color: Colors.indigo.shade300),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 30.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
+                */
+                  //Padding(
+                    //padding: const EdgeInsets.only(top: 30.0),
+                    //child: Column(
+                      //mainAxisAlignment: MainAxisAlignment.start,
+                      //children: <Widget>[
+                        /*
                         Text(
                           "Change current college:",
                           style: TextStyle(color: Colors.indigo.shade500),
@@ -803,10 +844,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                 zoom: 11.0,
                               ),
                               markers: Set<Marker>.of(markers.values),
-                            )),
-                      ],
-                    ),
-                  ),
+                            )), */
+                      //],
+                    //),
+                  //),
                 ]))));
   }
 }

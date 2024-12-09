@@ -11,7 +11,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 class Signup extends StatelessWidget {
   const Signup({Key? key}) : super(key: key);
-  static const String _title = 'Mental Health App';
+  static const String _title = 'Color Blind App';
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     return Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("lib/assets/beach.jpg"),
+            image: AssetImage("lib/assets/pastel.png"),
             fit: BoxFit.cover,
           ),
         ),
@@ -123,12 +123,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                                 .collection("users")
                                 .doc(FirebaseAuth.instance.currentUser?.email)
                                 .set({
-                              'day': 0,
+                              //'day': 0,
                               'email': nameController.text.trim(),
-                              'food': '',
-                              'phone': '',
-                              'points': 0,
-                              'vacation': '',
+                              'colorBlindType': 'N/A',
+                              //'phone': '',
+                              //'points': 0,
+                              //'vacation': '',
                             });
                             Navigator.push(
                               context,

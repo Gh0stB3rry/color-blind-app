@@ -1,37 +1,26 @@
 {
   "project_info": {
-    "project_number": "620455974300",
-    "firebase_url": "https://chuah-app-e6c4c-default-rtdb.firebaseio.com",
-    "project_id": "chuah-app-e6c4c",
-    "storage_bucket": "chuah-app-e6c4c.appspot.com"
+    "project_number": "727981678030",
+    "project_id": "color-blind-test-project",
+    "storage_bucket": "color-blind-test-project.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:620455974300:android:892aea898bc81dc09ca459",
+        "mobilesdk_app_id": "1:727981678030:android:4b7ad49df8ef6988c61f9f",
         "android_client_info": {
-          "package_name": "com.example.mobile_app"
+          "package_name": "com.cse471.final_app"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "620455974300-j08e4rjmtc5rp4v4jbums11cpq0j24ci.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyC-cTM6R3lzjPzdz6XVM4OdGNAu0E0zqM0"
+          "current_key": "AIzaSyDJhsQPUbRWf7Q-jkUPi32x4F3XXflsYhY"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "620455974300-j08e4rjmtc5rp4v4jbums11cpq0j24ci.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }
